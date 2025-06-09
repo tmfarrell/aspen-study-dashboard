@@ -10,6 +10,8 @@ import PatientTable from '@/components/cohort/PatientTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
 import ScreeningProgress from '@/components/cohort/ScreeningProgress';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
+import MedicationDistribution from '@/components/cohort/MedicationDistribution';
+import GenderDistribution from '@/components/cohort/GenderDistribution';
 
 const PatientCohort = () => {
   return (
@@ -43,11 +45,12 @@ const PatientCohort = () => {
         </div>
 
         <Tabs defaultValue="overview" className="mt-8">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
             <TabsTrigger value="geography">Geographic</TabsTrigger>
             <TabsTrigger value="demographics">Demographics</TabsTrigger>
+            <TabsTrigger value="medication">Medication</TabsTrigger>
             <TabsTrigger value="qol">Quality of Life</TabsTrigger>
           </TabsList>
 
@@ -97,8 +100,15 @@ const PatientCohort = () => {
           <TabsContent value="demographics" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <AgeDistributionChart detailed />
+              <GenderDistribution />
+            </div>
+            <div className="mt-6">
               <PatientTable />
             </div>
+          </TabsContent>
+
+          <TabsContent value="medication" className="mt-6">
+            <MedicationDistribution detailed />
           </TabsContent>
 
           <TabsContent value="qol" className="mt-6">
