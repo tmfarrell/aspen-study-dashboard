@@ -13,10 +13,20 @@ const PatientCohort = () => {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header with branding */}
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground mb-2">Aspen</h1>
+            <h2 className="text-3xl font-semibold text-foreground">Obesity Registry</h2>
+          </div>
+          <div className="flex items-center">
+            <div className="text-2xl font-bold text-primary border-2 border-primary px-4 py-2 rounded">
+              OM1
+            </div>
+          </div>
+        </div>
+
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Obesity Patient Cohort Dashboard
-          </h1>
           <p className="text-lg text-muted-foreground">
             Comprehensive analysis of 10,000 obesity patients across the United States
           </p>
