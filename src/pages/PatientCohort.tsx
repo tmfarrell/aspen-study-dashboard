@@ -8,6 +8,8 @@ import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
 import CohortSummary from '@/components/cohort/CohortSummary';
 import PatientTable from '@/components/cohort/PatientTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
+import ScreeningProgress from '@/components/cohort/ScreeningProgress';
+import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 
 const PatientCohort = () => {
   return (
@@ -33,6 +35,12 @@ const PatientCohort = () => {
         </div>
 
         <CohortSummary />
+
+        {/* Progress tracking section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          <ScreeningProgress />
+          <AssessmentProgress />
+        </div>
 
         <Tabs defaultValue="overview" className="mt-8">
           <TabsList className="grid w-full grid-cols-5">
