@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -84,7 +83,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
 
   if (detailed) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {summaryStats.map((stat, index) => (
             <Card key={index}>
@@ -112,7 +111,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>IWQOL Distribution</CardTitle>
@@ -121,7 +120,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
               </p>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[300px]">
+              <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={iwqolData}>
                     <XAxis 
@@ -156,7 +155,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
               </p>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[300px]">
+              <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={iwqolLiteData}>
                     <XAxis 
@@ -191,7 +190,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
               </p>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[300px]">
+              <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={sf36Data}>
                     <XAxis 

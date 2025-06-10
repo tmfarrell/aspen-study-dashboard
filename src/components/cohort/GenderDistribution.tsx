@@ -13,7 +13,6 @@ const GenderDistribution = ({ detailed = false }: { detailed?: boolean }) => {
     { gender: 'Prefer not to say', count: 50, percentage: 0.5, color: '#ff7300' }
   ];
 
-  // Age group by gender breakdown
   const ageGenderData = [
     { ageGroup: '18-29', female: 800, male: 450, nonBinary: 25, other: 10 },
     { ageGroup: '30-39', female: 1200, male: 680, nonBinary: 35, other: 15 },
@@ -36,26 +35,28 @@ const GenderDistribution = ({ detailed = false }: { detailed?: boolean }) => {
           <CardTitle>Gender Distribution</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={genderData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="count"
-                    label={({ gender, percentage }) => `${gender}: ${percentage}%`}
-                  >
-                    {genderData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="flex justify-start">
+              <ChartContainer config={chartConfig} className="h-[300px] w-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={genderData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="count"
+                      label={({ gender, percentage }) => `${gender}: ${percentage}%`}
+                    >
+                      {genderData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
 
             <div className="space-y-4">
               {genderData.map((item, index) => (
