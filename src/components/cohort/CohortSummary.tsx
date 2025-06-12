@@ -6,8 +6,8 @@ const CohortSummary = () => {
   const summaryStats = [
     {
       title: "Total Patients",
-      value: "10,000",
-      description: "Obesity patients enrolled"
+      value: "8,000",
+      description: "of 12,000 target patients enrolled"
     },
     {
       title: "Average BMI",

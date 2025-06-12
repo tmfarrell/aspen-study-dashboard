@@ -124,12 +124,25 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
     ]
   };
 
-  // Sankey chart data (simplified representation)
-  const sankeyData = [
-    { phase: 'Initiated', semaglutide: 2800, liraglutide: 2200, orlistat: 1800 },
-    { phase: 'Month 6', semaglutide: 2650, liraglutide: 2100, orlistat: 1600 },
-    { phase: 'Month 12', semaglutide: 2600, liraglutide: 2020, orlistat: 1480 },
-    { phase: 'Completed', semaglutide: 2600, liraglutide: 2020, orlistat: 1480 }
+  // Updated Sankey chart data to show treatment switching patterns
+  const treatmentSwitchingData = [
+    { from: 'No Treatment', to: 'Semaglutide', patients: 1800 },
+    { from: 'No Treatment', to: 'Liraglutide', patients: 1500 },
+    { from: 'No Treatment', to: 'Orlistat', patients: 1200 },
+    { from: 'No Treatment', to: 'Naltrexone-Bupropion', patients: 800 },
+    { from: 'No Treatment', to: 'Phentermine', patients: 600 },
+    { from: 'Semaglutide', to: 'Liraglutide', patients: 200 },
+    { from: 'Semaglutide', to: 'Orlistat', patients: 150 },
+    { from: 'Liraglutide', to: 'Semaglutide', patients: 180 },
+    { from: 'Orlistat', to: 'Semaglutide', patients: 300 },
+    { from: 'Orlistat', to: 'Liraglutide', patients: 220 },
+    { from: 'Phentermine', to: 'Semaglutide', patients: 250 },
+    { from: 'Naltrexone-Bupropion', to: 'Semaglutide', patients: 180 },
+    { from: 'Semaglutide', to: 'Discontinued', patients: 200 },
+    { from: 'Liraglutide', to: 'Discontinued', patients: 180 },
+    { from: 'Orlistat', to: 'Discontinued', patients: 320 },
+    { from: 'Phentermine', to: 'Discontinued', patients: 380 },
+    { from: 'Naltrexone-Bupropion', to: 'Discontinued', patients: 240 }
   ];
 
   // Discontinuation reasons by drug
@@ -278,7 +291,7 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="dosing">Dosing</TabsTrigger>
             <TabsTrigger value="duration">Treatment Duration</TabsTrigger>
-            <TabsTrigger value="timeline">Treatment Timeline</TabsTrigger>
+            <TabsTrigger value="timeline">Treatment Switching</TabsTrigger>
             <TabsTrigger value="discontinuation">Discontinuation</TabsTrigger>
             <TabsTrigger value="adverse">Adverse Reactions</TabsTrigger>
           </TabsList>
@@ -410,28 +423,35 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
           <TabsContent value="timeline" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Treatment Timeline (Sankey Chart)</CardTitle>
+                <CardTitle>Treatment Switching Patterns (Sankey Chart)</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Patient flow through treatment phases for top 3 medications
+                  Patient flow between different treatment options showing switching patterns
                 </p>
               </CardHeader>
               <CardContent>
-                <ChartContainer config={chartConfig} className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={sankeyData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="phase" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="semaglutide" stackId="a" fill="#8884d8" name="Semaglutide" />
-                      <Bar dataKey="liraglutide" stackId="a" fill="#82ca9d" name="Liraglutide" />
-                      <Bar dataKey="orlistat" stackId="a" fill="#ffc658" name="Orlistat" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                
-                <div className="mt-4 text-sm text-muted-foreground">
-                  <p>This simplified visualization shows patient retention through treatment phases. A full Sankey diagram would show the exact flow patterns between phases.</p>
+                <div className="relative bg-muted rounded-lg p-8 h-[500px] flex items-center justify-center">
+                  <div className="text-center space-y-4">
+                    <div className="text-lg font-semibold">Treatment Flow Visualization</div>
+                    <div className="text-sm text-muted-foreground max-w-2xl">
+                      This Sankey diagram would show how patients move between different treatment options:
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div className="space-y-2">
+                        <h4 className="font-semibold">Major Treatment Flows:</h4>
+                        <div>• No Treatment → Semaglutide: 1,800 patients</div>
+                        <div>• No Treatment → Liraglutide: 1,500 patients</div>
+                        <div>• Orlistat → Semaglutide: 300 patients</div>
+                        <div>• Phentermine → Semaglutide: 250 patients</div>
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="font-semibold">Discontinuation Patterns:</h4>
+                        <div>• Phentermine → Discontinued: 380 patients</div>
+                        <div>• Orlistat → Discontinued: 320 patients</div>
+                        <div>• Naltrexone-Bupropion → Discontinued: 240 patients</div>
+                        <div>• Semaglutide → Discontinued: 200 patients</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -528,27 +548,30 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <ChartContainer config={chartConfig} className="h-[400px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={getFilteredAdverseReactions()}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis 
-                          dataKey="reaction" 
-                          angle={-45}
-                          textAnchor="end"
-                          height={100}
-                          fontSize={11}
-                        />
-                        <YAxis />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="count" fill="#ff7300" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold mb-4">Adverse Reactions Chart</h4>
+                    <ChartContainer config={chartConfig} className="h-[400px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={getFilteredAdverseReactions()}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis 
+                            dataKey="reaction" 
+                            angle={-45}
+                            textAnchor="end"
+                            height={100}
+                            fontSize={11}
+                          />
+                          <YAxis />
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                          <Bar dataKey="count" fill="#ff7300" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                  </div>
 
-                  <div className="space-y-4">
-                    <h4 className="font-semibold">Adverse Reactions Summary</h4>
+                  <div>
+                    <h4 className="font-semibold mb-4">Adverse Reactions Summary</h4>
                     <div className="space-y-3 max-h-96 overflow-y-auto">
                       {getFilteredAdverseReactions().map((reaction, index) => (
                         <div key={index} className="flex justify-between items-center p-3 border rounded">
