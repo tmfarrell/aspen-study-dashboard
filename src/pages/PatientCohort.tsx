@@ -8,10 +8,13 @@ import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
 import CohortSummary from '@/components/cohort/CohortSummary';
 import PatientTable from '@/components/cohort/PatientTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
-import ScreeningProgress from '@/components/cohort/ScreeningProgress';
+import EnrollmentProgress from '@/components/cohort/EnrollmentProgress';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import MedicationDistribution from '@/components/cohort/MedicationDistribution';
 import GenderDistribution from '@/components/cohort/GenderDistribution';
+import RaceDistribution from '@/components/cohort/RaceDistribution';
+import CountryDistribution from '@/components/cohort/CountryDistribution';
+import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
 
 const PatientCohort = () => {
   return (
@@ -32,7 +35,7 @@ const PatientCohort = () => {
 
         <div className="mb-8">
           <p className="text-lg text-muted-foreground">
-            Comprehensive analysis of 10,000 obesity patients across the United States
+            Comprehensive analysis of 10,000 obesity patients globally
           </p>
         </div>
 
@@ -40,16 +43,18 @@ const PatientCohort = () => {
 
         {/* Progress tracking section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <ScreeningProgress />
+          <EnrollmentProgress />
           <AssessmentProgress />
         </div>
 
         <Tabs defaultValue="overview" className="mt-8">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
             <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
             <TabsTrigger value="geography">Geographic</TabsTrigger>
             <TabsTrigger value="demographics">Demographics</TabsTrigger>
+            <TabsTrigger value="comorbidity">Comorbidity</TabsTrigger>
             <TabsTrigger value="medication">Medication</TabsTrigger>
             <TabsTrigger value="qol">Quality of Life</TabsTrigger>
           </TabsList>
@@ -62,6 +67,10 @@ const PatientCohort = () => {
                 <GeographicDistribution />
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="enrollment" className="mt-6">
+            <EnrollmentProgress detailed />
           </TabsContent>
 
           <TabsContent value="bmi" className="mt-6">
@@ -101,10 +110,16 @@ const PatientCohort = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <AgeDistributionChart detailed />
               <GenderDistribution />
+              <RaceDistribution />
+              <CountryDistribution />
             </div>
             <div className="mt-6">
               <PatientTable />
             </div>
+          </TabsContent>
+
+          <TabsContent value="comorbidity" className="mt-6">
+            <ComorbidityDistribution />
           </TabsContent>
 
           <TabsContent value="medication" className="mt-6">

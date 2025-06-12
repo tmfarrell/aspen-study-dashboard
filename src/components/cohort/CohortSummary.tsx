@@ -18,16 +18,11 @@ const CohortSummary = () => {
       title: "Age Range",
       value: "18-89",
       description: "Years (median: 52)"
-    },
-    {
-      title: "Geographic Coverage",
-      value: "50 States",
-      description: "Uneven distribution"
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {summaryStats.map((stat, index) => (
         <Card key={index}>
           <CardHeader className="pb-2">
