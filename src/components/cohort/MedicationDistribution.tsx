@@ -229,6 +229,32 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
     }
   };
 
+  // Updated treatment switching data for flow visualization
+  const treatmentFlowData = [
+    { from: 'No Treatment', to: 'Semaglutide', patients: 1800, color: '#8884d8' },
+    { from: 'No Treatment', to: 'Liraglutide', patients: 1500, color: '#82ca9d' },
+    { from: 'No Treatment', to: 'Orlistat', patients: 1200, color: '#ffc658' },
+    { from: 'No Treatment', to: 'Naltrexone-Bupropion', patients: 800, color: '#ff7300' },
+    { from: 'No Treatment', to: 'Phentermine', patients: 600, color: '#d084d0' },
+    { from: 'Semaglutide', to: 'Liraglutide', patients: 200, color: '#82ca9d' },
+    { from: 'Semaglutide', to: 'Orlistat', patients: 150, color: '#ffc658' },
+    { from: 'Liraglutide', to: 'Semaglutide', patients: 180, color: '#8884d8' },
+    { from: 'Orlistat', to: 'Semaglutide', patients: 300, color: '#8884d8' },
+    { from: 'Orlistat', to: 'Liraglutide', patients: 220, color: '#82ca9d' },
+    { from: 'Phentermine', to: 'Semaglutide', patients: 250, color: '#8884d8' },
+    { from: 'Naltrexone-Bupropion', to: 'Semaglutide', patients: 180, color: '#8884d8' }
+  ];
+
+  // Group by destination for better visualization
+  const treatmentDestinations = treatmentFlowData.reduce((acc, item) => {
+    if (!acc[item.to]) {
+      acc[item.to] = { medication: item.to, totalPatients: 0, flows: [] };
+    }
+    acc[item.to].totalPatients += item.patients;
+    acc[item.to].flows.push(item);
+    return acc;
+  }, {} as Record<string, { medication: string; totalPatients: number; flows: any[] }>);
+
   if (!detailed) {
     return (
       <Card>
@@ -423,35 +449,99 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
           <TabsContent value="timeline" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Treatment Switching Patterns (Sankey Chart)</CardTitle>
+                <CardTitle>Treatment Switching Flow</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Patient flow between different treatment options showing switching patterns
+                  Patient flow between different treatment options
                 </p>
               </CardHeader>
               <CardContent>
-                <div className="relative bg-muted rounded-lg p-8 h-[500px] flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="text-lg font-semibold">Treatment Flow Visualization</div>
-                    <div className="text-sm text-muted-foreground max-w-2xl">
-                      This Sankey diagram would show how patients move between different treatment options:
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div className="space-y-2">
-                        <h4 className="font-semibold">Major Treatment Flows:</h4>
-                        <div>• No Treatment → Semaglutide: 1,800 patients</div>
-                        <div>• No Treatment → Liraglutide: 1,500 patients</div>
-                        <div>• Orlistat → Semaglutide: 300 patients</div>
-                        <div>• Phentermine → Semaglutide: 250 patients</div>
-                      </div>
-                      <div className="space-y-2">
-                        <h4 className="font-semibold">Discontinuation Patterns:</h4>
-                        <div>• Phentermine → Discontinued: 380 patients</div>
-                        <div>• Orlistat → Discontinued: 320 patients</div>
-                        <div>• Naltrexone-Bupropion → Discontinued: 240 patients</div>
-                        <div>• Semaglutide → Discontinued: 200 patients</div>
-                      </div>
-                    </div>
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Treatment Flow Visualization */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Treatment Destinations</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ChartContainer config={chartConfig} className="h-[300px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={Object.values(treatmentDestinations)}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis 
+                                dataKey="medication" 
+                                angle={-45}
+                                textAnchor="end"
+                                height={100}
+                                fontSize={10}
+                              />
+                              <YAxis />
+                              <ChartTooltip content={<ChartTooltipContent />} />
+                              <Bar dataKey="totalPatients" fill="#8884d8" />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </ChartContainer>
+                      </CardContent>
+                    </Card>
+
+                    {/* Treatment Flow Summary */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Major Treatment Flows</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3 max-h-80 overflow-y-auto">
+                          {treatmentFlowData
+                            .sort((a, b) => b.patients - a.patients)
+                            .slice(0, 10)
+                            .map((flow, index) => (
+                              <div key={index} className="flex justify-between items-center p-3 border rounded">
+                                <div className="flex items-center space-x-2">
+                                  <div 
+                                    className="w-3 h-3 rounded" 
+                                    style={{ backgroundColor: flow.color }}
+                                  ></div>
+                                  <span className="text-sm font-medium">
+                                    {flow.from} → {flow.to}
+                                  </span>
+                                </div>
+                                <span className="font-semibold">{flow.patients}</span>
+                              </div>
+                            ))}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
+
+                  {/* Detailed Flow Chart */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Treatment Switching Flow Chart</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ChartContainer config={chartConfig} className="h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={treatmentFlowData} layout="horizontal">
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" />
+                            <YAxis 
+                              type="category" 
+                              dataKey="from" 
+                              width={120}
+                              fontSize={10}
+                            />
+                            <ChartTooltip 
+                              content={<ChartTooltipContent />}
+                              formatter={(value, name, props) => [
+                                value,
+                                `Patients switching to ${props.payload.to}`
+                              ]}
+                            />
+                            <Bar dataKey="patients" fill="#8884d8" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>
@@ -548,53 +638,63 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold mb-4">Adverse Reactions Chart</h4>
-                    <ChartContainer config={chartConfig} className="h-[400px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={getFilteredAdverseReactions()}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis 
-                            dataKey="reaction" 
-                            angle={-45}
-                            textAnchor="end"
-                            height={100}
-                            fontSize={11}
-                          />
-                          <YAxis />
-                          <ChartTooltip content={<ChartTooltipContent />} />
-                          <Bar dataKey="count" fill="#ff7300" />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </ChartContainer>
-                  </div>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  {/* Adverse Reactions Chart */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Adverse Reactions Chart</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ChartContainer config={chartConfig} className="h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={getFilteredAdverseReactions()}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis 
+                              dataKey="reaction" 
+                              angle={-45}
+                              textAnchor="end"
+                              height={100}
+                              fontSize={11}
+                            />
+                            <YAxis />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="count" fill="#ff7300" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                  </Card>
 
-                  <div>
-                    <h4 className="font-semibold mb-4">Adverse Reactions Summary</h4>
-                    <div className="space-y-3 max-h-96 overflow-y-auto">
-                      {getFilteredAdverseReactions().map((reaction, index) => (
-                        <div key={index} className="flex justify-between items-center p-3 border rounded">
-                          <div>
-                            <div className="font-medium">{reaction.reaction}</div>
-                            <div className="text-sm text-muted-foreground">
-                              Severity: <span className={`font-medium ${
-                                reaction.severity === 'Severe' ? 'text-red-600' :
-                                reaction.severity === 'Moderate' ? 'text-orange-600' :
-                                'text-green-600'
-                              }`}>
-                                {reaction.severity}
-                              </span>
+                  {/* Adverse Reactions Summary */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Adverse Reactions Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        {getFilteredAdverseReactions().map((reaction, index) => (
+                          <div key={index} className="flex justify-between items-center p-3 border rounded">
+                            <div>
+                              <div className="font-medium">{reaction.reaction}</div>
+                              <div className="text-sm text-muted-foreground">
+                                Severity: <span className={`font-medium ${
+                                  reaction.severity === 'Severe' ? 'text-red-600' :
+                                  reaction.severity === 'Moderate' ? 'text-orange-600' :
+                                  'text-green-600'
+                                }`}>
+                                  {reaction.severity}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-semibold">{reaction.count}</div>
+                              <div className="text-sm text-muted-foreground">cases</div>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="font-semibold">{reaction.count}</div>
-                            <div className="text-sm text-muted-foreground">cases</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>

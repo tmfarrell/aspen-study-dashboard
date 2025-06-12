@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import InteractiveWorldMap from './InteractiveWorldMap';
 
 interface GeographicDistributionProps {
   detailed?: boolean;
@@ -95,71 +96,21 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
 
   return (
     <div className="space-y-6">
+      <InteractiveWorldMap />
+      
       <Card>
         <CardHeader>
-          <CardTitle>Interactive Geographic Heat Map</CardTitle>
+          <CardTitle>Geographic Distribution Details</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Click on countries to drill down into regional distribution
+            Detailed breakdown of patient enrollment by region
           </p>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="map" className="w-full">
+          <Tabs defaultValue="table" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="map">Heat Map</TabsTrigger>
               <TabsTrigger value="table">Distribution Table</TabsTrigger>
+              <TabsTrigger value="summary">Regional Summary</TabsTrigger>
             </TabsList>
-
-            <TabsContent value="map" className="space-y-6">
-              {/* Interactive Heat Map Placeholder */}
-              <div className="relative bg-muted rounded-lg p-8 h-[400px] flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="text-lg font-semibold">Interactive Global Heat Map</div>
-                  <div className="text-sm text-muted-foreground max-w-md">
-                    This would display an interactive world map with heat zones representing patient density. 
-                    Click regions to drill down into country-specific distributions.
-                  </div>
-                  <div className="space-x-4">
-                    <Button 
-                      variant={selectedCountry === 'usa' ? 'default' : 'outline'}
-                      onClick={() => setSelectedCountry(selectedCountry === 'usa' ? null : 'usa')}
-                    >
-                      Drill Down: USA
-                    </Button>
-                    <Button 
-                      variant={selectedCountry === 'france' ? 'default' : 'outline'}
-                      onClick={() => setSelectedCountry(selectedCountry === 'france' ? null : 'france')}
-                    >
-                      Drill Down: France
-                    </Button>
-                    <Button 
-                      variant="ghost"
-                      onClick={() => setSelectedCountry(null)}
-                    >
-                      Reset to Global
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Heat Map Legend */}
-              <div className="flex justify-center">
-                <div className="flex items-center space-x-4 p-4 bg-muted rounded-lg">
-                  <span className="text-sm font-medium">Patient Density:</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-green-200 rounded"></div>
-                    <span className="text-xs">Low</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-yellow-400 rounded"></div>
-                    <span className="text-xs">Medium</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-red-500 rounded"></div>
-                    <span className="text-xs">High</span>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
 
             <TabsContent value="table" className="space-y-6">
               <Card>
@@ -200,6 +151,92 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                   </Table>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="summary" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">North America</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm">United States</span>
+                        <span className="font-semibold">4,200</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Canada</span>
+                        <span className="font-semibold">800</span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span className="text-sm font-medium">Total</span>
+                        <span className="font-bold">5,000</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Europe</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm">Germany</span>
+                        <span className="font-semibold">1,920</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">France</span>
+                        <span className="font-semibold">1,650</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Italy</span>
+                        <span className="font-semibold">840</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">UK</span>
+                        <span className="font-semibold">300</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Switzerland</span>
+                        <span className="font-semibold">290</span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span className="text-sm font-medium">Total</span>
+                        <span className="font-bold">5,000</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Distribution Stats</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm">Countries</span>
+                        <span className="font-semibold">7</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Regions</span>
+                        <span className="font-semibold">2</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Total Sites</span>
+                        <span className="font-semibold">150+</span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span className="text-sm font-medium">Total Patients</span>
+                        <span className="font-bold">10,000</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </CardContent>
