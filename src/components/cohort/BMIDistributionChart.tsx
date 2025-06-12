@@ -111,127 +111,124 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
   }
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-      <div className="xl:col-span-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>BMI Distribution</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Current distribution across obesity classes
-            </p>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={bmiData}>
-                  <XAxis 
-                    dataKey="range" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={60}
-                    fontSize={12}
-                  />
-                  <YAxis />
-                  <ChartTooltip 
-                    content={<ChartTooltipContent />}
-                    formatter={(value, name) => [value, "Patients"]}
-                    labelFormatter={(label) => `BMI Range: ${label}`}
-                  />
-                  <Bar 
-                    dataKey="patients" 
-                    fill="var(--color-patients)"
-                    radius={[2, 2, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="space-y-6">
+      {/* BMI Distribution Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle>BMI Distribution</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Current distribution across obesity classes
+          </p>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={bmiData}>
+                <XAxis 
+                  dataKey="range" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                  fontSize={12}
+                />
+                <YAxis />
+                <ChartTooltip 
+                  content={<ChartTooltipContent />}
+                  formatter={(value, name) => [value, "Patients"]}
+                  labelFormatter={(label) => `BMI Range: ${label}`}
+                />
+                <Bar 
+                  dataKey="patients" 
+                  fill="var(--color-patients)"
+                  radius={[2, 2, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
 
-      <div className="xl:col-span-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>Weight Reduction Trends</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Average weight loss across all patients over 12 months
-            </p>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightReductionData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="month" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={60}
-                    fontSize={10}
-                  />
-                  <YAxis />
-                  <ChartTooltip 
-                    content={<ChartTooltipContent />}
-                    formatter={(value) => [`${value} kg`, "Average Weight Loss"]}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="avgWeightLoss" 
-                    stroke="#22c55e" 
-                    fill="#22c55e"
-                    fillOpacity={0.3}
-                    strokeWidth={2}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Weight Reduction Trends */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Weight Reduction Trends</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Average weight loss across all patients over 12 months
+          </p>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={weightReductionData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                  fontSize={10}
+                />
+                <YAxis />
+                <ChartTooltip 
+                  content={<ChartTooltipContent />}
+                  formatter={(value) => [`${value} kg`, "Average Weight Loss"]}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="avgWeightLoss" 
+                  stroke="#22c55e" 
+                  fill="#22c55e"
+                  fillOpacity={0.3}
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
 
-      <div className="xl:col-span-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>Obesity Class Movement</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Patient movement between obesity classes over time
-            </p>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={classMovementData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="timePoint" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="classI" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    name="Class I"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="classII" 
-                    stroke="#f59e0b" 
-                    strokeWidth={2}
-                    name="Class II"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="classIII" 
-                    stroke="#ef4444" 
-                    strokeWidth={2}
-                    name="Class III"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Obesity Class Movement */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Obesity Class Movement</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Patient movement between obesity classes over time
+          </p>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={classMovementData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timePoint" />
+                <YAxis />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line 
+                  type="monotone" 
+                  dataKey="classI" 
+                  stroke="#3b82f6" 
+                  strokeWidth={2}
+                  name="Class I"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="classII" 
+                  stroke="#f59e0b" 
+                  strokeWidth={2}
+                  name="Class II"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="classIII" 
+                  stroke="#ef4444" 
+                  strokeWidth={2}
+                  name="Class III"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
     </div>
   );
 };
