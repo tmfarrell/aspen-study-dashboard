@@ -124,27 +124,6 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
     ]
   };
 
-  // Updated Sankey chart data to show treatment switching patterns
-  const treatmentSwitchingData = [
-    { from: 'No Treatment', to: 'Semaglutide', patients: 1800 },
-    { from: 'No Treatment', to: 'Liraglutide', patients: 1500 },
-    { from: 'No Treatment', to: 'Orlistat', patients: 1200 },
-    { from: 'No Treatment', to: 'Naltrexone-Bupropion', patients: 800 },
-    { from: 'No Treatment', to: 'Phentermine', patients: 600 },
-    { from: 'Semaglutide', to: 'Liraglutide', patients: 200 },
-    { from: 'Semaglutide', to: 'Orlistat', patients: 150 },
-    { from: 'Liraglutide', to: 'Semaglutide', patients: 180 },
-    { from: 'Orlistat', to: 'Semaglutide', patients: 300 },
-    { from: 'Orlistat', to: 'Liraglutide', patients: 220 },
-    { from: 'Phentermine', to: 'Semaglutide', patients: 250 },
-    { from: 'Naltrexone-Bupropion', to: 'Semaglutide', patients: 180 },
-    { from: 'Semaglutide', to: 'Discontinued', patients: 200 },
-    { from: 'Liraglutide', to: 'Discontinued', patients: 180 },
-    { from: 'Orlistat', to: 'Discontinued', patients: 320 },
-    { from: 'Phentermine', to: 'Discontinued', patients: 380 },
-    { from: 'Naltrexone-Bupropion', to: 'Discontinued', patients: 240 }
-  ];
-
   // Discontinuation reasons by drug
   const discontinuationData: Record<string, Array<{reason: string, count: number, color: string}>> = {
     'Semaglutide': [
@@ -193,6 +172,27 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
     { category: 'Other', patients: 500, percentage: 5, color: '#d084d0' }
   ];
 
+  // Fixed treatment switching data for better visualization
+  const treatmentSwitchingData = [
+    { fromTreatment: 'No Treatment', toTreatment: 'Semaglutide', patients: 1800 },
+    { fromTreatment: 'No Treatment', toTreatment: 'Liraglutide', patients: 1500 },
+    { fromTreatment: 'No Treatment', toTreatment: 'Orlistat', patients: 1200 },
+    { fromTreatment: 'No Treatment', toTreatment: 'Naltrexone-Bupropion', patients: 800 },
+    { fromTreatment: 'No Treatment', toTreatment: 'Phentermine', patients: 600 },
+    { fromTreatment: 'Semaglutide', toTreatment: 'Liraglutide', patients: 200 },
+    { fromTreatment: 'Semaglutide', toTreatment: 'Orlistat', patients: 150 },
+    { fromTreatment: 'Liraglutide', toTreatment: 'Semaglutide', patients: 180 },
+    { fromTreatment: 'Orlistat', toTreatment: 'Semaglutide', patients: 300 },
+    { fromTreatment: 'Orlistat', toTreatment: 'Liraglutide', patients: 220 },
+    { fromTreatment: 'Phentermine', toTreatment: 'Semaglutide', patients: 250 },
+    { fromTreatment: 'Naltrexone-Bupropion', toTreatment: 'Semaglutide', patients: 180 },
+    { fromTreatment: 'Semaglutide', toTreatment: 'Discontinued', patients: 200 },
+    { fromTreatment: 'Liraglutide', toTreatment: 'Discontinued', patients: 180 },
+    { fromTreatment: 'Orlistat', toTreatment: 'Discontinued', patients: 320 },
+    { fromTreatment: 'Phentermine', toTreatment: 'Discontinued', patients: 380 },
+    { fromTreatment: 'Naltrexone-Bupropion', toTreatment: 'Discontinued', patients: 240 }
+  ];
+
   const chartConfig = {
     patients: {
       label: "Patients",
@@ -228,32 +228,6 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
       }
     }
   };
-
-  // Updated treatment switching data for flow visualization
-  const treatmentFlowData = [
-    { from: 'No Treatment', to: 'Semaglutide', patients: 1800, color: '#8884d8' },
-    { from: 'No Treatment', to: 'Liraglutide', patients: 1500, color: '#82ca9d' },
-    { from: 'No Treatment', to: 'Orlistat', patients: 1200, color: '#ffc658' },
-    { from: 'No Treatment', to: 'Naltrexone-Bupropion', patients: 800, color: '#ff7300' },
-    { from: 'No Treatment', to: 'Phentermine', patients: 600, color: '#d084d0' },
-    { from: 'Semaglutide', to: 'Liraglutide', patients: 200, color: '#82ca9d' },
-    { from: 'Semaglutide', to: 'Orlistat', patients: 150, color: '#ffc658' },
-    { from: 'Liraglutide', to: 'Semaglutide', patients: 180, color: '#8884d8' },
-    { from: 'Orlistat', to: 'Semaglutide', patients: 300, color: '#8884d8' },
-    { from: 'Orlistat', to: 'Liraglutide', patients: 220, color: '#82ca9d' },
-    { from: 'Phentermine', to: 'Semaglutide', patients: 250, color: '#8884d8' },
-    { from: 'Naltrexone-Bupropion', to: 'Semaglutide', patients: 180, color: '#8884d8' }
-  ];
-
-  // Group by destination for better visualization
-  const treatmentDestinations = treatmentFlowData.reduce((acc, item) => {
-    if (!acc[item.to]) {
-      acc[item.to] = { medication: item.to, totalPatients: 0, flows: [] };
-    }
-    acc[item.to].totalPatients += item.patients;
-    acc[item.to].flows.push(item);
-    return acc;
-  }, {} as Record<string, { medication: string; totalPatients: number; flows: any[] }>);
 
   if (!detailed) {
     return (
@@ -456,90 +430,66 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Treatment Flow Visualization */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Treatment Destinations</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <ChartContainer config={chartConfig} className="h-[300px]">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={Object.values(treatmentDestinations)}>
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis 
-                                dataKey="medication" 
-                                angle={-45}
-                                textAnchor="end"
-                                height={100}
-                                fontSize={10}
-                              />
-                              <YAxis />
-                              <ChartTooltip content={<ChartTooltipContent />} />
-                              <Bar dataKey="totalPatients" fill="#8884d8" />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </ChartContainer>
-                      </CardContent>
-                    </Card>
-
-                    {/* Treatment Flow Summary */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Major Treatment Flows</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3 max-h-80 overflow-y-auto">
-                          {treatmentFlowData
-                            .sort((a, b) => b.patients - a.patients)
-                            .slice(0, 10)
-                            .map((flow, index) => (
-                              <div key={index} className="flex justify-between items-center p-3 border rounded">
-                                <div className="flex items-center space-x-2">
-                                  <div 
-                                    className="w-3 h-3 rounded" 
-                                    style={{ backgroundColor: flow.color }}
-                                  ></div>
-                                  <span className="text-sm font-medium">
-                                    {flow.from} → {flow.to}
-                                  </span>
-                                </div>
-                                <span className="font-semibold">{flow.patients}</span>
-                              </div>
-                            ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Detailed Flow Chart */}
+                  {/* Treatment Flow Bar Chart */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>Treatment Switching Flow Chart</CardTitle>
+                      <CardTitle className="text-lg">Treatment Switching Patterns</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <ChartContainer config={chartConfig} className="h-[400px]">
                         <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={treatmentFlowData} layout="horizontal">
+                          <BarChart data={treatmentSwitchingData.slice(0, 12)}>
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis type="number" />
-                            <YAxis 
-                              type="category" 
-                              dataKey="from" 
-                              width={120}
+                            <XAxis 
+                              dataKey="fromTreatment" 
+                              angle={-45}
+                              textAnchor="end"
+                              height={100}
                               fontSize={10}
                             />
+                            <YAxis />
                             <ChartTooltip 
                               content={<ChartTooltipContent />}
                               formatter={(value, name, props) => [
                                 value,
-                                `Patients switching to ${props.payload.to}`
+                                `Patients switching to ${props.payload.toTreatment}`
                               ]}
                             />
                             <Bar dataKey="patients" fill="#8884d8" />
                           </BarChart>
                         </ResponsiveContainer>
                       </ChartContainer>
+                    </CardContent>
+                  </Card>
+
+                  {/* Treatment Flow Summary Table */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Treatment Flow Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse border border-gray-300">
+                          <thead>
+                            <tr className="bg-gray-50">
+                              <th className="border border-gray-300 p-3 text-left font-semibold">From Treatment</th>
+                              <th className="border border-gray-300 p-3 text-left font-semibold">To Treatment</th>
+                              <th className="border border-gray-300 p-3 text-right font-semibold">Patients</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {treatmentSwitchingData
+                              .sort((a, b) => b.patients - a.patients)
+                              .map((flow, index) => (
+                                <tr key={index} className="hover:bg-gray-50">
+                                  <td className="border border-gray-300 p-3">{flow.fromTreatment}</td>
+                                  <td className="border border-gray-300 p-3">{flow.toTreatment}</td>
+                                  <td className="border border-gray-300 p-3 text-right font-semibold">{flow.patients.toLocaleString()}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -638,7 +588,7 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="space-y-6">
                   {/* Adverse Reactions Chart */}
                   <Card>
                     <CardHeader>
