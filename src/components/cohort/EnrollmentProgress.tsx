@@ -10,21 +10,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
   const [selectedRegion, setSelectedRegion] = useState('global');
 
-  // Mock data for enrollment progress over 12 months - updated numbers
+  // Mock data for enrollment progress over 12 months - updated with target 10,000
   const enrollmentData = {
     global: {
       total: 8000,
-      target: 12000,
+      target: 10000,
       recent: 680,
       enrollmentRate: 22,
       countries: [
-        { name: 'USA', enrolled: 3360, target: 5000 },
-        { name: 'Canada', enrolled: 640, target: 1000 },
-        { name: 'France', enrolled: 1320, target: 2000 },
-        { name: 'Germany', enrolled: 1536, target: 2200 },
-        { name: 'Italy', enrolled: 672, target: 1000 },
+        { name: 'USA', enrolled: 3360, target: 4200 },
+        { name: 'Canada', enrolled: 640, target: 800 },
+        { name: 'France', enrolled: 1320, target: 1700 },
+        { name: 'Germany', enrolled: 1536, target: 1800 },
+        { name: 'Italy', enrolled: 672, target: 800 },
         { name: 'Switzerland', enrolled: 232, target: 300 },
-        { name: 'UK', enrolled: 240, target: 500 }
+        { name: 'UK', enrolled: 240, target: 400 }
       ],
       monthlyData: [
         { month: 'Jun 2024', enrolled: 360, cumulative: 360 },
@@ -43,15 +43,15 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
     },
     europe: {
       total: 4000,
-      target: 6000,
+      target: 5000,
       recent: 336,
       enrollmentRate: 12,
       countries: [
-        { name: 'France', enrolled: 1320, target: 2000 },
-        { name: 'Germany', enrolled: 1536, target: 2200 },
-        { name: 'Italy', enrolled: 672, target: 1000 },
+        { name: 'France', enrolled: 1320, target: 1700 },
+        { name: 'Germany', enrolled: 1536, target: 1800 },
+        { name: 'Italy', enrolled: 672, target: 800 },
         { name: 'Switzerland', enrolled: 232, target: 300 },
-        { name: 'UK', enrolled: 240, target: 500 }
+        { name: 'UK', enrolled: 240, target: 400 }
       ],
       monthlyData: [
         { month: 'Jun 2024', enrolled: 176, cumulative: 176 },
@@ -70,12 +70,12 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
     },
     americas: {
       total: 4000,
-      target: 6000,
+      target: 5000,
       recent: 344,
       enrollmentRate: 10,
       countries: [
-        { name: 'USA', enrolled: 3360, target: 5000 },
-        { name: 'Canada', enrolled: 640, target: 1000 }
+        { name: 'USA', enrolled: 3360, target: 4200 },
+        { name: 'Canada', enrolled: 640, target: 800 }
       ],
       monthlyData: [
         { month: 'Jun 2024', enrolled: 184, cumulative: 184 },
@@ -126,7 +126,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary mb-1">
+            <div className="text-3xl font-bold text-[#0066CC] mb-1">
               {currentData.total.toLocaleString()}
             </div>
             <div className="text-sm text-muted-foreground">
@@ -193,7 +193,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-primary">
+                      <div className="text-2xl font-bold text-[#0066CC]">
                         {currentData.total.toLocaleString()}
                       </div>
                       <div className="text-sm text-muted-foreground">Total Patients</div>
@@ -203,17 +203,17 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-[#00B4A6]">
                         {currentData.recent}
                       </div>
-                      <div className="text-sm text-muted-foreground">Recent Enrollment</div>
+                      <div className="text-sm text-muted-foreground">Recent Enrollment (last month)</div>
                     </div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">
+                      <div className="text-2xl font-bold text-[#7B68EE]">
                         {currentData.enrollmentRate}
                       </div>
                       <div className="text-sm text-muted-foreground">Patients Enrolled/Day</div>
@@ -229,7 +229,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
                     <XAxis dataKey="name" />
                     <YAxis />
                     <ChartTooltip content={<ChartTooltipContent />} />
-                    <Bar dataKey="enrolled" fill="#8884d8" />
+                    <Bar dataKey="enrolled" fill="#0066CC" />
                   </BarChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -252,8 +252,8 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
                     <Area 
                       type="monotone" 
                       dataKey="cumulative" 
-                      stroke="#8884d8" 
-                      fill="#8884d8"
+                      stroke="#0066CC" 
+                      fill="#0066CC"
                       fillOpacity={0.3}
                       strokeWidth={2}
                     />
@@ -271,7 +271,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-primary mb-1">
+                        <div className="text-3xl font-bold text-[#0066CC] mb-1">
                           {currentData.total.toLocaleString()}
                         </div>
                         <div className="text-sm text-muted-foreground">

@@ -165,11 +165,11 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
   };
 
   const categoryData = [
-    { category: 'GLP-1 Agonist', patients: 5000, percentage: 50, color: '#8884d8' },
-    { category: 'Lipase Inhibitor', patients: 1800, percentage: 18, color: '#82ca9d' },
-    { category: 'Combination', patients: 1500, percentage: 15, color: '#ffc658' },
-    { category: 'Appetite Suppressant', patients: 1200, percentage: 12, color: '#ff7300' },
-    { category: 'Other', patients: 500, percentage: 5, color: '#d084d0' }
+    { category: 'GLP-1 Agonist', patients: 5000, percentage: 50, color: '#0066CC' },
+    { category: 'Lipase Inhibitor', patients: 1800, percentage: 18, color: '#00B4A6' },
+    { category: 'Combination', patients: 1500, percentage: 15, color: '#7B68EE' },
+    { category: 'Appetite Suppressant', patients: 1200, percentage: 12, color: '#FF6B6B' },
+    { category: 'Other', patients: 500, percentage: 5, color: '#4ECDC4' }
   ];
 
   // Fixed treatment switching data for better visualization
@@ -249,7 +249,7 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                 />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="patients" fill="#8884d8" />
+                <Bar dataKey="patients" fill="#0066CC" />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -278,7 +278,7 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                 />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="patients" fill="#8884d8" />
+                <Bar dataKey="patients" fill="#0066CC" />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -423,58 +423,92 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
           <TabsContent value="timeline" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Treatment Switching Flow</CardTitle>
+                <CardTitle>Treatment Switching Flow (Sankey Chart)</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Patient flow between different treatment options
+                  Patient flow between different treatment options showing transitions
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  {/* Treatment Flow Bar Chart */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg">Treatment Switching Patterns</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ChartContainer config={chartConfig} className="h-[400px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={treatmentSwitchingData.slice(0, 12)}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis 
-                              dataKey="fromTreatment" 
-                              angle={-45}
-                              textAnchor="end"
-                              height={100}
-                              fontSize={10}
-                            />
-                            <YAxis />
-                            <ChartTooltip 
-                              content={<ChartTooltipContent />}
-                              formatter={(value, name, props) => [
-                                value,
-                                `Patients switching to ${props.payload.toTreatment}`
-                              ]}
-                            />
-                            <Bar dataKey="patients" fill="#8884d8" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </ChartContainer>
-                    </CardContent>
-                  </Card>
+                  {/* Sankey Chart Simulation */}
+                  <div className="grid grid-cols-2 gap-8 p-6">
+                    {/* Left side - From Treatments */}
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-center">From Treatment</h4>
+                      <div className="space-y-3">
+                        <div className="bg-gray-200 text-gray-800 p-3 rounded text-center">
+                          <div className="font-semibold">No Treatment</div>
+                          <div className="text-sm">5,900 patients</div>
+                        </div>
+                        <div className="bg-[#0066CC] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Semaglutide</div>
+                          <div className="text-sm">550 patients switching</div>
+                        </div>
+                        <div className="bg-[#00B4A6] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Liraglutide</div>
+                          <div className="text-sm">360 patients switching</div>
+                        </div>
+                        <div className="bg-[#7B68EE] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Orlistat</div>
+                          <div className="text-sm">840 patients switching</div>
+                        </div>
+                        <div className="bg-[#FF6B6B] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Naltrexone-Bupropion</div>
+                          <div className="text-sm">420 patients switching</div>
+                        </div>
+                        <div className="bg-[#4ECDC4] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Phentermine</div>
+                          <div className="text-sm">630 patients switching</div>
+                        </div>
+                      </div>
+                    </div>
 
-                  {/* Treatment Flow Summary Table */}
+                    {/* Right side - To Treatments */}
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-center">To Treatment</h4>
+                      <div className="space-y-3">
+                        <div className="bg-[#0066CC] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Semaglutide</div>
+                          <div className="text-sm">2,710 patients total</div>
+                        </div>
+                        <div className="bg-[#00B4A6] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Liraglutide</div>
+                          <div className="text-sm">1,920 patients total</div>
+                        </div>
+                        <div className="bg-[#7B68EE] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Orlistat</div>
+                          <div className="text-sm">1,350 patients total</div>
+                        </div>
+                        <div className="bg-[#FF6B6B] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Naltrexone-Bupropion</div>
+                          <div className="text-sm">800 patients total</div>
+                        </div>
+                        <div className="bg-[#4ECDC4] text-white p-3 rounded text-center">
+                          <div className="font-semibold">Phentermine</div>
+                          <div className="text-sm">600 patients total</div>
+                        </div>
+                        <div className="bg-red-600 text-white p-3 rounded text-center">
+                          <div className="font-semibold">Discontinued</div>
+                          <div className="text-sm">1,320 patients total</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Flow details table */}
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">Treatment Flow Summary</CardTitle>
+                      <CardTitle className="text-lg">Treatment Flow Details</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="overflow-x-auto">
                         <table className="w-full border-collapse border border-gray-300">
                           <thead>
                             <tr className="bg-gray-50">
-                              <th className="border border-gray-300 p-3 text-left font-semibold">From Treatment</th>
-                              <th className="border border-gray-300 p-3 text-left font-semibold">To Treatment</th>
-                              <th className="border border-gray-300 p-3 text-right font-semibold">Patients</th>
+                              <th className="border border-gray-300 p-3 text-left">From Treatment</th>
+                              <th className="border border-gray-300 p-3 text-left">To Treatment</th>
+                              <th className="border border-gray-300 p-3 text-right">Patients</th>
+                              <th className="border border-gray-300 p-3 text-right">Flow %</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -485,6 +519,9 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                                   <td className="border border-gray-300 p-3">{flow.fromTreatment}</td>
                                   <td className="border border-gray-300 p-3">{flow.toTreatment}</td>
                                   <td className="border border-gray-300 p-3 text-right font-semibold">{flow.patients.toLocaleString()}</td>
+                                  <td className="border border-gray-300 p-3 text-right">
+                                    {((flow.patients / 10000) * 100).toFixed(1)}%
+                                  </td>
                                 </tr>
                               ))}
                           </tbody>
@@ -608,7 +645,7 @@ const MedicationDistribution = ({ detailed = false }: { detailed?: boolean }) =>
                             />
                             <YAxis />
                             <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="count" fill="#ff7300" />
+                            <Bar dataKey="count" fill="#FF6B6B" />
                           </BarChart>
                         </ResponsiveContainer>
                       </ChartContainer>

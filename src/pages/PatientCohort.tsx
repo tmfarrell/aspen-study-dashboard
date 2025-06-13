@@ -23,12 +23,12 @@ const PatientCohort = () => {
         {/* Header with branding */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground mb-2">Aspen</h1>
+            <h1 className="text-2xl font-bold text-[#0066CC] mb-2">Aspen</h1>
             <h2 className="text-3xl font-semibold text-foreground">Obesity Registry</h2>
           </div>
           <div className="flex items-center">
-            <div className="text-2xl font-bold text-primary border-2 border-primary px-4 py-2 rounded">
-              OM1
+            <div className="bg-gradient-to-r from-[#0066CC] to-[#00B4A6] text-white px-6 py-3 rounded-lg shadow-lg">
+              <div className="text-2xl font-bold">OM1</div>
             </div>
           </div>
         </div>

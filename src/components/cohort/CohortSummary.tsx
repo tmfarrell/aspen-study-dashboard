@@ -7,7 +7,7 @@ const CohortSummary = () => {
     {
       title: "Total Patients",
       value: "8,000",
-      description: "of 12,000 target patients enrolled"
+      description: "of 10,000 target patients enrolled"
     },
     {
       title: "Average BMI",
@@ -31,7 +31,7 @@ const CohortSummary = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-primary">{stat.value}</div>
+            <div className="text-3xl font-bold text-[#0066CC]">{stat.value}</div>
             <p className="text-sm text-muted-foreground mt-1">
               {stat.description}
             </p>

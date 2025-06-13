@@ -27,47 +27,66 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
     { range: "48+", patients: 150, category: "Class III" }
   ];
 
-  // Weight reduction trends data
+  // Weight reduction distribution data (patients by weight loss ranges)
   const weightReductionData = [
-    { month: 'Jan 2024', avgWeightLoss: 0 },
-    { month: 'Feb 2024', avgWeightLoss: 1.2 },
-    { month: 'Mar 2024', avgWeightLoss: 2.8 },
-    { month: 'Apr 2024', avgWeightLoss: 4.5 },
-    { month: 'May 2024', avgWeightLoss: 6.1 },
-    { month: 'Jun 2024', avgWeightLoss: 7.8 },
-    { month: 'Jul 2024', avgWeightLoss: 9.2 },
-    { month: 'Aug 2024', avgWeightLoss: 10.7 },
-    { month: 'Sep 2024', avgWeightLoss: 12.1 },
-    { month: 'Oct 2024', avgWeightLoss: 13.5 },
-    { month: 'Nov 2024', avgWeightLoss: 14.8 },
-    { month: 'Dec 2024', avgWeightLoss: 16.2 }
+    { weightLossRange: '0-0.5 kg', patients: 850 },
+    { weightLossRange: '0.5-1.0 kg', patients: 920 },
+    { weightLossRange: '1.0-1.5 kg', patients: 980 },
+    { weightLossRange: '1.5-2.0 kg', patients: 1050 },
+    { weightLossRange: '2.0-2.5 kg', patients: 1120 },
+    { weightLossRange: '2.5-3.0 kg', patients: 1180 },
+    { weightLossRange: '3.0-3.5 kg', patients: 1220 },
+    { weightLossRange: '3.5-4.0 kg', patients: 1100 },
+    { weightLossRange: '4.0-4.5 kg', patients: 980 },
+    { weightLossRange: '4.5-5.0 kg', patients: 850 },
+    { weightLossRange: '5.0-5.5 kg', patients: 720 },
+    { weightLossRange: '5.5-6.0 kg', patients: 650 },
+    { weightLossRange: '6.0-6.5 kg', patients: 580 },
+    { weightLossRange: '6.5-7.0 kg', patients: 520 },
+    { weightLossRange: '7.0-7.5 kg', patients: 450 },
+    { weightLossRange: '7.5-8.0 kg', patients: 380 },
+    { weightLossRange: '8.0+ kg', patients: 320 }
   ];
 
-  // Obesity class movement data
-  const classMovementData = [
-    { timePoint: 'Baseline', classI: 4200, classII: 3500, classIII: 2300 },
-    { timePoint: '3 Months', classI: 4350, classII: 3420, classIII: 2230 },
-    { timePoint: '6 Months', classI: 4480, classII: 3340, classIII: 2180 },
-    { timePoint: '9 Months', classI: 4590, classII: 3280, classIII: 2130 },
-    { timePoint: '12 Months', classI: 4680, classII: 3220, classIII: 2100 }
-  ];
+  // Sankey chart simulation data for obesity class movement
+  const sankeyData = {
+    nodes: [
+      { id: 'baseline_classI', name: 'Class I (Baseline)', x: 0 },
+      { id: 'baseline_classII', name: 'Class II (Baseline)', x: 0 },
+      { id: 'baseline_classIII', name: 'Class III (Baseline)', x: 0 },
+      { id: 'followup_classI', name: 'Class I (12 Months)', x: 1 },
+      { id: 'followup_classII', name: 'Class II (12 Months)', x: 1 },
+      { id: 'followup_classIII', name: 'Class III (12 Months)', x: 1 }
+    ],
+    links: [
+      { source: 'baseline_classI', target: 'followup_classI', value: 3800 },
+      { source: 'baseline_classI', target: 'followup_classII', value: 350 },
+      { source: 'baseline_classI', target: 'followup_classIII', value: 50 },
+      { source: 'baseline_classII', target: 'followup_classI', value: 400 },
+      { source: 'baseline_classII', target: 'followup_classII', value: 2900 },
+      { source: 'baseline_classII', target: 'followup_classIII', value: 200 },
+      { source: 'baseline_classIII', target: 'followup_classI', value: 180 },
+      { source: 'baseline_classIII', target: 'followup_classII', value: 320 },
+      { source: 'baseline_classIII', target: 'followup_classIII', value: 1800 }
+    ]
+  };
 
   const chartConfig = {
     patients: {
       label: "Patients",
-      color: "hsl(var(--primary))",
-    },
-    avgWeightLoss: {
-      label: "Average Weight Loss (kg)",
+      color: "#0066CC",
     },
     classI: {
       label: "Class I Obesity",
+      color: "#0066CC"
     },
     classII: {
       label: "Class II Obesity", 
+      color: "#00B4A6"
     },
     classIII: {
       label: "Class III Obesity",
+      color: "#7B68EE"
     }
   };
 
@@ -99,7 +118,7 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
                 />
                 <Bar 
                   dataKey="patients" 
-                  fill="var(--color-patients)"
+                  fill="#0066CC"
                   radius={[2, 2, 0, 0]}
                 />
               </BarChart>
@@ -139,7 +158,7 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
                 />
                 <Bar 
                   dataKey="patients" 
-                  fill="var(--color-patients)"
+                  fill="#0066CC"
                   radius={[2, 2, 0, 0]}
                 />
               </BarChart>
@@ -148,85 +167,132 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
         </CardContent>
       </Card>
 
-      {/* Weight Reduction Trends */}
+      {/* Weight Reduction Distribution */}
       <Card>
         <CardHeader>
-          <CardTitle>Weight Reduction Trends</CardTitle>
+          <CardTitle>Weight Reduction Distribution</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Average weight loss across all patients over 12 months
+            Number of patients with weight reduction by 0.5 kg intervals over 12 months
           </p>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={weightReductionData}>
+              <BarChart data={weightReductionData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
-                  dataKey="month" 
+                  dataKey="weightLossRange" 
                   angle={-45}
                   textAnchor="end"
-                  height={60}
+                  height={80}
                   fontSize={10}
                 />
                 <YAxis />
                 <ChartTooltip 
                   content={<ChartTooltipContent />}
-                  formatter={(value) => [`${value} kg`, "Average Weight Loss"]}
+                  formatter={(value) => [value, "Patients"]}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="avgWeightLoss" 
-                  stroke="#22c55e" 
-                  fill="#22c55e"
-                  fillOpacity={0.3}
-                  strokeWidth={2}
+                <Bar 
+                  dataKey="patients" 
+                  fill="#00B4A6"
+                  radius={[2, 2, 0, 0]}
                 />
-              </AreaChart>
+              </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
       </Card>
 
-      {/* Obesity Class Movement */}
+      {/* Obesity Class Movement - Sankey Chart Simulation */}
       <Card>
         <CardHeader>
-          <CardTitle>Obesity Class Movement</CardTitle>
+          <CardTitle>Obesity Class Movement (Sankey Flow)</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Patient movement between obesity classes over time
+            Patient transitions between obesity classes from baseline to 12 months
           </p>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={classMovementData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timePoint" />
-                <YAxis />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Line 
-                  type="monotone" 
-                  dataKey="classI" 
-                  stroke="#3b82f6" 
-                  strokeWidth={2}
-                  name="Class I"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="classII" 
-                  stroke="#f59e0b" 
-                  strokeWidth={2}
-                  name="Class II"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="classIII" 
-                  stroke="#ef4444" 
-                  strokeWidth={2}
-                  name="Class III"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="space-y-6">
+            {/* Visual Sankey representation */}
+            <div className="grid grid-cols-2 gap-8 p-6">
+              {/* Left side - Baseline */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-center">Baseline</h4>
+                <div className="space-y-3">
+                  <div className="bg-[#0066CC] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class I Obesity</div>
+                    <div className="text-sm">4,200 patients</div>
+                  </div>
+                  <div className="bg-[#00B4A6] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class II Obesity</div>
+                    <div className="text-sm">3,500 patients</div>
+                  </div>
+                  <div className="bg-[#7B68EE] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class III Obesity</div>
+                    <div className="text-sm">2,300 patients</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right side - 12 Months */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-center">12 Months Follow-up</h4>
+                <div className="space-y-3">
+                  <div className="bg-[#0066CC] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class I Obesity</div>
+                    <div className="text-sm">4,380 patients</div>
+                  </div>
+                  <div className="bg-[#00B4A6] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class II Obesity</div>
+                    <div className="text-sm">3,570 patients</div>
+                  </div>
+                  <div className="bg-[#7B68EE] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Class III Obesity</div>
+                    <div className="text-sm">2,050 patients</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Flow details table */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Patient Flow Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="border border-gray-300 p-3 text-left">From</th>
+                        <th className="border border-gray-300 p-3 text-left">To</th>
+                        <th className="border border-gray-300 p-3 text-right">Patients</th>
+                        <th className="border border-gray-300 p-3 text-right">Flow %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sankeyData.links.map((link, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 p-3">
+                            {sankeyData.nodes.find(n => n.id === link.source)?.name}
+                          </td>
+                          <td className="border border-gray-300 p-3">
+                            {sankeyData.nodes.find(n => n.id === link.target)?.name}
+                          </td>
+                          <td className="border border-gray-300 p-3 text-right font-semibold">
+                            {link.value.toLocaleString()}
+                          </td>
+                          <td className="border border-gray-300 p-3 text-right">
+                            {((link.value / 10000) * 100).toFixed(1)}%
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </CardContent>
       </Card>
     </div>
