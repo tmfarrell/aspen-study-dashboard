@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import LogoutButton from '@/components/LogoutButton';
 import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import GeographicDistribution from '@/components/cohort/GeographicDistribution';
@@ -17,31 +18,45 @@ import CountryDistribution from '@/components/cohort/CountryDistribution';
 import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
 
 const PatientCohort = () => {
+  const [selectedStudy, setSelectedStudy] = useState('obesity');
+
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header with branding */}
-        <div className="flex justify-between items-start mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-[#003f7f] mb-2">Aspen</h1>
-            <h2 className="text-3xl font-semibold text-foreground">Obesity Registry</h2>
-          </div>
-          <div className="flex items-center gap-4">
-            <LogoutButton />
-            <img 
-              src="/lovable-uploads/3889fd89-3a5a-4489-aeb3-e1706b42c091.png" 
-              alt="OM1 Logo" 
-              className="h-12 w-auto"
-            />
+    <div className="min-h-screen bg-background">
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          {/* Header with branding */}
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <img 
+                src="/om1-logo.png" 
+                alt="OM1 Logo" 
+                className="h-12 w-auto"
+              />
+              <div className="pt-2">
+                <h1 className="text-2xl font-bold text-[#003f7f]">Aspen</h1>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <label className="text-sm text-muted-foreground whitespace-nowrap">Study:</label>
+                <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select a study" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="obesity">Obesity</SelectItem>
+                    <SelectItem value="diabetes">Diabetes</SelectItem>
+                    <SelectItem value="hypertension">Hypertension</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <LogoutButton />
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="mb-8">
-          <p className="text-lg text-muted-foreground">
-            Comprehensive analysis of 10,000 obesity patients globally
-          </p>
-        </div>
-
+      <div className="max-w-7xl mx-auto p-6">
         <CohortSummary />
 
         {/* Progress tracking section */}

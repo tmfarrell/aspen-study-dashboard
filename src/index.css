@@ -100,4 +100,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Lighter placeholder color for input and textarea fields */
+  input::placeholder,
+  textarea::placeholder {
+    color: #d4d4d4 !important;
+    opacity: 1;
+  }
 }

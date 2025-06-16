@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -126,12 +125,16 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
+      {/* OM1 Logo and Aspen title top left */}
+      <div className="flex items-center justify-center mb-8">
+        <img
+          src="/om1-logo.png"
+          alt="OM1 Logo"
+          style={{ maxWidth: 120, height: 'auto' }}
+        />
+        <span className="text-3xl font-bold text-[#003f7f] ml-4 mt-4">Aspen</span>
+      </div>
       <div className="max-w-md mx-auto">
-        {/* Header with branding */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#003f7f] mb-2">Aspen</h1>
-        </div>
-
         <Card>
           <CardHeader>
             <CardTitle className="text-center">

@@ -19,7 +19,7 @@ const LogoutButton = () => {
       className="flex items-center gap-2"
     >
       <LogOut className="h-4 w-4" />
-      Sign Out
+      Logout
     </Button>
   );
 };
