@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import LogoutButton from '@/components/LogoutButton';
 import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import GeographicDistribution from '@/components/cohort/GeographicDistribution';
 import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
@@ -26,7 +26,8 @@ const PatientCohort = () => {
             <h1 className="text-2xl font-bold text-[#003f7f] mb-2">Aspen</h1>
             <h2 className="text-3xl font-semibold text-foreground">Obesity Registry</h2>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <LogoutButton />
             <img 
               src="/lovable-uploads/3889fd89-3a5a-4489-aeb3-e1706b42c091.png" 
               alt="OM1 Logo" 
