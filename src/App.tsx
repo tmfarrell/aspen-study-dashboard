@@ -8,7 +8,7 @@ import Apps from './pages/Apps';
 import PatientCohort from './pages/PatientCohort';
 import Explorer from './pages/Explorer';
 import { AppSidebar } from './components/AppSidebar';
-import { SidebarProvider, SidebarInset, SidebarTrigger } from './components/ui/sidebar';
+import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 
 function App() {
   return (
@@ -25,9 +25,6 @@ function App() {
                     <AppSidebar />
                     <SidebarInset>
                       <div className="flex h-full w-full flex-col">
-                        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                          <SidebarTrigger className="-ml-1" />
-                        </header>
                         <div className="flex-1">
                           <Routes>
                             <Route path="/" element={<Navigate to="/home" replace />} />

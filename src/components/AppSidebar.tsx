@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 import { Home, Grid3X3 } from 'lucide-react';
 
@@ -61,6 +62,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   );
 }
