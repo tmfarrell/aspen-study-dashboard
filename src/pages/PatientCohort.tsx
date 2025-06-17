@@ -27,29 +27,11 @@ const PatientCohort = () => {
           {/* Header with branding */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <img 
-                src="/om1-logo.png" 
-                alt="OM1 Logo" 
-                className="h-12 w-auto"
-              />
               <div className="pt-2">
-                <h1 className="text-2xl font-bold text-[#003f7f]">Aspen</h1>
+                <h1 className="text-2xl font-bold text-[#003f7f]">Study Dashboard</h1>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <label className="text-sm text-muted-foreground whitespace-nowrap">Study:</label>
-                <Select value={selectedStudy} onValueChange={setSelectedStudy}>
-                  <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="Select a study" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="obesity">Obesity</SelectItem>
-                    <SelectItem value="diabetes">Diabetes</SelectItem>
-                    <SelectItem value="hypertension">Hypertension</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
               <LogoutButton />
             </div>
           </div>
@@ -57,6 +39,25 @@ const PatientCohort = () => {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
+        {/* Study Selection Card */}
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-4">
+              <label className="text-sm font-medium text-muted-foreground">Select Study:</label>
+              <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select a study" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="obesity">Obesity</SelectItem>
+                  <SelectItem value="diabetes">Diabetes</SelectItem>
+                  <SelectItem value="hypertension">Hypertension</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
         <CohortSummary />
 
         {/* Progress tracking section */}

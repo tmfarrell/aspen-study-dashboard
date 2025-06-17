@@ -37,9 +37,9 @@ export function AppSidebar() {
           <img 
             src="/om1-logo.png" 
             alt="OM1 Logo" 
-            className="h-8 w-auto"
+            className="h-10 w-auto"
           />
-          <span className="text-lg font-bold text-[#003f7f]">Aspen</span>
+          <span className="pt-2 text-xl font-bold text-[#003f7f]">Aspen</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
