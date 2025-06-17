@@ -17,7 +17,7 @@ import { Home, Grid3X3 } from 'lucide-react';
 const menuItems = [
   {
     title: 'Home',
-    url: '/',
+    url: '/home',
     icon: Home,
   },
   {
