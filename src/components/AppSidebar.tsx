@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -12,8 +11,10 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, Grid3X3 } from 'lucide-react';
+import { Home, Grid3X3, ChevronLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const menuItems = [
   {
@@ -30,27 +31,31 @@ const menuItems = [
 
 export function AppSidebar() {
   const location = useLocation();
+  const { state, toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-2">
           <img 
             src="/om1-logo.png" 
             alt="OM1 Logo" 
-            className="h-10 w-auto"
+            className="h-10 w-auto group-data-[collapsible=icon]:hidden"
           />
-          <span className="pt-2 text-xl font-bold text-[#003f7f]">Aspen</span>
+          <span className="pt-2 text-xl font-bold text-[#003f7f] group-data-[collapsible=icon]:hidden">Aspen</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={location.pathname === item.url}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={location.pathname === item.url}
+                    tooltip={item.title}
+                  >
                     <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -62,7 +67,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
+      <SidebarRail className="after:hidden">
+        <Button
+          variant="outline"
+          size="icon"
+          className="mt-4 h-6 w-24 bg-background border-border hover:bg-accent hover:text-accent-foreground"
+          onClick={toggleSidebar}
+        >
+          <ChevronLeft className={`h-4 w-4 transition-transform duration-200 ${state === 'collapsed' ? 'rotate-180' : ''}`} />
+          <span className="sr-only">Toggle Sidebar</span>
+        </Button>
+      </SidebarRail>
     </Sidebar>
   );
 }
