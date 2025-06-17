@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -36,24 +37,24 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
     { range: "91-100", patients: 300, score: "Excellent" }
   ];
 
-  // SF-36 Physical Component Summary (0-100, higher is better)
-  const sf36Data = [
-    { range: "0-10", patients: 600, score: "Very Poor" },
-    { range: "11-20", patients: 1100, score: "Poor" },
-    { range: "21-30", patients: 1500, score: "Poor" },
-    { range: "31-40", patients: 1800, score: "Fair" },
-    { range: "41-50", patients: 1700, score: "Fair" },
-    { range: "51-60", patients: 1400, score: "Moderate" },
-    { range: "61-70", patients: 1200, score: "Good" },
-    { range: "71-80", patients: 900, score: "Good" },
-    { range: "81-90", patients: 500, score: "Very Good" },
-    { range: "91-100", patients: 200, score: "Excellent" }
+  // EQ-5D-5L Index scores (0-1, higher is better)
+  const eq5d5lData = [
+    { range: "0-0.1", patients: 520, score: "Very Poor" },
+    { range: "0.11-0.2", patients: 890, score: "Poor" },
+    { range: "0.21-0.3", patients: 1200, score: "Poor" },
+    { range: "0.31-0.4", patients: 1450, score: "Fair" },
+    { range: "0.41-0.5", patients: 1650, score: "Fair" },
+    { range: "0.51-0.6", patients: 1500, score: "Moderate" },
+    { range: "0.61-0.7", patients: 1200, score: "Good" },
+    { range: "0.71-0.8", patients: 980, score: "Good" },
+    { range: "0.81-0.9", patients: 650, score: "Very Good" },
+    { range: "0.91-1.0", patients: 450, score: "Excellent" }
   ];
 
   const chartConfig = {
     patients: {
       label: "Patients",
-      color: "hsl(var(--primary))",
+      color: "#003f7f",
     },
   };
 
@@ -73,11 +74,11 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
       interpretation: "Simplified version of IWQOL"
     },
     {
-      assessment: "SF-36 PCS",
-      meanScore: 38.9,
-      medianScore: 40,
-      range: "0-100",
-      interpretation: "Physical Component Summary score"
+      assessment: "EQ-5D-5L",
+      meanScore: 0.62,
+      medianScore: 0.65,
+      range: "0-1",
+      interpretation: "Index score representing health utility"
     }
   ];
 
@@ -88,7 +89,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
           {summaryStats.map((stat, index) => (
             <Card key={index}>
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg">{stat.assessment}</CardTitle>
+                <CardTitle className="text-lg" style={{ color: '#003f7f' }}>{stat.assessment}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -114,7 +115,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
         <div className="space-y-8">
           <Card>
             <CardHeader>
-              <CardTitle>IWQOL Distribution</CardTitle>
+              <CardTitle style={{ color: '#003f7f' }}>IWQOL Distribution</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Impact of Weight on Quality of Life
               </p>
@@ -138,7 +139,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
                     />
                     <Bar 
                       dataKey="patients" 
-                      fill="var(--color-patients)"
+                      fill="#003f7f"
                       radius={[2, 2, 0, 0]}
                     />
                   </BarChart>
@@ -149,7 +150,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
 
           <Card>
             <CardHeader>
-              <CardTitle>IWQOL-lite Distribution</CardTitle>
+              <CardTitle style={{ color: '#003f7f' }}>IWQOL-lite Distribution</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Simplified Quality of Life Assessment
               </p>
@@ -173,7 +174,7 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
                     />
                     <Bar 
                       dataKey="patients" 
-                      fill="var(--color-patients)"
+                      fill="#003f7f"
                       radius={[2, 2, 0, 0]}
                     />
                   </BarChart>
@@ -184,15 +185,15 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
 
           <Card>
             <CardHeader>
-              <CardTitle>SF-36 PCS Distribution</CardTitle>
+              <CardTitle style={{ color: '#003f7f' }}>EQ-5D-5L Distribution</CardTitle>
               <p className="text-sm text-muted-foreground">
-                Physical Component Summary
+                European Quality of Life 5-Dimension 5-Level
               </p>
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={sf36Data}>
+                  <BarChart data={eq5d5lData}>
                     <XAxis 
                       dataKey="range" 
                       angle={-45}
@@ -204,11 +205,11 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
                     <ChartTooltip 
                       content={<ChartTooltipContent />}
                       formatter={(value, name) => [value, "Patients"]}
-                      labelFormatter={(label) => `SF-36 PCS Score: ${label}`}
+                      labelFormatter={(label) => `EQ-5D-5L Index: ${label}`}
                     />
                     <Bar 
                       dataKey="patients" 
-                      fill="var(--color-patients)"
+                      fill="#003f7f"
                       radius={[2, 2, 0, 0]}
                     />
                   </BarChart>
@@ -225,10 +226,10 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">IWQOL Overview</CardTitle>
+          <CardTitle className="text-lg" style={{ color: '#003f7f' }}>IWQOL Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary mb-2">42.3</div>
+          <div className="text-2xl font-bold mb-2" style={{ color: '#003f7f' }}>42.3</div>
           <p className="text-sm text-muted-foreground">Mean score (0-100 scale)</p>
           <p className="text-xs text-muted-foreground mt-2">
             Lower scores indicate worse quality of life impact
@@ -238,10 +239,10 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">IWQOL-lite Overview</CardTitle>
+          <CardTitle className="text-lg" style={{ color: '#003f7f' }}>IWQOL-lite Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary mb-2">48.7</div>
+          <div className="text-2xl font-bold mb-2" style={{ color: '#003f7f' }}>48.7</div>
           <p className="text-sm text-muted-foreground">Mean score (0-100 scale)</p>
           <p className="text-xs text-muted-foreground mt-2">
             Simplified assessment with similar interpretation
@@ -251,13 +252,13 @@ const QualityOfLifeChart: React.FC<QualityOfLifeChartProps> = ({ detailed = fals
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">SF-36 PCS Overview</CardTitle>
+          <CardTitle className="text-lg" style={{ color: '#003f7f' }}>EQ-5D-5L Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary mb-2">38.9</div>
-          <p className="text-sm text-muted-foreground">Mean PCS score (0-100 scale)</p>
+          <div className="text-2xl font-bold mb-2" style={{ color: '#003f7f' }}>0.62</div>
+          <p className="text-sm text-muted-foreground">Mean Index score (0-1 scale)</p>
           <p className="text-xs text-muted-foreground mt-2">
-            Physical Component Summary from SF-36
+            Health utility index for quality of life
           </p>
         </CardContent>
       </Card>

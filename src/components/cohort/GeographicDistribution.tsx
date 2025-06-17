@@ -14,50 +14,101 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
   const globalData = [
-    { region: "United States", patients: 4200, percentage: 42.0 },
-    { region: "Germany", patients: 1920, percentage: 19.2 },
-    { region: "France", patients: 1650, percentage: 16.5 },
-    { region: "Italy", patients: 840, percentage: 8.4 },
-    { region: "Canada", patients: 800, percentage: 8.0 },
-    { region: "United Kingdom", patients: 300, percentage: 3.0 },
-    { region: "Switzerland", patients: 290, percentage: 2.9 }
+    { region: "United States", patients: 4200, percentage: 42.0, hasRegions: true },
+    { region: "Germany", patients: 1920, percentage: 19.2, hasRegions: true },
+    { region: "France", patients: 1650, percentage: 16.5, hasRegions: true },
+    { region: "Italy", patients: 840, percentage: 8.4, hasRegions: true },
+    { region: "Canada", patients: 800, percentage: 8.0, hasRegions: true },
+    { region: "United Kingdom", patients: 300, percentage: 3.0, hasRegions: true },
+    { region: "Switzerland", patients: 290, percentage: 2.9, hasRegions: true }
   ];
 
-  const usStateData = [
-    { state: "Texas", patients: 520, percentage: 12.4 },
-    { state: "California", patients: 462, percentage: 11.0 },
-    { state: "Florida", patients: 378, percentage: 9.0 },
-    { state: "New York", patients: 336, percentage: 8.0 },
-    { state: "Pennsylvania", patients: 294, percentage: 7.0 },
-    { state: "Illinois", patients: 252, percentage: 6.0 },
-    { state: "Ohio", patients: 210, percentage: 5.0 },
-    { state: "Georgia", patients: 168, percentage: 4.0 },
-    { state: "North Carolina", patients: 147, percentage: 3.5 },
-    { state: "Michigan", patients: 126, percentage: 3.0 }
-  ];
-
-  const franceRegionData = [
-    { region: "Île-de-France", patients: 380, percentage: 23.0 },
-    { region: "Auvergne-Rhône-Alpes", patients: 264, percentage: 16.0 },
-    { region: "Provence-Alpes-Côte d'Azur", patients: 231, percentage: 14.0 },
-    { region: "Nouvelle-Aquitaine", patients: 198, percentage: 12.0 },
-    { region: "Occitanie", patients: 165, percentage: 10.0 },
-    { region: "Hauts-de-France", patients: 132, percentage: 8.0 },
-    { region: "Grand Est", patients: 115, percentage: 7.0 },
-    { region: "Pays de la Loire", patients: 82, percentage: 5.0 },
-    { region: "Bretagne", patients: 49, percentage: 3.0 },
-    { region: "Normandie", patients: 34, percentage: 2.0 }
-  ];
+  const regionalData = {
+    "United States": [
+      { state: "California", patients: 520, percentage: 12.4 },
+      { state: "Texas", patients: 462, percentage: 11.0 },
+      { state: "Florida", patients: 378, percentage: 9.0 },
+      { state: "New York", patients: 336, percentage: 8.0 },
+      { state: "Pennsylvania", patients: 294, percentage: 7.0 },
+      { state: "Illinois", patients: 252, percentage: 6.0 },
+      { state: "Ohio", patients: 210, percentage: 5.0 },
+      { state: "Georgia", patients: 168, percentage: 4.0 },
+      { state: "North Carolina", patients: 147, percentage: 3.5 },
+      { state: "Michigan", patients: 126, percentage: 3.0 }
+    ],
+    "Germany": [
+      { state: "Bavaria", patients: 384, percentage: 20.0 },
+      { state: "North Rhine-Westphalia", patients: 345, percentage: 18.0 },
+      { state: "Baden-Württemberg", patients: 288, percentage: 15.0 },
+      { state: "Lower Saxony", patients: 230, percentage: 12.0 },
+      { state: "Hesse", patients: 192, percentage: 10.0 },
+      { state: "Saxony", patients: 154, percentage: 8.0 },
+      { state: "Berlin", patients: 115, percentage: 6.0 },
+      { state: "Rhineland-Palatinate", patients: 96, percentage: 5.0 },
+      { state: "Schleswig-Holstein", patients: 77, percentage: 4.0 },
+      { state: "Brandenburg", patients: 39, percentage: 2.0 }
+    ],
+    "France": [
+      { state: "Île-de-France", patients: 380, percentage: 23.0 },
+      { state: "Auvergne-Rhône-Alpes", patients: 264, percentage: 16.0 },
+      { state: "Provence-Alpes-Côte d'Azur", patients: 231, percentage: 14.0 },
+      { state: "Nouvelle-Aquitaine", patients: 198, percentage: 12.0 },
+      { state: "Occitanie", patients: 165, percentage: 10.0 },
+      { state: "Hauts-de-France", patients: 132, percentage: 8.0 },
+      { state: "Grand Est", patients: 115, percentage: 7.0 },
+      { state: "Pays de la Loire", patients: 82, percentage: 5.0 },
+      { state: "Bretagne", patients: 49, percentage: 3.0 },
+      { state: "Normandie", patients: 34, percentage: 2.0 }
+    ],
+    "Italy": [
+      { state: "Lombardy", patients: 218, percentage: 26.0 },
+      { state: "Lazio", patients: 168, percentage: 20.0 },
+      { state: "Campania", patients: 126, percentage: 15.0 },
+      { state: "Veneto", patients: 92, percentage: 11.0 },
+      { state: "Sicily", patients: 76, percentage: 9.0 },
+      { state: "Piedmont", patients: 59, percentage: 7.0 },
+      { state: "Emilia-Romagna", patients: 42, percentage: 5.0 },
+      { state: "Tuscany", patients: 34, percentage: 4.0 },
+      { state: "Puglia", patients: 17, percentage: 2.0 },
+      { state: "Calabria", patients: 8, percentage: 1.0 }
+    ],
+    "Canada": [
+      { state: "Ontario", patients: 320, percentage: 40.0 },
+      { state: "Quebec", patients: 200, percentage: 25.0 },
+      { state: "British Columbia", patients: 128, percentage: 16.0 },
+      { state: "Alberta", patients: 88, percentage: 11.0 },
+      { state: "Manitoba", patients: 32, percentage: 4.0 },
+      { state: "Saskatchewan", patients: 16, percentage: 2.0 },
+      { state: "Nova Scotia", patients: 8, percentage: 1.0 },
+      { state: "New Brunswick", patients: 8, percentage: 1.0 }
+    ],
+    "United Kingdom": [
+      { state: "England", patients: 225, percentage: 75.0 },
+      { state: "Scotland", patients: 45, percentage: 15.0 },
+      { state: "Wales", patients: 21, percentage: 7.0 },
+      { state: "Northern Ireland", patients: 9, percentage: 3.0 }
+    ],
+    "Switzerland": [
+      { state: "Zurich", patients: 87, percentage: 30.0 },
+      { state: "Bern", patients: 58, percentage: 20.0 },
+      { state: "Vaud", patients: 43, percentage: 15.0 },
+      { state: "Aargau", patients: 29, percentage: 10.0 },
+      { state: "St. Gallen", patients: 23, percentage: 8.0 },
+      { state: "Geneva", patients: 20, percentage: 7.0 },
+      { state: "Lucerne", patients: 17, percentage: 6.0 },
+      { state: "Ticino", patients: 13, percentage: 4.0 }
+    ]
+  };
 
   const getDisplayData = () => {
-    if (selectedCountry === 'usa') return usStateData;
-    if (selectedCountry === 'france') return franceRegionData;
+    if (selectedCountry && regionalData[selectedCountry as keyof typeof regionalData]) {
+      return regionalData[selectedCountry as keyof typeof regionalData];
+    }
     return globalData;
   };
 
   const getTableTitle = () => {
-    if (selectedCountry === 'usa') return 'US State Distribution';
-    if (selectedCountry === 'france') return 'France Regional Distribution';
+    if (selectedCountry) return `${selectedCountry} Regional Distribution`;
     return 'Global Distribution';
   };
 
@@ -65,7 +116,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Geographic Distribution</CardTitle>
+          <CardTitle style={{ color: '#003f7f' }}>Geographic Distribution</CardTitle>
           <p className="text-sm text-muted-foreground">
             Global patient distribution
           </p>
@@ -77,6 +128,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                 <TableHead>Country/Region</TableHead>
                 <TableHead>Patients</TableHead>
                 <TableHead>Percentage</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -85,6 +137,17 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                   <TableCell className="font-medium">{item.region}</TableCell>
                   <TableCell>{item.patients.toLocaleString()}</TableCell>
                   <TableCell>{item.percentage}%</TableCell>
+                  <TableCell>
+                    {item.hasRegions && (
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => setSelectedCountry(item.region)}
+                      >
+                        View Regions
+                      </Button>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -100,7 +163,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
       
       <Card>
         <CardHeader>
-          <CardTitle>Geographic Distribution Details</CardTitle>
+          <CardTitle style={{ color: '#003f7f' }}>Geographic Distribution Details</CardTitle>
           <p className="text-sm text-muted-foreground">
             Detailed breakdown of patient enrollment by region
           </p>
@@ -115,7 +178,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
             <TabsContent value="table" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>{getTableTitle()}</CardTitle>
+                  <CardTitle style={{ color: '#003f7f' }}>{getTableTitle()}</CardTitle>
                   {selectedCountry && (
                     <Button 
                       variant="outline" 
@@ -135,6 +198,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                         </TableHead>
                         <TableHead>Patients</TableHead>
                         <TableHead>Percentage</TableHead>
+                        {!selectedCountry && <TableHead>Actions</TableHead>}
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -145,6 +209,19 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                           </TableCell>
                           <TableCell>{item.patients.toLocaleString()}</TableCell>
                           <TableCell>{item.percentage}%</TableCell>
+                          {!selectedCountry && 'hasRegions' in item && (
+                            <TableCell>
+                              {item.hasRegions && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => setSelectedCountry(item.region)}
+                                >
+                                  View Regions
+                                </Button>
+                              )}
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))}
                     </TableBody>

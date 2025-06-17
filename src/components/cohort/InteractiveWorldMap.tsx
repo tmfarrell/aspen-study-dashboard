@@ -10,45 +10,77 @@ const InteractiveWorldMap = () => {
 
   // Global country data with patient counts
   const globalData = [
-    { country: "United States", patients: 4200, percentage: 42.0, color: "#ff4444", regions: true },
-    { country: "Germany", patients: 1920, percentage: 19.2, color: "#ff6666", regions: false },
-    { country: "France", patients: 1650, percentage: 16.5, color: "#ff8888", regions: true },
-    { country: "Italy", patients: 840, percentage: 8.4, color: "#ffaaaa", regions: false },
-    { country: "Canada", patients: 800, percentage: 8.0, color: "#ffaaaa", regions: false },
-    { country: "United Kingdom", patients: 300, percentage: 3.0, color: "#ffcccc", regions: false },
-    { country: "Switzerland", patients: 290, percentage: 2.9, color: "#ffcccc", regions: false }
+    { country: "United States", patients: 4200, percentage: 42.0, color: "#003f7f", regions: true },
+    { country: "Germany", patients: 1920, percentage: 19.2, color: "#2563eb", regions: true },
+    { country: "France", patients: 1650, percentage: 16.5, color: "#3b82f6", regions: true },
+    { country: "Italy", patients: 840, percentage: 8.4, color: "#60a5fa", regions: true },
+    { country: "Canada", patients: 800, percentage: 8.0, color: "#93c5fd", regions: true },
+    { country: "United Kingdom", patients: 300, percentage: 3.0, color: "#bfdbfe", regions: true },
+    { country: "Switzerland", patients: 290, percentage: 2.9, color: "#dbeafe", regions: true }
   ];
 
-  const usStateData = [
-    { region: "California", patients: 520, percentage: 12.4 },
-    { region: "Texas", patients: 462, percentage: 11.0 },
-    { region: "Florida", patients: 378, percentage: 9.0 },
-    { region: "New York", patients: 336, percentage: 8.0 },
-    { region: "Pennsylvania", patients: 294, percentage: 7.0 },
-    { region: "Illinois", patients: 252, percentage: 6.0 },
-    { region: "Ohio", patients: 210, percentage: 5.0 },
-    { region: "Georgia", patients: 168, percentage: 4.0 },
-    { region: "North Carolina", patients: 147, percentage: 3.5 },
-    { region: "Michigan", patients: 126, percentage: 3.0 },
-    { region: "Other States", patients: 1307, percentage: 31.1 }
-  ];
-
-  const franceRegionData = [
-    { region: "Île-de-France", patients: 380, percentage: 23.0 },
-    { region: "Auvergne-Rhône-Alpes", patients: 264, percentage: 16.0 },
-    { region: "Provence-Alpes-Côte d'Azur", patients: 231, percentage: 14.0 },
-    { region: "Nouvelle-Aquitaine", patients: 198, percentage: 12.0 },
-    { region: "Occitanie", patients: 165, percentage: 10.0 },
-    { region: "Hauts-de-France", patients: 132, percentage: 8.0 },
-    { region: "Grand Est", patients: 115, percentage: 7.0 },
-    { region: "Pays de la Loire", patients: 82, percentage: 5.0 },
-    { region: "Bretagne", patients: 49, percentage: 3.0 },
-    { region: "Normandie", patients: 34, percentage: 2.0 }
-  ];
+  const regionalData = {
+    "United States": [
+      { region: "California", patients: 520, percentage: 12.4 },
+      { region: "Texas", patients: 462, percentage: 11.0 },
+      { region: "Florida", patients: 378, percentage: 9.0 },
+      { region: "New York", patients: 336, percentage: 8.0 },
+      { region: "Pennsylvania", patients: 294, percentage: 7.0 },
+      { region: "Illinois", patients: 252, percentage: 6.0 },
+      { region: "Ohio", patients: 210, percentage: 5.0 },
+      { region: "Georgia", patients: 168, percentage: 4.0 },
+      { region: "North Carolina", patients: 147, percentage: 3.5 },
+      { region: "Michigan", patients: 126, percentage: 3.0 },
+      { region: "Other States", patients: 1307, percentage: 31.1 }
+    ],
+    "Germany": [
+      { region: "Bavaria", patients: 384, percentage: 20.0 },
+      { region: "North Rhine-Westphalia", patients: 345, percentage: 18.0 },
+      { region: "Baden-Württemberg", patients: 288, percentage: 15.0 },
+      { region: "Lower Saxony", patients: 230, percentage: 12.0 },
+      { region: "Hesse", patients: 192, percentage: 10.0 },
+      { region: "Other States", patients: 481, percentage: 25.0 }
+    ],
+    "France": [
+      { region: "Île-de-France", patients: 380, percentage: 23.0 },
+      { region: "Auvergne-Rhône-Alpes", patients: 264, percentage: 16.0 },
+      { region: "Provence-Alpes-Côte d'Azur", patients: 231, percentage: 14.0 },
+      { region: "Nouvelle-Aquitaine", patients: 198, percentage: 12.0 },
+      { region: "Occitanie", patients: 165, percentage: 10.0 },
+      { region: "Other Regions", patients: 412, percentage: 25.0 }
+    ],
+    "Italy": [
+      { region: "Lombardy", patients: 218, percentage: 26.0 },
+      { region: "Lazio", patients: 168, percentage: 20.0 },
+      { region: "Campania", patients: 126, percentage: 15.0 },
+      { region: "Veneto", patients: 92, percentage: 11.0 },
+      { region: "Other Regions", patients: 236, percentage: 28.0 }
+    ],
+    "Canada": [
+      { region: "Ontario", patients: 320, percentage: 40.0 },
+      { region: "Quebec", patients: 200, percentage: 25.0 },
+      { region: "British Columbia", patients: 128, percentage: 16.0 },
+      { region: "Alberta", patients: 88, percentage: 11.0 },
+      { region: "Other Provinces", patients: 64, percentage: 8.0 }
+    ],
+    "United Kingdom": [
+      { region: "England", patients: 225, percentage: 75.0 },
+      { region: "Scotland", patients: 45, percentage: 15.0 },
+      { region: "Wales", patients: 21, percentage: 7.0 },
+      { region: "Northern Ireland", patients: 9, percentage: 3.0 }
+    ],
+    "Switzerland": [
+      { region: "Zurich", patients: 87, percentage: 30.0 },
+      { region: "Bern", patients: 58, percentage: 20.0 },
+      { region: "Vaud", patients: 43, percentage: 15.0 },
+      { region: "Other Cantons", patients: 102, percentage: 35.0 }
+    ]
+  };
 
   const getRegionalData = () => {
-    if (selectedCountry === 'United States') return usStateData;
-    if (selectedCountry === 'France') return franceRegionData;
+    if (selectedCountry && regionalData[selectedCountry as keyof typeof regionalData]) {
+      return regionalData[selectedCountry as keyof typeof regionalData];
+    }
     return [];
   };
 
@@ -64,21 +96,21 @@ const InteractiveWorldMap = () => {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Interactive Global Patient Distribution</CardTitle>
+          <CardTitle style={{ color: '#003f7f' }}>Interactive Global Patient Distribution</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Click on countries with regional data available (US, France) to drill down
+            Click on countries to drill down into regional data
           </p>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* World Map Visualization */}
             <div className="space-y-4">
-              <div className="relative bg-muted rounded-lg p-6 h-[400px] flex flex-col items-center justify-center">
+              <div className="relative rounded-lg p-6 h-[400px] flex flex-col items-center justify-center" style={{ backgroundColor: '#f8fafc' }}>
                 <div className="text-center space-y-4">
-                  <div className="text-lg font-semibold">Global Patient Distribution Map</div>
+                  <div className="text-lg font-semibold" style={{ color: '#003f7f' }}>Global Patient Distribution Map</div>
                   <div className="text-sm text-muted-foreground max-w-md">
                     Interactive world map showing patient enrollment by country. 
-                    Darker colors indicate higher patient counts.
+                    Click on countries to view regional breakdown.
                   </div>
                   
                   {/* Country buttons representing map regions */}
@@ -88,18 +120,19 @@ const InteractiveWorldMap = () => {
                         key={country.country}
                         variant={selectedCountry === country.country ? "default" : "outline"}
                         size="sm"
-                        className="text-xs h-8"
+                        className="text-xs h-auto py-2 px-3"
                         style={{ 
-                          backgroundColor: selectedCountry === country.country ? '#3b82f6' : country.color,
-                          color: selectedCountry === country.country ? 'white' : '#1f2937',
+                          backgroundColor: selectedCountry === country.country ? '#003f7f' : country.color,
+                          color: selectedCountry === country.country ? 'white' : 'white',
                           borderColor: country.color
                         }}
                         onClick={() => handleCountryClick(country.country)}
                         disabled={!country.regions}
                       >
-                        {country.country}
-                        <br />
-                        ({country.patients.toLocaleString()})
+                        <div className="text-center">
+                          <div className="font-medium">{country.country}</div>
+                          <div className="text-xs">({country.patients.toLocaleString()})</div>
+                        </div>
                       </Button>
                     ))}
                   </div>
@@ -108,18 +141,18 @@ const InteractiveWorldMap = () => {
 
               {/* Map Legend */}
               <div className="flex justify-center">
-                <div className="flex items-center space-x-4 p-4 bg-muted rounded-lg">
+                <div className="flex items-center space-x-4 p-4 rounded-lg" style={{ backgroundColor: '#f8fafc' }}>
                   <span className="text-sm font-medium">Patient Density:</span>
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-red-200 rounded"></div>
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: '#dbeafe' }}></div>
                     <span className="text-xs">Low</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-red-400 rounded"></div>
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
                     <span className="text-xs">Medium</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-red-600 rounded"></div>
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: '#003f7f' }}></div>
                     <span className="text-xs">High</span>
                   </div>
                 </div>
@@ -131,7 +164,7 @@ const InteractiveWorldMap = () => {
               {selectedCountry ? (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
+                    <CardTitle className="flex items-center justify-between" style={{ color: '#003f7f' }}>
                       {selectedCountry} Regional Distribution
                       <Button 
                         variant="outline" 
@@ -146,7 +179,7 @@ const InteractiveWorldMap = () => {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>{selectedCountry === 'United States' ? 'State' : 'Region'}</TableHead>
+                          <TableHead>Region</TableHead>
                           <TableHead>Patients</TableHead>
                           <TableHead>%</TableHead>
                         </TableRow>
@@ -166,7 +199,7 @@ const InteractiveWorldMap = () => {
               ) : (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Global Distribution Summary</CardTitle>
+                    <CardTitle style={{ color: '#003f7f' }}>Global Distribution Summary</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Table>
