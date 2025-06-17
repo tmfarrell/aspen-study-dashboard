@@ -1,89 +1,53 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import Index from "./pages/Index";
-import Home from "./pages/Home";
-import PatientCohort from "./pages/PatientCohort";
-import Apps from "./pages/Apps";
-import Explorer from "./pages/Explorer";
-import Auth from "./pages/Auth";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Auth from './pages/Auth';
+import Home from './pages/Home';
+import Apps from './pages/Apps';
+import PatientCohort from './pages/PatientCohort';
+import Explorer from './pages/Explorer';
+import { AppSidebar } from './components/AppSidebar';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from './components/ui/sidebar';
 
-const queryClient = new QueryClient();
-
-const AppContent = () => {
-  const location = useLocation();
-  const isAuthPage = location.pathname === '/auth';
-
-  if (isAuthPage) {
-    return (
-      <Routes>
-        <Route path="/auth" element={<Auth />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    );
-  }
-
+function App() {
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar />
-        <SidebarInset className="flex-1">
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route path="/home" element={<Home />} />
-            <Route 
-              path="/apps" 
-              element={
-                <ProtectedRoute>
-                  <Apps />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/cohort" 
-              element={
-                <ProtectedRoute>
-                  <PatientCohort />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/explorer" 
-              element={
-                <ProtectedRoute>
-                  <Explorer />
-                </ProtectedRoute>
-              } 
-            />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
-  );
-};
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </TooltipProvider>
+      <Router>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <SidebarProvider>
+                  <div className="min-h-screen flex w-full">
+                    <AppSidebar />
+                    <SidebarInset>
+                      <div className="flex h-full w-full flex-col">
+                        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                          <SidebarTrigger className="-ml-1" />
+                        </header>
+                        <div className="flex-1">
+                          <Routes>
+                            <Route path="/" element={<Navigate to="/home" replace />} />
+                            <Route path="/home" element={<Home />} />
+                            <Route path="/apps" element={<Apps />} />
+                            <Route path="/cohort" element={<PatientCohort />} />
+                            <Route path="/explorer" element={<Explorer />} />
+                          </Routes>
+                        </div>
+                      </div>
+                    </SidebarInset>
+                  </div>
+                </SidebarProvider>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
     </AuthProvider>
-  </QueryClientProvider>
-);
+  );
+}
 
 export default App;

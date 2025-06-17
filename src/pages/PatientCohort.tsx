@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -24,7 +25,6 @@ const PatientCohort = () => {
     <div className="min-h-screen bg-background">
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          {/* Header with branding */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="pt-2">
