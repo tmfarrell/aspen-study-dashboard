@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -101,8 +100,11 @@ const FAQ = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mb-2">
                 Contact our support team for additional assistance with your Aspen platform questions.
+              </p>
+              <p className="text-sm font-medium">
+                Email: <a href="mailto:support@om1.com" className="text-[#003f7f] hover:underline">support@om1.com</a>
               </p>
             </CardContent>
           </Card>
