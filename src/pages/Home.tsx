@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -117,7 +118,7 @@ const Home = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-4 w-4" />
-                Aspen Study Updates
+                Aspen Updates
               </CardTitle>
               <CardDescription>
                 Latest updates across all Aspen studies
@@ -183,3 +184,4 @@ const Home = () => {
 };
 
 export default Home;
+
