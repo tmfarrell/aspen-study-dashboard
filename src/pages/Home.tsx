@@ -146,27 +146,27 @@ const Home = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4">
-                <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
+              <Link to="/cohort" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Aspen Studies</h3>
                 <p className="text-sm text-muted-foreground">
                   View comprehensive analytics for your patient cohorts
                 </p>
-              </div>
-              <div className="text-center p-4">
-                <Users className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
+              </Link>
+              <Link to="/explorer" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                <Users className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Cohort Explorer</h3>
                 <p className="text-sm text-muted-foreground">
                   Build custom cohorts based on your study criteria
                 </p>
-              </div>
-              <div className="text-center p-4">
-                <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
+              </Link>
+              <Link to="/reports" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Insight Reports</h3>
                 <p className="text-sm text-muted-foreground">
                   Generate detailed reports and export study data
                 </p>
-              </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
