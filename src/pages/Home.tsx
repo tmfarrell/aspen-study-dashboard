@@ -145,7 +145,7 @@ const Home = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Link to="/cohort" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Aspen Studies</h3>
@@ -165,6 +165,13 @@ const Home = () => {
                 <h3 className="font-semibold mb-1">Insight Reports</h3>
                 <p className="text-sm text-muted-foreground">
                   Generate detailed reports and export study data
+                </p>
+              </Link>
+              <Link to="/faq" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                <Bell className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
+                <h3 className="font-semibold mb-1">Help & FAQ</h3>
+                <p className="text-sm text-muted-foreground">
+                  Find answers to frequently asked questions
                 </p>
               </Link>
             </div>

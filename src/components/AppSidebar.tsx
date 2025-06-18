@@ -14,7 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const menuItems = [
@@ -37,6 +37,14 @@ const menuItems = [
     title: 'Insight Reports',
     url: '/reports',
     icon: FileText,
+  },
+];
+
+const helpItems = [
+  {
+    title: 'FAQ',
+    url: '/faq',
+    icon: HelpCircle,
   },
 ];
 
@@ -77,6 +85,30 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        
+        <div className="mt-auto">
+          <SidebarGroup>
+            <SidebarGroupLabel>Help</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {helpItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={location.pathname === item.url}
+                      tooltip={item.title}
+                    >
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </div>
       </SidebarContent>
       <SidebarRail className="after:hidden">
         <Button

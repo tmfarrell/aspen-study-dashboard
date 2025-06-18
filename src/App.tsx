@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import PatientCohort from './pages/PatientCohort';
 import Explorer from './pages/Explorer';
 import Reports from './pages/Reports';
+import FAQ from './pages/FAQ';
 import { AppSidebar } from './components/AppSidebar';
 import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 
@@ -32,6 +33,7 @@ function App() {
                             <Route path="/cohort" element={<PatientCohort />} />
                             <Route path="/explorer" element={<Explorer />} />
                             <Route path="/reports" element={<Reports />} />
+                            <Route path="/faq" element={<FAQ />} />
                           </Routes>
                         </div>
                       </div>
