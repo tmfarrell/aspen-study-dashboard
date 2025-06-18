@@ -60,8 +60,8 @@ const Home = () => {
       icon: Search,
     },
     {
-      title: 'Generate Reports',
-      description: 'Create detailed insights and export data',
+      title: 'OM1 Insight Reports',
+      description: 'View OM1 curated insight reports',
       href: '/reports',
       icon: FileText,
     },
@@ -163,9 +163,9 @@ const Home = () => {
               </Link>
               <Link to="/reports" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
-                <h3 className="font-semibold mb-1">Insight Reports</h3>
+                <h3 className="font-semibold mb-1">OM1 Insight Reports</h3>
                 <p className="text-sm text-muted-foreground">
-                  Generate detailed reports and export study data
+                  View OM1 curated insight reports
                 </p>
               </Link>
               <Link to="/faq" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
