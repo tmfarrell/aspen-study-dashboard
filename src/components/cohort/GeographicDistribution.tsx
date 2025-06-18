@@ -144,7 +144,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                         variant="outline"
                         onClick={() => setSelectedCountry(item.region)}
                       >
-                        View Regions
+                        Detailed Geography
                       </Button>
                     )}
                   </TableCell>
@@ -217,7 +217,7 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
                                   variant="outline"
                                   onClick={() => setSelectedCountry(item.region)}
                                 >
-                                  View Regions
+                                  Detailed Geography
                                 </Button>
                               )}
                             </TableCell>
