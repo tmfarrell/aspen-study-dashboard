@@ -29,7 +29,7 @@ const Documentation = () => {
             </div>
             <div>
               <h2 className="text-3xl font-bold text-[#003f7f]">Aspen Studies</h2>
-              <p className="text-muted-foreground">Non-interventional clinical studies powered by AI</p>
+              <p className="text-muted-foreground">Non-interventional clinical studies powered by OM1 Aspen</p>
             </div>
           </div>
 
