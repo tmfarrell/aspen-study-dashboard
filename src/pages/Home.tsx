@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,10 +38,10 @@ const Home = () => {
   ];
 
   const recentActivities = [
-    'New patient cohort created: "Diabetes Study Q4"',
-    'Data export completed for Study #12',
+    'Recruitment Update: 2 patients recruited in Site B',
+    'Data Management Update: Site B data checks completed and ingested into Aspen',
     'System maintenance scheduled for tonight',
-    'Monthly report generated successfully',
+    'Dashboard Update: monthly Aspen updates have been received',
   ];
 
   const quickActions = [
