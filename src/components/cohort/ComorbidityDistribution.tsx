@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -189,9 +190,8 @@ const ComorbidityDistribution = () => {
               {/* Box and Whiskers Plot */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Box and Whiskers Plot - Age at First Diagnosis</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    Distribution of diagnosis ages showing quartiles, median, and outliers
+                    Age at diagnosis described by specific comorbidity in baseline
                   </p>
                 </CardHeader>
                 <CardContent>
