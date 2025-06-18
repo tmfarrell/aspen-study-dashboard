@@ -27,7 +27,7 @@ const Reports = () => {
     },
     {
       title: 'Clinical Outcomes Insights Report',
-      description: 'Comprehensive evaluation of treatment effectiveness and patient outcomes',
+      description: 'Comprehensive summaries of real-world clinical outcomes in treated cohorts of interest',
       icon: Heart,
       color: 'bg-orange-500',
     },
