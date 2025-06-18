@@ -17,12 +17,15 @@ import {
 import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const menuItems = [
+const homeItems = [
   {
     title: 'Home',
     url: '/home',
     icon: Home,
   },
+];
+
+const appsItems = [
   {
     title: 'Aspen Studies',
     url: '/cohort',
@@ -33,22 +36,19 @@ const menuItems = [
     url: '/explorer',
     icon: Search,
   },
-];
-
-const reportsItems = [
   {
     title: 'Insight Reports',
     url: '/reports',
     icon: FileText,
   },
+];
+
+const resourcesItems = [
   {
     title: 'Documentation',
     url: '/documentation',
     icon: BookOpen,
   },
-];
-
-const helpItems = [
   {
     title: 'FAQ',
     url: '/faq',
@@ -76,7 +76,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {homeItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
@@ -95,10 +95,10 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Reports</SidebarGroupLabel>
+          <SidebarGroupLabel>OM1 Aspen Apps</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {reportsItems.map((item) => (
+              {appsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
@@ -118,10 +118,10 @@ export function AppSidebar() {
         
         <div className="mt-auto">
           <SidebarGroup>
-            <SidebarGroupLabel>Help</SidebarGroupLabel>
+            <SidebarGroupLabel>OM1 Aspen Resources</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {helpItems.map((item) => (
+                {resourcesItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton 
                       asChild 
