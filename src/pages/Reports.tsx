@@ -14,8 +14,8 @@ const Reports = () => {
       color: 'bg-blue-500',
     },
     {
-      title: 'Prescribing Behaviors Insights Report',
-      description: 'Detailed insights into medication prescribing trends and patterns',
+      title: 'Population Insights Report',
+      description: 'Detailed insights into pre-defined populations of interest',
       icon: Activity,
       color: 'bg-green-500',
     },
