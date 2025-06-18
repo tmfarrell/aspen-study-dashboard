@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,8 +59,8 @@ const Home = () => {
       icon: Search,
     },
     {
-      title: 'OM1 Insight Reports',
-      description: 'View OM1 curated insight reports',
+      title: 'OM1 Insights Reports',
+      description: 'View OM1 curated insights reports',
       href: '/reports',
       icon: FileText,
     },
@@ -86,7 +85,7 @@ const Home = () => {
           {/* Quick Actions */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
+              <CardTitle>OM1 Aspen Applications</CardTitle>
               <CardDescription>
                 Jump to your most used features
               </CardDescription>
@@ -147,25 +146,25 @@ const Home = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Link to="/cohort" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+              <Link to="/documentation#aspen-studies" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Aspen Studies</h3>
                 <p className="text-sm text-muted-foreground">
-                  View comprehensive analytics for your patient cohorts
+                  Learn about non-interventional clinical studies powered by AI
                 </p>
               </Link>
-              <Link to="/explorer" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+              <Link to="/documentation#cohort-explorer" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <Users className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Cohort Explorer</h3>
                 <p className="text-sm text-muted-foreground">
-                  Build custom cohorts based on your study criteria
+                  Build and analyze custom patient cohorts
                 </p>
               </Link>
-              <Link to="/reports" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+              <Link to="/documentation#insights-reports" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
-                <h3 className="font-semibold mb-1">OM1 Insight Reports</h3>
+                <h3 className="font-semibold mb-1">OM1 Insights Reports</h3>
                 <p className="text-sm text-muted-foreground">
-                  View OM1 curated insight reports
+                  Comprehensive analytics and reporting suite
                 </p>
               </Link>
               <Link to="/faq" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
@@ -184,4 +183,3 @@ const Home = () => {
 };
 
 export default Home;
-

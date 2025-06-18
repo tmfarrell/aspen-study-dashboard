@@ -37,7 +37,7 @@ const appsItems = [
     icon: Search,
   },
   {
-    title: 'Insight Reports',
+    title: 'Insights Reports',
     url: '/reports',
     icon: FileText,
   },

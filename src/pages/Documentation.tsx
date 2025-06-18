@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +22,7 @@ const Documentation = () => {
 
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         {/* Aspen Studies Section */}
-        <section>
+        <section id="aspen-studies">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center">
               <BarChart3 className="h-6 w-6 text-white" />
@@ -163,7 +162,7 @@ const Documentation = () => {
         <Separator />
 
         {/* Cohort Explorer Section */}
-        <section>
+        <section id="cohort-explorer">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-lg bg-green-500 flex items-center justify-center">
               <Search className="h-6 w-6 text-white" />
@@ -232,14 +231,14 @@ const Documentation = () => {
 
         <Separator />
 
-        {/* OM1 Insight Reports Section */}
-        <section>
+        {/* OM1 Insights Reports Section */}
+        <section id="insights-reports">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center">
               <FileText className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">OM1 Insight Reports</h2>
+              <h2 className="text-3xl font-bold text-[#003f7f]">OM1 Insights Reports</h2>
               <p className="text-muted-foreground">Comprehensive analytics and reporting suite</p>
             </div>
           </div>
@@ -315,7 +314,7 @@ const Documentation = () => {
           <Card>
             <CardHeader>
               <CardTitle>Getting Started</CardTitle>
-              <CardDescription>How to begin using OM1 Insight Reports</CardDescription>
+              <CardDescription>How to begin using OM1 Insights Reports</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

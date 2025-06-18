@@ -39,7 +39,7 @@ const Reports = () => {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-[#003f7f]">Insight Reports</h1>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Reports</h1>
             </div>
             <LogoutButton />
           </div>
@@ -79,7 +79,7 @@ const Reports = () => {
             <CardHeader>
               <CardTitle>Coming Soon</CardTitle>
               <CardDescription>
-                The Insight Reports module is currently under development. This page will allow you to:
+                The Insights Reports module is currently under development. This page will allow you to:
               </CardDescription>
             </CardHeader>
             <CardContent>
