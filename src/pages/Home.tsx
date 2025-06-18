@@ -117,10 +117,10 @@ const Home = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-4 w-4" />
-                Recent Activity
+                Aspen Study Updates
               </CardTitle>
               <CardDescription>
-                Latest updates and notifications
+                Latest updates across all Aspen studies
               </CardDescription>
             </CardHeader>
             <CardContent>
