@@ -4,9 +4,9 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
-import Apps from './pages/Apps';
 import PatientCohort from './pages/PatientCohort';
 import Explorer from './pages/Explorer';
+import Reports from './pages/Reports';
 import { AppSidebar } from './components/AppSidebar';
 import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 
@@ -29,9 +29,9 @@ function App() {
                           <Routes>
                             <Route path="/" element={<Navigate to="/home" replace />} />
                             <Route path="/home" element={<Home />} />
-                            <Route path="/apps" element={<Apps />} />
                             <Route path="/cohort" element={<PatientCohort />} />
                             <Route path="/explorer" element={<Explorer />} />
+                            <Route path="/reports" element={<Reports />} />
                           </Routes>
                         </div>
                       </div>

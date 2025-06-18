@@ -28,7 +28,7 @@ const PatientCohort = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="pt-2">
-                <h1 className="text-2xl font-bold text-[#003f7f]">Study Dashboard</h1>
+                <h1 className="text-2xl font-bold text-[#003f7f]">Aspen Studies</h1>
               </div>
             </div>
             <div className="flex items-center gap-4">

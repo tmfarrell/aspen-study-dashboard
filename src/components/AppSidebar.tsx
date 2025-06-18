@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -13,7 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, Grid3X3, ChevronLeft } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const menuItems = [
@@ -23,9 +24,19 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: 'Apps',
-    url: '/apps',
-    icon: Grid3X3,
+    title: 'Aspen Studies',
+    url: '/cohort',
+    icon: BarChart3,
+  },
+  {
+    title: 'Cohort Explorer',
+    url: '/explorer',
+    icon: Search,
+  },
+  {
+    title: 'Insight Reports',
+    url: '/reports',
+    icon: FileText,
   },
 ];
 

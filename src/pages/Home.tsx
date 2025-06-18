@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart3, Users, TrendingUp, Activity, ArrowRight, Bell } from 'lucide-react';
+import { BarChart3, Users, TrendingUp, Activity, ArrowRight, Bell, Search, FileText } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 const Home = () => {
@@ -47,7 +47,7 @@ const Home = () => {
 
   const quickActions = [
     {
-      title: 'View Study Dashboard',
+      title: 'View Aspen Studies',
       description: 'Access comprehensive analytics and insights',
       href: '/cohort',
       icon: BarChart3,
@@ -56,7 +56,13 @@ const Home = () => {
       title: 'Explore Cohorts',
       description: 'Build and analyze custom patient cohorts',
       href: '/explorer',
-      icon: Users,
+      icon: Search,
+    },
+    {
+      title: 'Generate Reports',
+      description: 'Create detailed insights and export data',
+      href: '/reports',
+      icon: FileText,
     },
   ];
 
@@ -85,7 +91,7 @@ const Home = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {quickActions.map((action) => (
                   <Link key={action.title} to={action.href}>
                     <div className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -142,7 +148,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center p-4">
                 <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Study Dashboard</h3>
+                <h3 className="font-semibold mb-1">Aspen Studies</h3>
                 <p className="text-sm text-muted-foreground">
                   View comprehensive analytics for your patient cohorts
                 </p>
@@ -155,10 +161,10 @@ const Home = () => {
                 </p>
               </div>
               <div className="text-center p-4">
-                <Activity className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Real-time Analytics</h3>
+                <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Insight Reports</h3>
                 <p className="text-sm text-muted-foreground">
-                  Monitor your studies with live data updates
+                  Generate detailed reports and export study data
                 </p>
               </div>
             </div>
