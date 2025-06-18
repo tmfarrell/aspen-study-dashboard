@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +41,7 @@ const Home = () => {
   const recentActivities = [
     'Recruitment Update: 2 patients recruited in Site B',
     'Data Management Update: Site B data checks completed and ingested into Aspen',
-    'System maintenance scheduled for tonight',
+    'Warning: system maintenance is scheduled for today at 23:59 CET',
     'Dashboard Update: monthly Aspen updates have been received',
   ];
 
