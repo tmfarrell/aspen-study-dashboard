@@ -49,9 +49,9 @@ const PatientCohort = () => {
                   <SelectValue placeholder="Select a study" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="obesity">Obesity</SelectItem>
-                  <SelectItem value="diabetes">Diabetes</SelectItem>
-                  <SelectItem value="hypertension">Hypertension</SelectItem>
+                  <SelectItem value="obesity">Obesity Registry</SelectItem>
+                  <SelectItem value="diabetes">Diabetes Registry</SelectItem>
+                  <SelectItem value="hypertension">MASH Registry</SelectItem>
                 </SelectContent>
               </Select>
             </div>
