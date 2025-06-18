@@ -2,28 +2,34 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Calendar, Filter } from 'lucide-react';
+import { FileText, Download, Users, Activity, TrendingUp, Heart } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 const Reports = () => {
   const reportTypes = [
     {
-      title: 'Study Summary Report',
-      description: 'Comprehensive overview of study metrics and patient demographics',
-      icon: FileText,
+      title: 'Provider/Prescriber Insights Report',
+      description: 'Comprehensive analysis of provider prescribing patterns and behaviors',
+      icon: Users,
       color: 'bg-blue-500',
     },
     {
-      title: 'Enrollment Analytics',
-      description: 'Detailed analysis of patient enrollment patterns and trends',
-      icon: Calendar,
+      title: 'Prescribing Behaviors Insights Report',
+      description: 'Detailed insights into medication prescribing trends and patterns',
+      icon: Activity,
       color: 'bg-green-500',
     },
     {
-      title: 'Custom Data Export',
-      description: 'Generate custom reports based on specific criteria and filters',
-      icon: Filter,
+      title: 'Treatment Journey Insights Report',
+      description: 'Analysis of patient treatment pathways and care progression',
+      icon: TrendingUp,
       color: 'bg-purple-500',
+    },
+    {
+      title: 'Clinical Outcomes Insights Report',
+      description: 'Comprehensive evaluation of treatment effectiveness and patient outcomes',
+      icon: Heart,
+      color: 'bg-orange-500',
     },
   ];
 
@@ -48,7 +54,7 @@ const Reports = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {reportTypes.map((report) => (
             <Card key={report.title} className="h-full hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
