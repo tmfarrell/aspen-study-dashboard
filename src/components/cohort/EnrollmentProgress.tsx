@@ -184,7 +184,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="trends">Enrollment Trends</TabsTrigger>
+              <TabsTrigger value="trends">Cumulative Enrollment</TabsTrigger>
               <TabsTrigger value="metrics">Key Metrics</TabsTrigger>
             </TabsList>
 
@@ -237,7 +237,7 @@ const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
 
             <TabsContent value="trends" className="space-y-6">
               <div className="mb-4">
-                <h3 className="text-lg font-semibold mb-2">Cumulative Enrollment Trends</h3>
+                <h3 className="text-lg font-semibold mb-2">Cumulative Enrollment</h3>
                 <p className="text-sm text-muted-foreground">
                   Interactive area chart showing cumulative patient enrollment over time by region
                 </p>
