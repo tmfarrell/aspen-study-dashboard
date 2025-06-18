@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -143,9 +142,9 @@ const ComorbidityDistribution = () => {
         <CardContent>
           <Tabs defaultValue="distribution" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="distribution">Distribution</TabsTrigger>
-              <TabsTrigger value="diagnosis-age">Diagnosis Age</TabsTrigger>
-              <TabsTrigger value="time-distribution">Time Distribution</TabsTrigger>
+              <TabsTrigger value="distribution">Baseline Comorbidities</TabsTrigger>
+              <TabsTrigger value="diagnosis-age">Age at Diagnosis by Comorbidity</TabsTrigger>
+              <TabsTrigger value="time-distribution">Time Since Diagnosis by Comorbidity</TabsTrigger>
             </TabsList>
 
             <TabsContent value="distribution" className="space-y-6">
