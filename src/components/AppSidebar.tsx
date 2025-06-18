@@ -14,7 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const menuItems = [
@@ -33,10 +33,18 @@ const menuItems = [
     url: '/explorer',
     icon: Search,
   },
+];
+
+const reportsItems = [
   {
     title: 'Insight Reports',
     url: '/reports',
     icon: FileText,
+  },
+  {
+    title: 'Documentation',
+    url: '/documentation',
+    icon: BookOpen,
   },
 ];
 
@@ -69,6 +77,28 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={location.pathname === item.url}
+                    tooltip={item.title}
+                  >
+                    <Link to={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Reports</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {reportsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
