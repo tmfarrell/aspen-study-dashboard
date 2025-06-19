@@ -1,35 +1,37 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Users, Activity, TrendingUp, Heart } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 const Reports = () => {
+  const [selectedStudy, setSelectedStudy] = useState('obesity');
+
   const reportTypes = [
     {
-      title: 'Provider/Prescriber Insights Report',
+      title: 'Provider Insights Report',
       description: 'Comprehensive analysis of provider prescribing patterns and behaviors',
-      icon: Users,
+      icon: Stethoscope,
       color: 'bg-blue-500',
     },
     {
-      title: 'Population Insights Report',
-      description: 'Detailed insights into pre-defined populations of interest',
-      icon: Activity,
-      color: 'bg-green-500',
+      title: 'Real-World Effectiveness Report',
+      description: 'Comprehensive summaries of real-world clinical outcomes and effectiveness in treated cohorts of interest',
+      icon: TrendingUp,
+      color: 'bg-orange-500',
     },
     {
       title: 'Treatment Journey Insights Report',
       description: 'Analysis of patient treatment pathways and care progression',
-      icon: TrendingUp,
+      icon: Activity,
       color: 'bg-purple-500',
     },
     {
-      title: 'Clinical Outcomes Insights Report',
-      description: 'Comprehensive summaries of real-world clinical outcomes in treated cohorts of interest',
-      icon: Heart,
-      color: 'bg-orange-500',
+      title: 'Population Insights Report',
+      description: 'Detailed insights into pre-defined populations of interest',
+      icon: Users,
+      color: 'bg-green-500',
     },
   ];
 
@@ -38,8 +40,11 @@ const Reports = () => {
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
-            <div>
+            <div className="pt-2">
               <h1 className="text-2xl font-bold text-[#003f7f]">Insights Reports</h1>
+              <p className="text-muted-foreground">
+                Create comprehensive reports and insights from your study data
+              </p>
             </div>
             <LogoutButton />
           </div>
@@ -47,11 +52,24 @@ const Reports = () => {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Generate Reports</h2>
-          <p className="text-muted-foreground">
-            Create comprehensive reports and insights from your study data.
-          </p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h2 className="text-xl font-semibold mb-2"></h2>
+            
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-sm font-medium text-muted-foreground">Select Study:</label>
+            <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Select a study" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="obesity">Obesity Registry</SelectItem>
+                <SelectItem value="diabetes">Diabetes Registry</SelectItem>
+                <SelectItem value="hypertension">MASH Registry</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -72,39 +90,6 @@ const Reports = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="mt-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Coming Soon</CardTitle>
-              <CardDescription>
-                The Insights Reports module is currently under development. This page will allow you to:
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h4 className="font-semibold mb-2">Report Features:</h4>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>• Automated report generation</li>
-                    <li>• Custom data filtering</li>
-                    <li>• Multiple export formats</li>
-                    <li>• Scheduled report delivery</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Analytics Capabilities:</h4>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>• Advanced statistical analysis</li>
-                    <li>• Interactive visualizations</li>
-                    <li>• Comparative studies</li>
-                    <li>• Trend analysis</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

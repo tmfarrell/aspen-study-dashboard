@@ -14,7 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const homeItems = [
@@ -27,9 +27,9 @@ const homeItems = [
 
 const appsItems = [
   {
-    title: 'Aspen Studies',
+    title: 'Aspen Study Tracker',
     url: '/cohort',
-    icon: BarChart3,
+    icon: Activity,
   },
   {
     title: 'Cohort Explorer',
@@ -95,7 +95,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>OM1 Aspen Apps</SidebarGroupLabel>
+          <SidebarGroupLabel>Applications</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {appsItems.map((item) => (
@@ -118,7 +118,7 @@ export function AppSidebar() {
         
         <div className="mt-auto">
           <SidebarGroup>
-            <SidebarGroupLabel>OM1 Aspen Resources</SidebarGroupLabel>
+            <SidebarGroupLabel>Resources</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {resourcesItems.map((item) => (

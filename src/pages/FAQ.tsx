@@ -47,7 +47,7 @@ const FAQ = () => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-[#003f7f]">Frequently Asked Questions</h1>
-              <p className="text-gray-600">Find answers to common questions about using Aspen.</p>
+              <p className="text-muted-foreground">Browse through our frequently asked questions</p>
             </div>
             <LogoutButton />
           </div>
@@ -63,7 +63,7 @@ const FAQ = () => {
                 Help & Support
               </CardTitle>
               <CardDescription>
-                Browse through our frequently asked questions below. If you can't find what you're looking for, please contact our support team.
+                If you can't find what you're looking for, please contact our support team at <a href="mailto:support@om1.com" className="text-[#003f7f] hover:underline">support@om1.com</a>.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -89,25 +89,6 @@ const FAQ = () => {
               </Collapsible>
             </Card>
           ))}
-        </div>
-
-        <div className="mt-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Still need help?</CardTitle>
-              <CardDescription>
-                Can't find the answer you're looking for? Our support team is here to help.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground mb-2">
-                Contact our support team for additional assistance with your Aspen platform questions.
-              </p>
-              <p className="text-sm font-medium">
-                Email: <a href="mailto:support@om1.com" className="text-[#003f7f] hover:underline">support@om1.com</a>
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
