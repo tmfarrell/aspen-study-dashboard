@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -47,10 +46,10 @@ const Home = () => {
 
   const quickActions = [
     {
-      title: 'View Aspen Studies',
-      description: 'Access comprehensive analytics and insights',
+      title: 'View Study Tracker',
+      description: 'View study progress and preliminary analysis',
       href: '/cohort',
-      icon: BarChart3,
+      icon: Activity,
     },
     {
       title: 'Explore Cohorts',
@@ -59,8 +58,8 @@ const Home = () => {
       icon: Search,
     },
     {
-      title: 'OM1 Insights Reports',
-      description: 'View OM1 curated insights reports',
+      title: 'Generate Insights',
+      description: 'Generate comprehensive analytics and insights',
       href: '/reports',
       icon: FileText,
     },
@@ -71,9 +70,9 @@ const Home = () => {
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
-            <div>
+            <div className="pt-2">
               <h1 className="text-2xl font-bold text-[#003f7f]">Welcome back!</h1>
-              <p className="text-gray-600">Here's what's happening with your studies today.</p>
+              <p className="text-gray-600">Here's what's happening with your studies today</p>
             </div>
             <LogoutButton />
           </div>
@@ -85,7 +84,7 @@ const Home = () => {
           {/* Quick Actions */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>OM1 Aspen Applications</CardTitle>
+              <CardTitle>Applications</CardTitle>
               <CardDescription>
                 Jump to your most used features
               </CardDescription>
@@ -117,7 +116,7 @@ const Home = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-4 w-4" />
-                Aspen Updates
+                Updates
               </CardTitle>
               <CardDescription>
                 Latest updates across all Aspen studies
@@ -145,12 +144,19 @@ const Home = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <Link to="/documentation#aspen-studies" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <BarChart3 className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
-                <h3 className="font-semibold mb-1">Aspen Studies</h3>
+                <h3 className="font-semibold mb-1">Aspen</h3>
                 <p className="text-sm text-muted-foreground">
-                  Learn about non-interventional clinical studies powered by AI
+                  Learn about non-interventional clinical studies powered by our platform
+                </p>
+              </Link>
+              <Link to="/documentation#aspen-study-tracker" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                <Activity className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
+                <h3 className="font-semibold mb-1">Aspen Study Tracker</h3>
+                <p className="text-sm text-muted-foreground">
+                  Real-time monitoring and analytics for Aspen studies
                 </p>
               </Link>
               <Link to="/documentation#cohort-explorer" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
@@ -162,7 +168,7 @@ const Home = () => {
               </Link>
               <Link to="/documentation#insights-reports" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
                 <FileText className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
-                <h3 className="font-semibold mb-1">OM1 Insights Reports</h3>
+                <h3 className="font-semibold mb-1">Insights Reports</h3>
                 <p className="text-sm text-muted-foreground">
                   Comprehensive analytics and reporting suite
                 </p>

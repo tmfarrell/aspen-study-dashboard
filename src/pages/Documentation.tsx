@@ -28,7 +28,7 @@ const Documentation = () => {
               <BarChart3 className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">Aspen Studies</h2>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Aspen</h2>
               <p className="text-muted-foreground">Non-interventional clinical studies powered by OM1 Aspen</p>
             </div>
           </div>
@@ -113,7 +113,7 @@ const Documentation = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Primary Applications</CardTitle>
+              <CardTitle>Primary Use Cases</CardTitle>
               <CardDescription>Business drivers for conducting Aspen studies</CardDescription>
             </CardHeader>
             <CardContent>
@@ -153,6 +153,163 @@ const Documentation = () => {
                   <p className="text-sm text-muted-foreground">
                     Using observational data to provide comparison groups for certain study types.
                   </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <Separator />
+
+        {/* Aspen Study Tracker Section */}
+        <section id="aspen-study-tracker">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center">
+              <Activity className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Aspen Study Tracker</h2>
+              <p className="text-muted-foreground">Real-time monitoring and analytics for Aspen studies</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Application Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The Aspen Study Tracker is a comprehensive dashboard application designed to monitor and analyze Aspen studies in real-time. It provides researchers and study coordinators with detailed insights into enrollment progress, patient demographics, and clinical outcomes.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm">Real-time study monitoring</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm">Multi-study cohort analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm">Interactive visualizations</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Key Features</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-2">Study Management</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Multi-study dashboard interface</li>
+                      <li>• Real-time enrollment tracking</li>
+                      <li>• Assessment progress monitoring</li>
+                      <li>• Study performance metrics</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Analytics Capabilities</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Demographic distribution analysis</li>
+                      <li>• Geographic patient mapping</li>
+                      <li>• Clinical outcome tracking</li>
+                      <li>• Quality of life assessments</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Dashboard Sections</CardTitle>
+              <CardDescription>Comprehensive overview of available analytics modules</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center">
+                      <span className="text-blue-600 font-semibold text-sm">1</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Overview</h4>
+                      <p className="text-sm text-muted-foreground">High-level study metrics and key performance indicators</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-green-100 flex items-center justify-center">
+                      <span className="text-green-600 font-semibold text-sm">2</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Enrollment</h4>
+                      <p className="text-sm text-muted-foreground">Detailed enrollment progress and participant tracking</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-purple-100 flex items-center justify-center">
+                      <span className="text-purple-600 font-semibold text-sm">3</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">BMI Distribution</h4>
+                      <p className="text-sm text-muted-foreground">Body mass index analysis and obesity classification</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-orange-100 flex items-center justify-center">
+                      <span className="text-orange-600 font-semibold text-sm">4</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Geographic</h4>
+                      <p className="text-sm text-muted-foreground">Patient distribution across regions and countries</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-red-100 flex items-center justify-center">
+                      <span className="text-red-600 font-semibold text-sm">5</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Demographics</h4>
+                      <p className="text-sm text-muted-foreground">Age, gender, race, and country distribution analysis</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-teal-100 flex items-center justify-center">
+                      <span className="text-teal-600 font-semibold text-sm">6</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Comorbidity</h4>
+                      <p className="text-sm text-muted-foreground">Co-existing medical conditions and risk factors</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-indigo-100 flex items-center justify-center">
+                      <span className="text-indigo-600 font-semibold text-sm">7</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Medication</h4>
+                      <p className="text-sm text-muted-foreground">Current and historical medication usage patterns</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-pink-100 flex items-center justify-center">
+                      <span className="text-pink-600 font-semibold text-sm">8</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Quality of Life</h4>
+                      <p className="text-sm text-muted-foreground">Patient-reported outcomes and quality of life metrics</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -238,7 +395,7 @@ const Documentation = () => {
               <FileText className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">OM1 Insights Reports</h2>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Insights Reports</h2>
               <p className="text-muted-foreground">Comprehensive analytics and reporting suite</p>
             </div>
           </div>
