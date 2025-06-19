@@ -69,7 +69,7 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
       { source: 'baseline_classII', target: 'followup_classI', value: 380 },
       { source: 'baseline_classII', target: 'followup_classII', value: 2920 },
       { source: 'baseline_classII', target: 'followup_classIII', value: 200 },
-      { source: 'baseline_classIII', target: 'followup_classII', target: 'followup_classII', value: 300 },
+      { source: 'baseline_classIII', target: 'followup_classII', value: 300 },
       { source: 'baseline_classIII', target: 'followup_classIII', value: 2000 }
     ]
   };
