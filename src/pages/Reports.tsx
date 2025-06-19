@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -41,7 +42,7 @@ const Reports = () => {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Reports</h1>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Library</h1>
               <p className="text-muted-foreground">
                 Create comprehensive reports and insights from your study data
               </p>
