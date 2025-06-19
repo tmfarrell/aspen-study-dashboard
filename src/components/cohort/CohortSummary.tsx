@@ -2,21 +2,49 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const CohortSummary = () => {
+interface CohortSummaryProps {
+  selectedStudy: string;
+}
+
+const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
+  // Study-specific data
+  const studyData = {
+    obesity: {
+      totalPatients: "8,000",
+      totalDescription: "of 10,000 target patients enrolled",
+      averageBMI: "36.2",
+      ageRange: "18-89"
+    },
+    diabetes: {
+      totalPatients: "12,500", 
+      totalDescription: "of 15,000 target patients enrolled",
+      averageBMI: "31.8",
+      ageRange: "25-85"
+    },
+    hypertension: {
+      totalPatients: "6,800",
+      totalDescription: "of 8,500 target patients enrolled", 
+      averageBMI: "33.4",
+      ageRange: "30-80"
+    }
+  };
+
+  const currentData = studyData[selectedStudy as keyof typeof studyData];
+
   const summaryStats = [
     {
       title: "Total Patients",
-      value: "8,000",
-      description: "of 10,000 target patients enrolled"
+      value: currentData.totalPatients,
+      description: currentData.totalDescription
     },
     {
       title: "Average BMI",
-      value: "36.2",
+      value: currentData.averageBMI,
       description: "kg/m² across cohort"
     },
     {
       title: "Age Range",
-      value: "18-89",
+      value: currentData.ageRange,
       description: "Years (median: 52)"
     }
   ];

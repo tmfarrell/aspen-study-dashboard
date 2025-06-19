@@ -56,6 +56,31 @@ const criteriaTypes = [
   }
 ];
 
+// Study data configuration
+const studyData = {
+  obesity: {
+    name: 'Obesity Registry',
+    studySize: '10,000 patients',
+    cohortSize: '4,291,377',
+    totalPatients: '8,000',
+    totalDescription: 'of 10,000 target patients enrolled'
+  },
+  diabetes: {
+    name: 'Diabetes Registry',
+    studySize: '15,000 patients',
+    cohortSize: '3,856,249',
+    totalPatients: '12,500',
+    totalDescription: 'of 15,000 target patients enrolled'
+  },
+  hypertension: {
+    name: 'MASH Registry',
+    studySize: '8,500 patients',
+    cohortSize: '2,147,832',
+    totalPatients: '6,800',
+    totalDescription: 'of 8,500 target patients enrolled'
+  }
+};
+
 interface CriteriaBlock {
   id: string;
   type: string;
@@ -67,6 +92,8 @@ const Explorer = () => {
   const [selectedStudy, setSelectedStudy] = useState('obesity');
   const [inclusionCriteria, setInclusionCriteria] = useState<CriteriaBlock[]>([]);
   const [exclusionCriteria, setExclusionCriteria] = useState<CriteriaBlock[]>([]);
+
+  const currentStudyData = studyData[selectedStudy as keyof typeof studyData];
 
   const handleAddCriteria = (type: 'inclusion' | 'exclusion') => {
     const newBlock: CriteriaBlock = {
@@ -297,7 +324,7 @@ const Explorer = () => {
           <div className="flex items-center gap-4 mr-4">
             <div className="flex flex-col gap-1 text-right">
               <span className="text-sm text-muted-foreground">Cohort Size</span>
-              <div className="text-2xl font-bold text-[#003f7f]">4,291,377</div>
+              <div className="text-2xl font-bold text-[#003f7f]">{currentStudyData.cohortSize}</div>
             </div>
           </div>
         </div>
@@ -308,15 +335,11 @@ const Explorer = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-muted-foreground">Selected Study</span>
-                <span className="font-medium">
-                  {selectedStudy === 'obesity' ? 'Obesity Registry' :
-                    selectedStudy === 'diabetes' ? 'Diabetes Registry' :
-                    'MASH Registry'}
-                </span>
+                <span className="font-medium">{currentStudyData.name}</span>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-muted-foreground">Study Size</span>
-                <span className="font-medium">10,000 patients</span>
+                <span className="font-medium">{currentStudyData.studySize}</span>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-muted-foreground">Inclusion Criteria</span>
