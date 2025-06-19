@@ -160,7 +160,7 @@ const Home = () => {
                 </p>
               </Link>
               <Link to="/documentation#cohort-explorer" className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
-                <Users className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
+                <Search className="h-8 w-8 text-[#003f7f] mx-auto mb-2 hover:text-[#0056b3] transition-colors" />
                 <h3 className="font-semibold mb-1">Cohort Explorer</h3>
                 <p className="text-sm text-muted-foreground">
                   Build and analyze custom patient cohorts
