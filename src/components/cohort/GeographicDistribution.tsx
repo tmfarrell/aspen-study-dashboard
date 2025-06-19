@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -101,6 +102,39 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
   };
 
   const siteData: Record<string, any[]> = {
+    // United States Sites
+    "California": [
+      { site: "Site A", patients: 182, percentage: 35.0, location: "Los Angeles" },
+      { site: "Site B", patients: 156, percentage: 30.0, location: "San Francisco" },
+      { site: "Site C", patients: 104, percentage: 20.0, location: "San Diego" },
+      { site: "Site D", patients: 78, percentage: 15.0, location: "Sacramento" }
+    ],
+    "Texas": [
+      { site: "Site A", patients: 162, percentage: 35.1, location: "Houston" },
+      { site: "Site B", patients: 139, percentage: 30.1, location: "Dallas" },
+      { site: "Site C", patients: 92, percentage: 19.9, location: "Austin" },
+      { site: "Site D", patients: 69, percentage: 14.9, location: "San Antonio" }
+    ],
+    "Florida": [
+      { site: "Site A", patients: 132, percentage: 34.9, location: "Miami" },
+      { site: "Site B", patients: 113, percentage: 29.9, location: "Tampa" },
+      { site: "Site C", patients: 76, percentage: 20.1, location: "Orlando" },
+      { site: "Site D", patients: 57, percentage: 15.1, location: "Jacksonville" }
+    ],
+    "New York": [
+      { site: "Site A", patients: 118, percentage: 35.1, location: "New York City" },
+      { site: "Site B", patients: 101, percentage: 30.1, location: "Buffalo" },
+      { site: "Site C", patients: 67, percentage: 19.9, location: "Rochester" },
+      { site: "Site D", patients: 50, percentage: 14.9, location: "Syracuse" }
+    ],
+    "Pennsylvania": [
+      { site: "Site A", patients: 103, percentage: 35.0, location: "Philadelphia" },
+      { site: "Site B", patients: 88, percentage: 29.9, location: "Pittsburgh" },
+      { site: "Site C", patients: 59, percentage: 20.1, location: "Allentown" },
+      { site: "Site D", patients: 44, percentage: 15.0, location: "Erie" }
+    ],
+    
+    // France Sites
     "Île-de-France": [
       { site: "Site A", patients: 142, percentage: 37.4, location: "Paris" },
       { site: "Site B", patients: 95, percentage: 25.0, location: "Versailles" },
@@ -131,11 +165,117 @@ const GeographicDistribution: React.FC<GeographicDistributionProps> = ({ detaile
       { site: "Site C", patients: 33, percentage: 20.0, location: "Nîmes" },
       { site: "Site D", patients: 24, percentage: 14.5, location: "Perpignan" }
     ],
-    "Other Regions": [
-      { site: "Site A", patients: 154, percentage: 37.4, location: "Various" },
-      { site: "Site B", patients: 124, percentage: 30.1, location: "Various" },
-      { site: "Site C", patients: 82, percentage: 19.9, location: "Various" },
-      { site: "Site D", patients: 52, percentage: 12.6, location: "Various" }
+    "Hauts-de-France": [
+      { site: "Site A", patients: 46, percentage: 34.8, location: "Lille" },
+      { site: "Site B", patients: 40, percentage: 30.3, location: "Amiens" },
+      { site: "Site C", patients: 26, percentage: 19.7, location: "Reims" },
+      { site: "Site D", patients: 20, percentage: 15.2, location: "Calais" }
+    ],
+    
+    // Germany Sites
+    "Bavaria": [
+      { site: "Site A", patients: 134, percentage: 34.9, location: "Munich" },
+      { site: "Site B", patients: 115, percentage: 29.9, location: "Nuremberg" },
+      { site: "Site C", patients: 77, percentage: 20.1, location: "Würzburg" },
+      { site: "Site D", patients: 58, percentage: 15.1, location: "Regensburg" }
+    ],
+    "North Rhine-Westphalia": [
+      { site: "Site A", patients: 121, percentage: 35.1, location: "Cologne" },
+      { site: "Site B", patients: 104, percentage: 30.1, location: "Düsseldorf" },
+      { site: "Site C", patients: 69, percentage: 20.0, location: "Dortmund" },
+      { site: "Site D", patients: 51, percentage: 14.8, location: "Essen" }
+    ],
+    "Baden-Württemberg": [
+      { site: "Site A", patients: 101, percentage: 35.1, location: "Stuttgart" },
+      { site: "Site B", patients: 86, percentage: 29.9, location: "Mannheim" },
+      { site: "Site C", patients: 58, percentage: 20.1, location: "Karlsruhe" },
+      { site: "Site D", patients: 43, percentage: 14.9, location: "Ulm" }
+    ],
+    "Lower Saxony": [
+      { site: "Site A", patients: 81, percentage: 35.2, location: "Hanover" },
+      { site: "Site B", patients: 69, percentage: 30.0, location: "Braunschweig" },
+      { site: "Site C", patients: 46, percentage: 20.0, location: "Osnabrück" },
+      { site: "Site D", patients: 34, percentage: 14.8, location: "Göttingen" }
+    ],
+    
+    // Italy Sites
+    "Lombardy": [
+      { site: "Site A", patients: 76, percentage: 34.9, location: "Milan" },
+      { site: "Site B", patients: 65, percentage: 29.8, location: "Bergamo" },
+      { site: "Site C", patients: 44, percentage: 20.2, location: "Brescia" },
+      { site: "Site D", patients: 33, percentage: 15.1, location: "Pavia" }
+    ],
+    "Lazio": [
+      { site: "Site A", patients: 59, percentage: 35.1, location: "Rome" },
+      { site: "Site B", patients: 50, percentage: 29.8, location: "Latina" },
+      { site: "Site C", patients: 34, percentage: 20.2, location: "Viterbo" },
+      { site: "Site D", patients: 25, percentage: 14.9, location: "Frosinone" }
+    ],
+    "Campania": [
+      { site: "Site A", patients: 44, percentage: 34.9, location: "Naples" },
+      { site: "Site B", patients: 38, percentage: 30.2, location: "Salerno" },
+      { site: "Site C", patients: 25, percentage: 19.8, location: "Caserta" },
+      { site: "Site D", patients: 19, percentage: 15.1, location: "Avellino" }
+    ],
+    
+    // Canada Sites
+    "Ontario": [
+      { site: "Site A", patients: 112, percentage: 35.0, location: "Toronto" },
+      { site: "Site B", patients: 96, percentage: 30.0, location: "Ottawa" },
+      { site: "Site C", patients: 64, percentage: 20.0, location: "Hamilton" },
+      { site: "Site D", patients: 48, percentage: 15.0, location: "London" }
+    ],
+    "Quebec": [
+      { site: "Site A", patients: 70, percentage: 35.0, location: "Montreal" },
+      { site: "Site B", patients: 60, percentage: 30.0, location: "Quebec City" },
+      { site: "Site C", patients: 40, percentage: 20.0, location: "Sherbrooke" },
+      { site: "Site D", patients: 30, percentage: 15.0, location: "Trois-Rivières" }
+    ],
+    "British Columbia": [
+      { site: "Site A", patients: 45, percentage: 35.2, location: "Vancouver" },
+      { site: "Site B", patients: 38, percentage: 29.7, location: "Victoria" },
+      { site: "Site C", patients: 26, percentage: 20.3, location: "Burnaby" },
+      { site: "Site D", patients: 19, percentage: 14.8, location: "Richmond" }
+    ],
+    
+    // UK Sites
+    "England": [
+      { site: "Site A", patients: 79, percentage: 35.1, location: "London" },
+      { site: "Site B", patients: 68, percentage: 30.2, location: "Manchester" },
+      { site: "Site C", patients: 45, percentage: 20.0, location: "Birmingham" },
+      { site: "Site D", patients: 33, percentage: 14.7, location: "Leeds" }
+    ],
+    "Scotland": [
+      { site: "Site A", patients: 16, percentage: 35.6, location: "Edinburgh" },
+      { site: "Site B", patients: 14, percentage: 31.1, location: "Glasgow" },
+      { site: "Site C", patients: 9, percentage: 20.0, location: "Aberdeen" },
+      { site: "Site D", patients: 6, percentage: 13.3, location: "Dundee" }
+    ],
+    "Wales": [
+      { site: "Site A", patients: 7, percentage: 33.3, location: "Cardiff" },
+      { site: "Site B", patients: 6, percentage: 28.6, location: "Swansea" },
+      { site: "Site C", patients: 4, percentage: 19.0, location: "Newport" },
+      { site: "Site D", patients: 4, percentage: 19.0, location: "Wrexham" }
+    ],
+    
+    // Switzerland Sites
+    "Zurich": [
+      { site: "Site A", patients: 30, percentage: 34.5, location: "Zurich" },
+      { site: "Site B", patients: 26, percentage: 29.9, location: "Winterthur" },
+      { site: "Site C", patients: 17, percentage: 19.5, location: "Uster" },
+      { site: "Site D", patients: 14, percentage: 16.1, location: "Rapperswil" }
+    ],
+    "Bern": [
+      { site: "Site A", patients: 20, percentage: 34.5, location: "Bern" },
+      { site: "Site B", patients: 17, percentage: 29.3, location: "Thun" },
+      { site: "Site C", patients: 12, percentage: 20.7, location: "Biel" },
+      { site: "Site D", patients: 9, percentage: 15.5, location: "Burgdorf" }
+    ],
+    "Vaud": [
+      { site: "Site A", patients: 15, percentage: 34.9, location: "Lausanne" },
+      { site: "Site B", patients: 13, percentage: 30.2, location: "Montreux" },
+      { site: "Site C", patients: 9, percentage: 20.9, location: "Yverdon" },
+      { site: "Site D", patients: 6, percentage: 14.0, location: "Nyon" }
     ]
   };
 
