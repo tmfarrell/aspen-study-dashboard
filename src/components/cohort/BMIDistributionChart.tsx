@@ -48,26 +48,29 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
     { weightLossRange: '8.0+ kg', patients: 320 }
   ];
 
-  // Sankey chart simulation data for obesity class movement
+  // Updated Sankey chart simulation data for BMI category movement including Overweight
   const sankeyData = {
     nodes: [
-      { id: 'baseline_classI', name: 'Class I (Baseline)', x: 0 },
-      { id: 'baseline_classII', name: 'Class II (Baseline)', x: 0 },
-      { id: 'baseline_classIII', name: 'Class III (Baseline)', x: 0 },
-      { id: 'followup_classI', name: 'Class I (12 Months)', x: 1 },
-      { id: 'followup_classII', name: 'Class II (12 Months)', x: 1 },
-      { id: 'followup_classIII', name: 'Class III (12 Months)', x: 1 }
+      { id: 'baseline_overweight', name: 'Overweight (Baseline)', x: 0 },
+      { id: 'baseline_classI', name: 'Class I Obesity (Baseline)', x: 0 },
+      { id: 'baseline_classII', name: 'Class II Obesity (Baseline)', x: 0 },
+      { id: 'baseline_classIII', name: 'Class III Obesity (Baseline)', x: 0 },
+      { id: 'followup_overweight', name: 'Overweight (12 Months)', x: 1 },
+      { id: 'followup_classI', name: 'Class I Obesity (12 Months)', x: 1 },
+      { id: 'followup_classII', name: 'Class II Obesity (12 Months)', x: 1 },
+      { id: 'followup_classIII', name: 'Class III Obesity (12 Months)', x: 1 }
     ],
     links: [
-      { source: 'baseline_classI', target: 'followup_classI', value: 3800 },
-      { source: 'baseline_classI', target: 'followup_classII', value: 350 },
-      { source: 'baseline_classI', target: 'followup_classIII', value: 50 },
-      { source: 'baseline_classII', target: 'followup_classI', value: 400 },
-      { source: 'baseline_classII', target: 'followup_classII', value: 2900 },
+      { source: 'baseline_overweight', target: 'followup_overweight', value: 1800 },
+      { source: 'baseline_overweight', target: 'followup_classI', value: 150 },
+      { source: 'baseline_classI', target: 'followup_overweight', value: 320 },
+      { source: 'baseline_classI', target: 'followup_classI', value: 3600 },
+      { source: 'baseline_classI', target: 'followup_classII', value: 280 },
+      { source: 'baseline_classII', target: 'followup_classI', value: 380 },
+      { source: 'baseline_classII', target: 'followup_classII', value: 2920 },
       { source: 'baseline_classII', target: 'followup_classIII', value: 200 },
-      { source: 'baseline_classIII', target: 'followup_classI', value: 180 },
-      { source: 'baseline_classIII', target: 'followup_classII', value: 320 },
-      { source: 'baseline_classIII', target: 'followup_classIII', value: 1800 }
+      { source: 'baseline_classIII', target: 'followup_classII', target: 'followup_classII', value: 300 },
+      { source: 'baseline_classIII', target: 'followup_classIII', value: 2000 }
     ]
   };
 
@@ -75,6 +78,10 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
     patients: {
       label: "Patients",
       color: "#0066CC",
+    },
+    overweight: {
+      label: "Overweight",
+      color: "#FFA726"
     },
     classI: {
       label: "Class I Obesity",
@@ -203,12 +210,12 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
         </CardContent>
       </Card>
 
-      {/* Obesity Class Movement - Sankey Chart Simulation */}
+      {/* BMI Categories Movement - Updated Sankey Chart Simulation */}
       <Card>
         <CardHeader>
-          <CardTitle>Obesity Class Movement (Sankey Flow)</CardTitle>
+          <CardTitle>BMI Categories (Pre/Post Treatment)</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Patient transitions between obesity classes from baseline to 12 months
+            Patient transitions between BMI categories from baseline to 12 months
           </p>
         </CardHeader>
         <CardContent>
@@ -219,16 +226,24 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
               <div className="space-y-4">
                 <h4 className="font-semibold text-center">Baseline</h4>
                 <div className="space-y-3">
+                  <div className="bg-[#FFA726] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Overweight</div>
+                    <div className="text-xs mb-1">BMI 25.0 to &lt;30.0 kg/m²</div>
+                    <div className="text-sm">1,950 patients</div>
+                  </div>
                   <div className="bg-[#0066CC] text-white p-4 rounded text-center">
                     <div className="font-semibold">Class I Obesity</div>
+                    <div className="text-xs mb-1">BMI 30.0 to &lt;35.0 kg/m²</div>
                     <div className="text-sm">4,200 patients</div>
                   </div>
                   <div className="bg-[#00B4A6] text-white p-4 rounded text-center">
                     <div className="font-semibold">Class II Obesity</div>
+                    <div className="text-xs mb-1">BMI 35 to &lt;40.0 kg/m²</div>
                     <div className="text-sm">3,500 patients</div>
                   </div>
                   <div className="bg-[#7B68EE] text-white p-4 rounded text-center">
-                    <div className="font-semibold">Class III Obesity</div>
+                    <div className="font-semibold">Class III Obesity (Severe Obesity)</div>
+                    <div className="text-xs mb-1">BMI 40.0+ kg/m²</div>
                     <div className="text-sm">2,300 patients</div>
                   </div>
                 </div>
@@ -238,17 +253,25 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
               <div className="space-y-4">
                 <h4 className="font-semibold text-center">12 Months Follow-up</h4>
                 <div className="space-y-3">
+                  <div className="bg-[#FFA726] text-white p-4 rounded text-center">
+                    <div className="font-semibold">Overweight</div>
+                    <div className="text-xs mb-1">BMI 25.0 to &lt;30.0 kg/m²</div>
+                    <div className="text-sm">2,120 patients</div>
+                  </div>
                   <div className="bg-[#0066CC] text-white p-4 rounded text-center">
                     <div className="font-semibold">Class I Obesity</div>
-                    <div className="text-sm">4,380 patients</div>
+                    <div className="text-xs mb-1">BMI 30.0 to &lt;35.0 kg/m²</div>
+                    <div className="text-sm">4,130 patients</div>
                   </div>
                   <div className="bg-[#00B4A6] text-white p-4 rounded text-center">
                     <div className="font-semibold">Class II Obesity</div>
-                    <div className="text-sm">3,570 patients</div>
+                    <div className="text-xs mb-1">BMI 35 to &lt;40.0 kg/m²</div>
+                    <div className="text-sm">3,420 patients</div>
                   </div>
                   <div className="bg-[#7B68EE] text-white p-4 rounded text-center">
-                    <div className="font-semibold">Class III Obesity</div>
-                    <div className="text-sm">2,050 patients</div>
+                    <div className="font-semibold">Class III Obesity (Severe Obesity)</div>
+                    <div className="text-xs mb-1">BMI 40.0+ kg/m²</div>
+                    <div className="text-sm">2,000 patients</div>
                   </div>
                 </div>
               </div>
@@ -283,7 +306,7 @@ const BMIDistributionChart: React.FC<BMIDistributionChartProps> = ({ detailed = 
                             {link.value.toLocaleString()}
                           </td>
                           <td className="border border-gray-300 p-3 text-right">
-                            {((link.value / 10000) * 100).toFixed(1)}%
+                            {((link.value / 11950) * 100).toFixed(1)}%
                           </td>
                         </tr>
                       ))}
