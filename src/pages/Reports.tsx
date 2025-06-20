@@ -1,13 +1,13 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
+import { StudyType, getStudyOptions } from '@/data/studyData';
 
 const Reports = () => {
-  const [selectedStudy, setSelectedStudy] = useState('obesity');
+  const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
 
   const reportTypes = [
     {
@@ -65,9 +65,11 @@ const Reports = () => {
                 <SelectValue placeholder="Select a study" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="obesity">Obesity Registry</SelectItem>
-                <SelectItem value="diabetes">Diabetes Registry</SelectItem>
-                <SelectItem value="hypertension">MASH Registry</SelectItem>
+                {getStudyOptions().map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

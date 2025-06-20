@@ -1,76 +1,91 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { StudyType } from '@/data/studyData';
 
-const AssessmentProgress = () => {
+interface AssessmentProgressProps {
+  selectedStudy?: StudyType;
+}
+
+const AssessmentProgress = ({ selectedStudy = 'obesity' }: AssessmentProgressProps) => {
   const [selectedRegion, setSelectedRegion] = useState('global');
 
-  // Assessment data by region
-  const assessmentData = {
-    global: [
-      {
-        name: 'IWQOL',
-        completed: 8750,
-        total: 10000,
-        description: 'Impact of Weight on Quality of Life'
-      },
-      {
-        name: 'IWQOL-lite',
-        completed: 9200,
-        total: 10000,
-        description: 'Simplified Quality of Life Assessment'
-      },
-      {
-        name: 'EQ-5D-5L',
-        completed: 7890,
-        total: 10000,
-        description: 'European Quality of Life 5-Dimension 5-Level'
-      }
-    ],
-    europe: [
-      {
-        name: 'IWQOL',
-        completed: 4200,
-        total: 5000,
-        description: 'Impact of Weight on Quality of Life'
-      },
-      {
-        name: 'IWQOL-lite',
-        completed: 4600,
-        total: 5000,
-        description: 'Simplified Quality of Life Assessment'
-      },
-      {
-        name: 'EQ-5D-5L',
-        completed: 3900,
-        total: 5000,
-        description: 'European Quality of Life 5-Dimension 5-Level'
-      }
-    ],
-    americas: [
-      {
-        name: 'IWQOL',
-        completed: 4550,
-        total: 5000,
-        description: 'Impact of Weight on Quality of Life'
-      },
-      {
-        name: 'IWQOL-lite',
-        completed: 4600,
-        total: 5000,
-        description: 'Simplified Quality of Life Assessment'
-      },
-      {
-        name: 'EQ-5D-5L',
-        completed: 3990,
-        total: 5000,
-        description: 'European Quality of Life 5-Dimension 5-Level'
-      }
-    ]
+  // Study-specific assessment data
+  const getAssessmentDataByStudy = (study: StudyType) => {
+    const baseMultipliers = {
+      obesity: { target: 10000, multiplier: 1 },
+      diabetes: { target: 15000, multiplier: 1.5 },
+      hypertension: { target: 8500, multiplier: 0.85 }
+    };
+
+    const studyConfig = baseMultipliers[study];
+
+    return {
+      global: [
+        {
+          name: 'IWQOL',
+          completed: Math.round(8750 * studyConfig.multiplier),
+          total: studyConfig.target,
+          description: 'Impact of Weight on Quality of Life'
+        },
+        {
+          name: 'IWQOL-lite',
+          completed: Math.round(9200 * studyConfig.multiplier),
+          total: studyConfig.target,
+          description: 'Simplified Quality of Life Assessment'
+        },
+        {
+          name: 'EQ-5D-5L',
+          completed: Math.round(7890 * studyConfig.multiplier),
+          total: studyConfig.target,
+          description: 'European Quality of Life 5-Dimension 5-Level'
+        }
+      ],
+      europe: [
+        {
+          name: 'IWQOL',
+          completed: Math.round(4200 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'Impact of Weight on Quality of Life'
+        },
+        {
+          name: 'IWQOL-lite',
+          completed: Math.round(4600 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'Simplified Quality of Life Assessment'
+        },
+        {
+          name: 'EQ-5D-5L',
+          completed: Math.round(3900 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'European Quality of Life 5-Dimension 5-Level'
+        }
+      ],
+      americas: [
+        {
+          name: 'IWQOL',
+          completed: Math.round(4550 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'Impact of Weight on Quality of Life'
+        },
+        {
+          name: 'IWQOL-lite',
+          completed: Math.round(4600 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'Simplified Quality of Life Assessment'
+        },
+        {
+          name: 'EQ-5D-5L',
+          completed: Math.round(3990 * studyConfig.multiplier),
+          total: Math.round(5000 * studyConfig.multiplier),
+          description: 'European Quality of Life 5-Dimension 5-Level'
+        }
+      ]
+    };
   };
 
+  const assessmentData = getAssessmentDataByStudy(selectedStudy);
   const currentData = assessmentData[selectedRegion as keyof typeof assessmentData];
   const overallCompleted = currentData.reduce((sum, assessment) => sum + assessment.completed, 0);
   const overallTotal = currentData.reduce((sum, assessment) => sum + assessment.total, 0);

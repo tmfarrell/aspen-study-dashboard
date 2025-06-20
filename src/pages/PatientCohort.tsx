@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -17,9 +16,10 @@ import GenderDistribution from '@/components/cohort/GenderDistribution';
 import RaceDistribution from '@/components/cohort/RaceDistribution';
 import CountryDistribution from '@/components/cohort/CountryDistribution';
 import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
+import { StudyType, getStudyOptions } from '@/data/studyData';
 
 const PatientCohort = () => {
-  const [selectedStudy, setSelectedStudy] = useState('obesity');
+  const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,9 +50,11 @@ const PatientCohort = () => {
                   <SelectValue placeholder="Select a study" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="obesity">Obesity Registry</SelectItem>
-                  <SelectItem value="diabetes">Diabetes Registry</SelectItem>
-                  <SelectItem value="hypertension">MASH Registry</SelectItem>
+                  {getStudyOptions().map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -63,8 +65,8 @@ const PatientCohort = () => {
 
         {/* Progress tracking section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <EnrollmentProgress />
-          <AssessmentProgress />
+          <EnrollmentProgress selectedStudy={selectedStudy} />
+          <AssessmentProgress selectedStudy={selectedStudy} />
         </div>
 
         <Tabs defaultValue="overview" className="mt-8">
@@ -90,7 +92,7 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="enrollment" className="mt-6">
-            <EnrollmentProgress detailed />
+            <EnrollmentProgress detailed selectedStudy={selectedStudy} />
           </TabsContent>
 
           <TabsContent value="bmi" className="mt-6">

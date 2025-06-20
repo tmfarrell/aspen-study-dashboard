@@ -1,35 +1,13 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { studyData, StudyType } from '@/data/studyData';
 
 interface CohortSummaryProps {
-  selectedStudy: string;
+  selectedStudy: StudyType;
 }
 
 const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
-  // Study-specific data
-  const studyData = {
-    obesity: {
-      totalPatients: "8,000",
-      totalDescription: "of 10,000 target patients enrolled",
-      averageBMI: "36.2",
-      ageRange: "18-89"
-    },
-    diabetes: {
-      totalPatients: "12,500", 
-      totalDescription: "of 15,000 target patients enrolled",
-      averageBMI: "31.8",
-      ageRange: "25-85"
-    },
-    hypertension: {
-      totalPatients: "6,800",
-      totalDescription: "of 8,500 target patients enrolled", 
-      averageBMI: "33.4",
-      ageRange: "30-80"
-    }
-  };
-
-  const currentData = studyData[selectedStudy as keyof typeof studyData];
+  const currentData = studyData[selectedStudy];
 
   const summaryStats = [
     {
