@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
+import { StudyType, getStudyOptions } from '@/data/studyData';
 
 const Reports = () => {
-  const [selectedStudy, setSelectedStudy] = useState('obesity');
+  const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
 
   const reportTypes = [
     {
@@ -41,7 +42,7 @@ const Reports = () => {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Reports</h1>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Library</h1>
               <p className="text-muted-foreground">
                 Create comprehensive reports and insights from your study data
               </p>
@@ -64,9 +65,11 @@ const Reports = () => {
                 <SelectValue placeholder="Select a study" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="obesity">Obesity Registry</SelectItem>
-                <SelectItem value="diabetes">Diabetes Registry</SelectItem>
-                <SelectItem value="hypertension">MASH Registry</SelectItem>
+                {getStudyOptions().map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

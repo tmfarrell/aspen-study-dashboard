@@ -395,7 +395,7 @@ const Documentation = () => {
               <FileText className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">Insights Reports</h2>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Insights Library</h2>
               <p className="text-muted-foreground">Comprehensive analytics and reporting suite</p>
             </div>
           </div>

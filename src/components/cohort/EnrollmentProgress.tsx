@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -6,94 +5,123 @@ import { Progress } from '@/components/ui/progress';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { StudyType } from '@/data/studyData';
 
-const EnrollmentProgress = ({ detailed = false }: { detailed?: boolean }) => {
+interface EnrollmentProgressProps {
+  detailed?: boolean;
+  selectedStudy?: StudyType;
+}
+
+const EnrollmentProgress = ({ detailed = false, selectedStudy = 'obesity' }: EnrollmentProgressProps) => {
   const [selectedRegion, setSelectedRegion] = useState('global');
 
-  // Mock data for enrollment progress over 12 months - updated with target 10,000
-  const enrollmentData = {
-    global: {
-      total: 8000,
-      target: 10000,
-      recent: 680,
-      enrollmentRate: 22,
-      countries: [
-        { name: 'USA', enrolled: 3360, target: 4200 },
-        { name: 'Canada', enrolled: 640, target: 800 },
-        { name: 'France', enrolled: 1320, target: 1700 },
-        { name: 'Germany', enrolled: 1536, target: 1800 },
-        { name: 'Italy', enrolled: 672, target: 800 },
-        { name: 'Switzerland', enrolled: 232, target: 300 },
-        { name: 'UK', enrolled: 240, target: 400 }
-      ],
-      monthlyData: [
-        { month: 'Jun 2024', enrolled: 360, cumulative: 360 },
-        { month: 'Jul 2024', enrolled: 416, cumulative: 776 },
-        { month: 'Aug 2024', enrolled: 544, cumulative: 1320 },
-        { month: 'Sep 2024', enrolled: 576, cumulative: 1896 },
-        { month: 'Oct 2024', enrolled: 632, cumulative: 2528 },
-        { month: 'Nov 2024', enrolled: 680, cumulative: 3208 },
-        { month: 'Dec 2024', enrolled: 736, cumulative: 3944 },
-        { month: 'Jan 2025', enrolled: 784, cumulative: 4728 },
-        { month: 'Feb 2025', enrolled: 816, cumulative: 5544 },
-        { month: 'Mar 2025', enrolled: 880, cumulative: 6424 },
-        { month: 'Apr 2025', enrolled: 944, cumulative: 7368 },
-        { month: 'May 2025', enrolled: 1000, cumulative: 8368 }
-      ]
-    },
-    europe: {
-      total: 4000,
-      target: 5000,
-      recent: 336,
-      enrollmentRate: 12,
-      countries: [
-        { name: 'France', enrolled: 1320, target: 1700 },
-        { name: 'Germany', enrolled: 1536, target: 1800 },
-        { name: 'Italy', enrolled: 672, target: 800 },
-        { name: 'Switzerland', enrolled: 232, target: 300 },
-        { name: 'UK', enrolled: 240, target: 400 }
-      ],
-      monthlyData: [
-        { month: 'Jun 2024', enrolled: 176, cumulative: 176 },
-        { month: 'Jul 2024', enrolled: 224, cumulative: 400 },
-        { month: 'Aug 2024', enrolled: 272, cumulative: 672 },
-        { month: 'Sep 2024', enrolled: 304, cumulative: 976 },
-        { month: 'Oct 2024', enrolled: 336, cumulative: 1312 },
-        { month: 'Nov 2024', enrolled: 368, cumulative: 1680 },
-        { month: 'Dec 2024', enrolled: 400, cumulative: 2080 },
-        { month: 'Jan 2025', enrolled: 432, cumulative: 2512 },
-        { month: 'Feb 2025', enrolled: 464, cumulative: 2976 },
-        { month: 'Mar 2025', enrolled: 496, cumulative: 3472 },
-        { month: 'Apr 2025', enrolled: 528, cumulative: 4000 },
-        { month: 'May 2025', enrolled: 560, cumulative: 4560 }
-      ]
-    },
-    americas: {
-      total: 4000,
-      target: 5000,
-      recent: 344,
-      enrollmentRate: 10,
-      countries: [
-        { name: 'USA', enrolled: 3360, target: 4200 },
-        { name: 'Canada', enrolled: 640, target: 800 }
-      ],
-      monthlyData: [
-        { month: 'Jun 2024', enrolled: 184, cumulative: 184 },
-        { month: 'Jul 2024', enrolled: 192, cumulative: 376 },
-        { month: 'Aug 2024', enrolled: 272, cumulative: 648 },
-        { month: 'Sep 2024', enrolled: 272, cumulative: 920 },
-        { month: 'Oct 2024', enrolled: 296, cumulative: 1216 },
-        { month: 'Nov 2024', enrolled: 312, cumulative: 1528 },
-        { month: 'Dec 2024', enrolled: 336, cumulative: 1864 },
-        { month: 'Jan 2025', enrolled: 352, cumulative: 2216 },
-        { month: 'Feb 2025', enrolled: 352, cumulative: 2568 },
-        { month: 'Mar 2025', enrolled: 384, cumulative: 2952 },
-        { month: 'Apr 2025', enrolled: 416, cumulative: 3368 },
-        { month: 'May 2025', enrolled: 440, cumulative: 3808 }
-      ]
-    }
+  // Study-specific enrollment data
+  const getEnrollmentDataByStudy = (study: StudyType) => {
+    const baseData = {
+      obesity: {
+        target: 10000,
+        enrolled: 8000,
+        multiplier: 1
+      },
+      diabetes: {
+        target: 15000,
+        enrolled: 12500,
+        multiplier: 1.5
+      },
+      hypertension: {
+        target: 8500,
+        enrolled: 6800,
+        multiplier: 0.85
+      }
+    };
+
+    const studyConfig = baseData[study];
+    
+    return {
+      global: {
+        total: studyConfig.enrolled,
+        target: studyConfig.target,
+        recent: Math.round(680 * studyConfig.multiplier),
+        enrollmentRate: Math.round(22 * studyConfig.multiplier),
+        countries: [
+          { name: 'USA', enrolled: Math.round(3360 * studyConfig.multiplier), target: Math.round(4200 * studyConfig.multiplier) },
+          { name: 'Canada', enrolled: Math.round(640 * studyConfig.multiplier), target: Math.round(800 * studyConfig.multiplier) },
+          { name: 'France', enrolled: Math.round(1320 * studyConfig.multiplier), target: Math.round(1700 * studyConfig.multiplier) },
+          { name: 'Germany', enrolled: Math.round(1536 * studyConfig.multiplier), target: Math.round(1800 * studyConfig.multiplier) },
+          { name: 'Italy', enrolled: Math.round(672 * studyConfig.multiplier), target: Math.round(800 * studyConfig.multiplier) },
+          { name: 'Switzerland', enrolled: Math.round(232 * studyConfig.multiplier), target: Math.round(300 * studyConfig.multiplier) },
+          { name: 'UK', enrolled: Math.round(240 * studyConfig.multiplier), target: Math.round(400 * studyConfig.multiplier) }
+        ],
+        monthlyData: [
+          { month: 'Jun 2024', enrolled: Math.round(360 * studyConfig.multiplier), cumulative: Math.round(360 * studyConfig.multiplier) },
+          { month: 'Jul 2024', enrolled: Math.round(416 * studyConfig.multiplier), cumulative: Math.round(776 * studyConfig.multiplier) },
+          { month: 'Aug 2024', enrolled: Math.round(544 * studyConfig.multiplier), cumulative: Math.round(1320 * studyConfig.multiplier) },
+          { month: 'Sep 2024', enrolled: Math.round(576 * studyConfig.multiplier), cumulative: Math.round(1896 * studyConfig.multiplier) },
+          { month: 'Oct 2024', enrolled: Math.round(632 * studyConfig.multiplier), cumulative: Math.round(2528 * studyConfig.multiplier) },
+          { month: 'Nov 2024', enrolled: Math.round(680 * studyConfig.multiplier), cumulative: Math.round(3208 * studyConfig.multiplier) },
+          { month: 'Dec 2024', enrolled: Math.round(736 * studyConfig.multiplier), cumulative: Math.round(3944 * studyConfig.multiplier) },
+          { month: 'Jan 2025', enrolled: Math.round(784 * studyConfig.multiplier), cumulative: Math.round(4728 * studyConfig.multiplier) },
+          { month: 'Feb 2025', enrolled: Math.round(816 * studyConfig.multiplier), cumulative: Math.round(5544 * studyConfig.multiplier) },
+          { month: 'Mar 2025', enrolled: Math.round(880 * studyConfig.multiplier), cumulative: Math.round(6424 * studyConfig.multiplier) },
+          { month: 'Apr 2025', enrolled: Math.round(944 * studyConfig.multiplier), cumulative: Math.round(7368 * studyConfig.multiplier) },
+          { month: 'May 2025', enrolled: Math.round(1000 * studyConfig.multiplier), cumulative: Math.round(8368 * studyConfig.multiplier) }
+        ]
+      },
+      europe: {
+        total: Math.round(4000 * studyConfig.multiplier),
+        target: Math.round(5000 * studyConfig.multiplier),
+        recent: Math.round(336 * studyConfig.multiplier),
+        enrollmentRate: Math.round(12 * studyConfig.multiplier),
+        countries: [
+          { name: 'France', enrolled: Math.round(1320 * studyConfig.multiplier), target: Math.round(1700 * studyConfig.multiplier) },
+          { name: 'Germany', enrolled: Math.round(1536 * studyConfig.multiplier), target: Math.round(1800 * studyConfig.multiplier) },
+          { name: 'Italy', enrolled: Math.round(672 * studyConfig.multiplier), target: Math.round(800 * studyConfig.multiplier) },
+          { name: 'Switzerland', enrolled: Math.round(232 * studyConfig.multiplier), target: Math.round(300 * studyConfig.multiplier) },
+          { name: 'UK', enrolled: Math.round(240 * studyConfig.multiplier), target: Math.round(400 * studyConfig.multiplier) }
+        ],
+        monthlyData: [
+          { month: 'Jun 2024', enrolled: Math.round(176 * studyConfig.multiplier), cumulative: Math.round(176 * studyConfig.multiplier) },
+          { month: 'Jul 2024', enrolled: Math.round(224 * studyConfig.multiplier), cumulative: Math.round(400 * studyConfig.multiplier) },
+          { month: 'Aug 2024', enrolled: Math.round(272 * studyConfig.multiplier), cumulative: Math.round(672 * studyConfig.multiplier) },
+          { month: 'Sep 2024', enrolled: Math.round(304 * studyConfig.multiplier), cumulative: Math.round(976 * studyConfig.multiplier) },
+          { month: 'Oct 2024', enrolled: Math.round(336 * studyConfig.multiplier), cumulative: Math.round(1312 * studyConfig.multiplier) },
+          { month: 'Nov 2024', enrolled: Math.round(368 * studyConfig.multiplier), cumulative: Math.round(1680 * studyConfig.multiplier) },
+          { month: 'Dec 2024', enrolled: Math.round(400 * studyConfig.multiplier), cumulative: Math.round(2080 * studyConfig.multiplier) },
+          { month: 'Jan 2025', enrolled: Math.round(432 * studyConfig.multiplier), cumulative: Math.round(2512 * studyConfig.multiplier) },
+          { month: 'Feb 2025', enrolled: Math.round(464 * studyConfig.multiplier), cumulative: Math.round(2976 * studyConfig.multiplier) },
+          { month: 'Mar 2025', enrolled: Math.round(496 * studyConfig.multiplier), cumulative: Math.round(3472 * studyConfig.multiplier) },
+          { month: 'Apr 2025', enrolled: Math.round(528 * studyConfig.multiplier), cumulative: Math.round(4000 * studyConfig.multiplier) },
+          { month: 'May 2025', enrolled: Math.round(560 * studyConfig.multiplier), cumulative: Math.round(4560 * studyConfig.multiplier) }
+        ]
+      },
+      americas: {
+        total: Math.round(4000 * studyConfig.multiplier),
+        target: Math.round(5000 * studyConfig.multiplier),
+        recent: Math.round(344 * studyConfig.multiplier),
+        enrollmentRate: Math.round(10 * studyConfig.multiplier),
+        countries: [
+          { name: 'USA', enrolled: Math.round(3360 * studyConfig.multiplier), target: Math.round(4200 * studyConfig.multiplier) },
+          { name: 'Canada', enrolled: Math.round(640 * studyConfig.multiplier), target: Math.round(800 * studyConfig.multiplier) }
+        ],
+        monthlyData: [
+          { month: 'Jun 2024', enrolled: Math.round(184 * studyConfig.multiplier), cumulative: Math.round(184 * studyConfig.multiplier) },
+          { month: 'Jul 2024', enrolled: Math.round(192 * studyConfig.multiplier), cumulative: Math.round(376 * studyConfig.multiplier) },
+          { month: 'Aug 2024', enrolled: Math.round(272 * studyConfig.multiplier), cumulative: Math.round(648 * studyConfig.multiplier) },
+          { month: 'Sep 2024', enrolled: Math.round(272 * studyConfig.multiplier), cumulative: Math.round(920 * studyConfig.multiplier) },
+          { month: 'Oct 2024', enrolled: Math.round(296 * studyConfig.multiplier), cumulative: Math.round(1216 * studyConfig.multiplier) },
+          { month: 'Nov 2024', enrolled: Math.round(312 * studyConfig.multiplier), cumulative: Math.round(1528 * studyConfig.multiplier) },
+          { month: 'Dec 2024', enrolled: Math.round(336 * studyConfig.multiplier), cumulative: Math.round(1864 * studyConfig.multiplier) },
+          { month: 'Jan 2025', enrolled: Math.round(352 * studyConfig.multiplier), cumulative: Math.round(2216 * studyConfig.multiplier) },
+          { month: 'Feb 2025', enrolled: Math.round(352 * studyConfig.multiplier), cumulative: Math.round(2568 * studyConfig.multiplier) },
+          { month: 'Mar 2025', enrolled: Math.round(384 * studyConfig.multiplier), cumulative: Math.round(2952 * studyConfig.multiplier) },
+          { month: 'Apr 2025', enrolled: Math.round(416 * studyConfig.multiplier), cumulative: Math.round(3368 * studyConfig.multiplier) },
+          { month: 'May 2025', enrolled: Math.round(440 * studyConfig.multiplier), cumulative: Math.round(3808 * studyConfig.multiplier) }
+        ]
+      }
+    };
   };
 
+  const enrollmentData = getEnrollmentDataByStudy(selectedStudy);
   const currentData = enrollmentData[selectedRegion as keyof typeof enrollmentData];
   const progressPercentage = (currentData.total / currentData.target) * 100;
 

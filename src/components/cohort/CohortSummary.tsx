@@ -1,22 +1,28 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { studyData, StudyType } from '@/data/studyData';
 
-const CohortSummary = () => {
+interface CohortSummaryProps {
+  selectedStudy: StudyType;
+}
+
+const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
+  const currentData = studyData[selectedStudy];
+
   const summaryStats = [
     {
       title: "Total Patients",
-      value: "8,000",
-      description: "of 10,000 target patients enrolled"
+      value: currentData.totalPatients,
+      description: currentData.totalDescription
     },
     {
       title: "Average BMI",
-      value: "36.2",
+      value: currentData.averageBMI,
       description: "kg/m² across cohort"
     },
     {
       title: "Age Range",
-      value: "18-89",
+      value: currentData.ageRange,
       description: "Years (median: 52)"
     }
   ];

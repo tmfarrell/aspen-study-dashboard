@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -37,7 +38,7 @@ const appsItems = [
     icon: Search,
   },
   {
-    title: 'Insights Reports',
+    title: 'Insights Library',
     url: '/reports',
     icon: FileText,
   },
@@ -154,3 +155,4 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
+
