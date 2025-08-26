@@ -214,7 +214,7 @@ export function MedicationsPanel() {
         <Card className="p-6 bg-card border">
           <h3 className="text-lg font-semibold mb-4">Most Prescribed Anti-Arrhythmic Medications</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topMedicationsData} layout="horizontal">
+            <BarChart data={topMedicationsData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
               <YAxis 
