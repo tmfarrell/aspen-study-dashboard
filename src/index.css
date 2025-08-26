@@ -103,7 +103,7 @@
     --secondary: var(--om1-secondary-light-blue-lightest);
     --secondary-foreground: var(--om1-primary-dark-gray);
 
-    --muted: var(--om1-primary-light-gray);
+    --muted: var(--om1-secondary-light-blue-lightest);
     --muted-foreground: var(--om1-primary-dark-gray);
 
     --accent: var(--om1-secondary-light-blue);

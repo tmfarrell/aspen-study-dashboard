@@ -425,10 +425,7 @@ const Explorer = () => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <label htmlFor="study-select-header" className="text-sm font-medium text-muted-foreground">
-                  Study:
-                </label>
+              <div className="flex items-center gap-2 text-blue-500">
                 <Select value={selectedStudy} onValueChange={setSelectedStudy}>
                   <SelectTrigger className="w-48" id="study-select-header">
                     <SelectValue placeholder="Select a study" />

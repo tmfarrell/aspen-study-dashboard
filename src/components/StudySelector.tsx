@@ -12,10 +12,7 @@ export function StudySelector({ className = "w-48" }: StudySelectorProps) {
   const studyOptions = getStudyOptions();
 
   return (
-    <div className="flex items-center gap-2">
-      <label htmlFor="study-select" className="text-sm font-medium text-muted-foreground">
-        Study:
-      </label>
+    <div className="flex items-center gap-2 text-blue-500">
       <Select value={selectedStudy} onValueChange={setSelectedStudy}>
         <SelectTrigger className={className} id="study-select">
           <SelectValue placeholder="Select a study" />
