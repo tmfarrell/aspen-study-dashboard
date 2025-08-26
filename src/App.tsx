@@ -9,6 +9,8 @@ import Explorer from './pages/Explorer';
 import Reports from './pages/Reports';
 import Documentation from './pages/Documentation';
 import FAQ from './pages/FAQ';
+import PatientRegistryTracker from './pages/PatientRegistryTracker';
+import AutomatedWorkflows from './pages/AutomatedWorkflows';
 import { AppSidebar } from './components/AppSidebar';
 import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 
@@ -31,7 +33,9 @@ function App() {
                           <Routes>
                             <Route path="/" element={<Navigate to="/home" replace />} />
                             <Route path="/home" element={<Home />} />
+                            <Route path="/patient-registry" element={<PatientRegistryTracker />} />
                             <Route path="/cohort" element={<PatientCohort />} />
+                            <Route path="/workflows" element={<AutomatedWorkflows />} />
                             <Route path="/explorer" element={<Explorer />} />
                             <Route path="/reports" element={<Reports />} />
                             <Route path="/documentation" element={<Documentation />} />

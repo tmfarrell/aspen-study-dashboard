@@ -425,6 +425,23 @@ const Explorer = () => {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <label htmlFor="study-select-header" className="text-sm font-medium text-muted-foreground">
+                  Study:
+                </label>
+                <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+                  <SelectTrigger className="w-48" id="study-select-header">
+                    <SelectValue placeholder="Select a study" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {getStudyOptions().map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <LogoutButton />
             </div>
           </div>
@@ -432,22 +449,7 @@ const Explorer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-4 ml-4">
-            <label className="text-sm font-medium text-muted-foreground">Select Study:</label>
-            <Select value={selectedStudy} onValueChange={setSelectedStudy}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select a study" />
-              </SelectTrigger>
-              <SelectContent>
-                {getStudyOptions().map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="flex justify-end items-center mb-8">
           <div className="flex items-center gap-4 mr-4">
             <div className="flex flex-col gap-1 text-right">
               <span className="text-sm text-muted-foreground">Cohort Size</span>

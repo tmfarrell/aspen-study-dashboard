@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
-import { StudyType, getStudyOptions } from '@/data/studyData';
+import { StudySelector } from '@/components/StudySelector';
 
 const Reports = () => {
-  const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
 
   const reportTypes = [
     {
@@ -47,34 +45,15 @@ const Reports = () => {
                 Create comprehensive reports and insights from your study data
               </p>
             </div>
-            <LogoutButton />
+            <div className="flex items-center gap-4">
+              <StudySelector />
+              <LogoutButton />
+            </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-xl font-semibold mb-2"></h2>
-            
-          </div>
-          <div className="flex items-center gap-4">
-            <label className="text-sm font-medium text-muted-foreground">Select Study:</label>
-            <Select value={selectedStudy} onValueChange={setSelectedStudy}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select a study" />
-              </SelectTrigger>
-              <SelectContent>
-                {getStudyOptions().map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {reportTypes.map((report) => (
             <Card key={report.title} className="h-full hover:shadow-lg transition-shadow cursor-pointer">
