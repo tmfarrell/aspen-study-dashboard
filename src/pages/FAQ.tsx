@@ -11,14 +11,6 @@ const FAQ = () => {
       answer: "Aspen is a comprehensive clinical research platform that enables researchers to analyze patient cohorts, generate insights, and create detailed reports for clinical studies."
     },
     {
-      question: "How do I create a new patient cohort?",
-      answer: "Navigate to the Cohort Explorer page where you can define your study criteria and build custom patient cohorts based on various demographic and clinical parameters."
-    },
-    {
-      question: "What types of reports can I generate?",
-      answer: "Aspen offers four main report types: Provider/Prescriber Insights, Population Insights, Treatment Journey Insights, and Clinical Outcomes Insights reports."
-    },
-    {
       question: "How do I access my study data?",
       answer: "Go to the Aspen Studies page to view comprehensive analytics and insights for your patient cohorts. All your study data is organized and accessible from there."
     },
@@ -29,6 +21,14 @@ const FAQ = () => {
     {
       question: "How do I navigate between different sections?",
       answer: "Use the sidebar navigation on the left to move between Home, Aspen Studies, Cohort Explorer, and Insight Reports. You can also collapse the sidebar for more screen space."
+    },
+    {
+      question: "How do I create a new patient cohort?",
+      answer: "Navigate to the Cohort Explorer page where you can define your study criteria and build custom patient cohorts based on various demographic and clinical parameters."
+    },
+    {
+      question: "What types of reports can I generate?",
+      answer: "Aspen offers four main report types: Provider/Prescriber Insights, Population Insights, Treatment Journey Insights, and Clinical Outcomes Insights reports."
     },
     {
       question: "What should I do if I encounter technical issues?",

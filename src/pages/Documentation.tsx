@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { BarChart3, Search, FileText, Users, Activity, Database, TrendingUp, Stethoscope } from 'lucide-react';
+import { BarChart3, Search, FileText, Users, Activity, Database, TrendingUp, Stethoscope, Bot } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 const Documentation = () => {
@@ -161,15 +161,15 @@ const Documentation = () => {
 
         <Separator />
 
-        {/* Aspen Study Tracker Section */}
-        <section id="aspen-study-tracker">
+        {/* Registry Tracker Section */}
+        <section id="registry-tracker">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center">
               <Activity className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">Aspen Study Tracker</h2>
-              <p className="text-muted-foreground">Real-time monitoring and analytics for Aspen studies</p>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Registry Tracker</h2>
+              <p className="text-muted-foreground">Real-time monitoring and analytics for patient registries</p>
             </div>
           </div>
 
@@ -180,7 +180,7 @@ const Documentation = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The Aspen Study Tracker is a comprehensive dashboard application designed to monitor and analyze Aspen studies in real-time. It provides researchers and study coordinators with detailed insights into enrollment progress, patient demographics, and clinical outcomes.
+                  The Registry Tracker is a comprehensive dashboard application designed to monitor and analyze patient registries in real-time. It provides researchers and study coordinators with detailed insights into enrollment progress, patient demographics, and clinical outcomes.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -228,92 +228,80 @@ const Documentation = () => {
             </Card>
           </div>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Dashboard Sections</CardTitle>
-              <CardDescription>Comprehensive overview of available analytics modules</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center">
-                      <span className="text-blue-600 font-semibold text-sm">1</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Overview</h4>
-                      <p className="text-sm text-muted-foreground">High-level study metrics and key performance indicators</p>
-                    </div>
+        </section>
+
+        <Separator />
+
+        {/* Workflow Agent Section */}
+        <section id="workflow-agent">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center">
+              <BarChart3 className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Workflow Agent</h2>
+              <p className="text-muted-foreground">AI-powered automation for healthcare registry workflows</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The Workflow Agent is an AI-powered conversational interface designed to automate complex workflows for healthcare registry data processing. It streamlines data operations through natural language interactions.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Bot className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm">Natural language interface</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-green-100 flex items-center justify-center">
-                      <span className="text-green-600 font-semibold text-sm">2</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Enrollment</h4>
-                      <p className="text-sm text-muted-foreground">Detailed enrollment progress and participant tracking</p>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm">Automated workflow execution</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-purple-100 flex items-center justify-center">
-                      <span className="text-purple-600 font-semibold text-sm">3</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">BMI Distribution</h4>
-                      <p className="text-sm text-muted-foreground">Body mass index analysis and obesity classification</p>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <Database className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm">Intelligent data processing</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-orange-100 flex items-center justify-center">
-                      <span className="text-orange-600 font-semibold text-sm">4</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Geographic</h4>
-                      <p className="text-sm text-muted-foreground">Patient distribution across regions and countries</p>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm">Version-controlled changes</span>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Types of Agents</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-red-100 flex items-center justify-center">
-                      <span className="text-red-600 font-semibold text-sm">5</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Demographics</h4>
-                      <p className="text-sm text-muted-foreground">Age, gender, race, and country distribution analysis</p>
-                    </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Load Agent</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Specializes in data loading operations and project setup. Handles repository access, project configuration, and initial data loading tasks. Ensures proper setup of development environments and data sources.
+                    </p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-teal-100 flex items-center justify-center">
-                      <span className="text-teal-600 font-semibold text-sm">6</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Comorbidity</h4>
-                      <p className="text-sm text-muted-foreground">Co-existing medical conditions and risk factors</p>
-                    </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Profile Agent</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Focuses on data schema analysis and profiling. Creates detailed profiles of data structures, generates configuration files for data profiling, and provides insights into data quality and completeness.
+                    </p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-indigo-100 flex items-center justify-center">
-                      <span className="text-indigo-600 font-semibold text-sm">7</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Medication</h4>
-                      <p className="text-sm text-muted-foreground">Current and historical medication usage patterns</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-pink-100 flex items-center justify-center">
-                      <span className="text-pink-600 font-semibold text-sm">8</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Quality of Life</h4>
-                      <p className="text-sm text-muted-foreground">Patient-reported outcomes and quality of life metrics</p>
-                    </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Source-to-Target Mapping (STTM) Agent</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Manages data transformation workflows using dbt models. Handles the creation and maintenance of data transformation pipelines, enforces data contracts, and ensures data quality through automated testing.
+                    </p>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </section>
 
         <Separator />
@@ -435,8 +423,6 @@ const Documentation = () => {
                       <p className="text-sm text-muted-foreground">Detailed insights into pre-defined populations of interest</p>
                     </div>
                   </div>
-                  
-                  
                 </div>
               </CardContent>
             </Card>

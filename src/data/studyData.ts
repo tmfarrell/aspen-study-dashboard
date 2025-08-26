@@ -8,6 +8,14 @@ export interface StudyData {
 }
 
 export const studyData: Record<string, StudyData> = {
+  heartrhythm: {
+    name: 'Heart Rhythm Registry',
+    studySize: '12,000 patients',
+    totalPatients: 9500,
+    totalDescription: 'of 12,000 target patients enrolled',
+    averageBMI: '29.8',
+    ageRange: '35-85'
+  },
   obesity: {
     name: 'Obesity Registry',
     studySize: '10,000 patients',

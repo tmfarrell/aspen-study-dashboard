@@ -15,7 +15,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const homeItems = [
@@ -28,9 +28,14 @@ const homeItems = [
 
 const appsItems = [
   {
-    title: 'Aspen Study Tracker',
-    url: '/cohort',
+    title: 'Registry Tracker',
+    url: '/patient-registry',
     icon: Activity,
+  },
+  {
+    title: 'Workflow Agent',
+    url: '/workflows',
+    icon: Bot,
   },
   {
     title: 'Cohort Explorer',
@@ -155,4 +160,3 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
-

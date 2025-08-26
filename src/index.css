@@ -51,6 +51,103 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* OM1 Primary Brand Colors */
+    --om1-primary-dark-blue: 219 100% 22%; /* #002d72 */
+    --om1-primary-dark-gray: 240 2% 34%; /* #555559 */
+    --om1-primary-light-gray: 200 7% 77%; /* #C1C6C8 */
+    --om1-primary-black: 0 0% 0%; /* #000000 */
+    --om1-primary-white: 0 0% 100%; /* #ffffff */
+
+    /* OM1 Secondary Colors */
+    --om1-secondary-light-blue: 213 68% 73%; /* #8BB8E8 */
+    --om1-secondary-orange: 18 100% 81%; /* #FFBE9F */
+    --om1-secondary-green: 75 92% 39%; /* #92BE0A */
+    --om1-secondary-purple: 277 49% 34%; /* #582C83 */
+
+    /* OM1 Secondary Color Scales */
+    --om1-secondary-light-blue-dark: 213 58% 67%; /* #79a6d6 */
+    --om1-secondary-light-blue-light: 213 75% 83%; /* #b9d4f1 */
+    --om1-secondary-light-blue-lightest: 213 45% 92%; /* #e8eff6 */
+
+    --om1-secondary-orange-dark: 18 100% 53%; /* #ff5b10 */
+    --om1-secondary-orange-light: 18 43% 88%; /* #f3ddd3 */
+    --om1-secondary-orange-lightest: 18 33% 96%; /* #f8f1ed */
+
+    --om1-secondary-green-dark: 75 71% 37%; /* #81a01e */
+    --om1-secondary-green-light: 75 43% 80%; /* #d9e5b6 */
+    --om1-secondary-green-lightest: 75 25% 94%; /* #f1f3e9 */
+
+    --om1-secondary-purple-light: 277 29% 78%; /* #cab9dc */
+    --om1-secondary-purple-lightest: 277 25% 95%; /* #f1edf6 */
+
+    /* Extended UI Colors */
+    --om1-text-placeholder: 200 5% 72%; /* #B3B8BD */
+    --om1-text-secondary: 210 7% 56%; /* #8A9199 */
+    --om1-text-disabled: 210 14% 83%; /* #D1D5DB */
+    --om1-border-input: 210 16% 93%; /* #E5E7EB */
+
+    /* Semantic Design Tokens mapped to OM1 colors */
+    --background: var(--om1-primary-white);
+    --foreground: var(--om1-primary-dark-gray);
+
+    --card: var(--om1-primary-white);
+    --card-foreground: var(--om1-primary-dark-gray);
+
+    --popover: var(--om1-primary-white);
+    --popover-foreground: var(--om1-primary-dark-gray);
+
+    --primary: var(--om1-primary-dark-blue);
+    --primary-foreground: var(--om1-primary-white);
+
+    --secondary: var(--om1-secondary-light-blue-lightest);
+    --secondary-foreground: var(--om1-primary-dark-gray);
+
+    --muted: var(--om1-primary-light-gray);
+    --muted-foreground: var(--om1-primary-dark-gray);
+
+    --accent: var(--om1-secondary-light-blue);
+    --accent-foreground: var(--om1-primary-white);
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--om1-primary-white);
+
+    --border: var(--om1-primary-light-gray);
+    --input: var(--om1-border-input);
+    --ring: var(--om1-primary-dark-blue);
+
+    --success: var(--om1-secondary-green);
+    --success-foreground: var(--om1-primary-white);
+
+    --warning: var(--om1-secondary-orange);
+    --warning-foreground: var(--om1-primary-dark-gray);
+
+    --info: var(--om1-secondary-light-blue);
+    --info-foreground: var(--om1-primary-white);
+
+    /* OM1 Brand Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--om1-primary-dark-blue)), hsl(var(--om1-secondary-light-blue)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--om1-secondary-light-blue-lightest)), hsl(var(--om1-secondary-light-blue-light)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--om1-secondary-orange)), hsl(var(--om1-secondary-orange-light)));
+    
+    /* OM1 Shadows */
+    --shadow-elegant: 0 1px 3px 0 hsl(var(--om1-primary-dark-gray) / 0.1), 0 1px 2px -1px hsl(var(--om1-primary-dark-gray) / 0.1);
+    --shadow-medium: 0 4px 6px -1px hsl(var(--om1-primary-dark-gray) / 0.1), 0 2px 4px -2px hsl(var(--om1-primary-dark-gray) / 0.1);
+    --shadow-large: 0 10px 15px -3px hsl(var(--om1-primary-dark-gray) / 0.1), 0 4px 6px -4px hsl(var(--om1-primary-dark-gray) / 0.1);
+    --shadow-modal: 0 25px 50px -12px hsl(var(--om1-primary-black) / 0.25);
+
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: var(--om1-primary-white);
+    --sidebar-foreground: var(--om1-primary-dark-gray);
+    --sidebar-primary: var(--om1-primary-dark-blue);
+    --sidebar-primary-foreground: var(--om1-primary-white);
+    --sidebar-accent: var(--om1-secondary-light-blue-lightest);
+    --sidebar-accent-foreground: var(--om1-primary-dark-gray);
+    --sidebar-border: var(--om1-primary-light-gray);
+    --sidebar-ring: var(--om1-primary-dark-blue);
   }
 
   .dark {
@@ -89,6 +186,44 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode using OM1 brand colors */
+    --background: var(--om1-primary-black);
+    --foreground: var(--om1-primary-white);
+
+    --card: var(--om1-primary-black);
+    --card-foreground: var(--om1-primary-white);
+
+    --popover: var(--om1-primary-black);
+    --popover-foreground: var(--om1-primary-white);
+
+    --primary: var(--om1-secondary-light-blue);
+    --primary-foreground: var(--om1-primary-black);
+
+    --secondary: var(--om1-primary-dark-gray);
+    --secondary-foreground: var(--om1-primary-white);
+
+    --muted: var(--om1-primary-dark-gray);
+    --muted-foreground: var(--om1-primary-light-gray);
+
+    --accent: var(--om1-secondary-light-blue);
+    --accent-foreground: var(--om1-primary-black);
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--om1-primary-white);
+
+    --border: var(--om1-primary-dark-gray);
+    --input: var(--om1-primary-dark-gray);
+    --ring: var(--om1-secondary-light-blue);
+
+    --sidebar-background: var(--om1-primary-black);
+    --sidebar-foreground: var(--om1-primary-white);
+    --sidebar-primary: var(--om1-secondary-light-blue);
+    --sidebar-primary-foreground: var(--om1-primary-black);
+    --sidebar-accent: var(--om1-primary-dark-gray);
+    --sidebar-accent-foreground: var(--om1-primary-white);
+    --sidebar-border: var(--om1-primary-dark-gray);
+    --sidebar-ring: var(--om1-secondary-light-blue);
   }
 }
 
