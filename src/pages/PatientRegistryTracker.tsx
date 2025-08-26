@@ -35,7 +35,7 @@ export default function PatientRegistryTracker() {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Patient Registry Tracker</h1>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Tracker</h1>
               <p className="text-muted-foreground">
                 Comprehensive view of your registry data and analytics
               </p>

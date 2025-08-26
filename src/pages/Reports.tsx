@@ -9,10 +9,10 @@ const Reports = () => {
 
   const reportTypes = [
     {
-      title: 'Provider Insights Report',
-      description: 'Comprehensive analysis of provider prescribing patterns and behaviors',
-      icon: Stethoscope,
-      color: 'bg-blue-500',
+      title: 'Population Insights Report',
+      description: 'Detailed insights into pre-defined populations of interest',
+      icon: Users,
+      color: 'bg-green-500',
     },
     {
       title: 'Real-World Effectiveness Report',
@@ -27,11 +27,11 @@ const Reports = () => {
       color: 'bg-purple-500',
     },
     {
-      title: 'Population Insights Report',
-      description: 'Detailed insights into pre-defined populations of interest',
-      icon: Users,
-      color: 'bg-green-500',
-    },
+      title: 'Provider Insights Report',
+      description: 'Comprehensive analysis of provider prescribing patterns and behaviors',
+      icon: Stethoscope,
+      color: 'bg-blue-500',
+    }
   ];
 
   return (
