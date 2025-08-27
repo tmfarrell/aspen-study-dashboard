@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Send, Bot, Settings, User, ChevronDown } from "lucide-react";
-import LogoutButton from "@/components/LogoutButton";
+import UserDropdown from "@/components/UserDropdown";
 import { StudySelector } from "@/components/StudySelector";
 
 export default function AutomatedWorkflows() {
@@ -165,7 +165,7 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Workflow Agent</h1>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Structured Mapping</h1>
               <p className="text-muted-foreground">
                 Automate workflows and processes for your healthcare registry data
               </p>
@@ -175,8 +175,8 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
             <div className="flex items-center gap-4">
               <StudySelector />
 
-              {/* Logout Button */}
-              <LogoutButton />
+              {/* User Dropdown */}
+              <UserDropdown />
             </div>
           </div>
         </div>
@@ -205,7 +205,7 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
           <div className="flex items-center justify-center h-full">
             <div className="text-center max-w-md">
               <Bot className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">Welcome to Workflow Agent</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Welcome to Structured Mapping Agent</h3>
               <p className="text-muted-foreground">
                 I can help you create, configure, and manage automated workflows for your healthcare registry. 
                 Start by describing what you'd like to automate.

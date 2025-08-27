@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { BarChart3, Search, FileText, Users, Activity, Database, TrendingUp, Stethoscope, Bot } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import { BarChart3, Search, FileText, Users, Activity, Database, TrendingUp, Stethoscope, Bot, Building2, FileCog } from 'lucide-react';
+import UserDropdown from '@/components/UserDropdown';
 
 const Documentation = () => {
   return (
@@ -15,7 +15,7 @@ const Documentation = () => {
               <h1 className="text-2xl font-bold text-[#003f7f]">Documentation</h1>
               <p className="text-muted-foreground">Platform guidance and feature descriptions</p>
             </div>
-            <LogoutButton />
+            <UserDropdown />
           </div>
         </div>
       </div>
@@ -232,15 +232,15 @@ const Documentation = () => {
 
         <Separator />
 
-        {/* Workflow Agent Section */}
-        <section id="workflow-agent">
+        {/* Site Status Section */}
+        <section id="site-status">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center">
-              <BarChart3 className="h-6 w-6 text-white" />
+            <div className="w-12 h-12 rounded-lg bg-teal-500 flex items-center justify-center">
+              <Building2 className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-[#003f7f]">Workflow Agent</h2>
-              <p className="text-muted-foreground">AI-powered automation for healthcare registry workflows</p>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Site Status</h2>
+              <p className="text-muted-foreground">Monitor site performance, health checks, and system status</p>
             </div>
           </div>
 
@@ -251,7 +251,81 @@ const Documentation = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The Workflow Agent is an AI-powered conversational interface designed to automate complex workflows for healthcare registry data processing. It streamlines data operations through natural language interactions.
+                  The Site Status dashboard provides real-time monitoring of site performance, system health, and operational metrics across all study sites. It enables proactive management and quick identification of issues.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-teal-500" />
+                    <span className="text-sm">Multi-site monitoring</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-teal-500" />
+                    <span className="text-sm">Real-time health checks</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4 text-teal-500" />
+                    <span className="text-sm">Performance analytics</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Database className="h-4 w-4 text-teal-500" />
+                    <span className="text-sm">Data quality monitoring</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Key Features</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-2">Site Management</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Comprehensive site overview</li>
+                      <li>• Status tracking and alerts</li>
+                      <li>• Performance metrics dashboard</li>
+                      <li>• Historical trend analysis</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Monitoring Capabilities</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• System health monitoring</li>
+                      <li>• Data pipeline status</li>
+                      <li>• Quality assurance checks</li>
+                      <li>• Automated alerting system</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <Separator />
+
+        {/* Structured Mapping Agent Section */}
+        <section id="structured-mapping-agent">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center">
+              <Bot className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Structured Mapping Agent</h2>
+              <p className="text-muted-foreground">AI-powered automation for structured healthcare registry workflows</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The Structured Mapping Agent is an AI-powered conversational interface designed to automate complex workflows for structured healthcare registry data processing. It streamlines data operations through natural language interactions and handles structured data transformations.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -302,6 +376,126 @@ const Documentation = () => {
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        <Separator />
+
+        {/* Unstructured Mapping Agents Section */}
+        <section id="unstructured-mapping-agents">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-lg bg-rose-500 flex items-center justify-center">
+              <FileCog className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-[#003f7f]">Unstructured Mapping Agents</h2>
+              <p className="text-muted-foreground">AI-powered processing for unstructured healthcare data</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Unstructured Mapping Agents specialize in processing and analyzing unstructured healthcare data including clinical notes, documents, images, and free text. They extract meaningful insights and convert unstructured data into structured formats for analysis.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileCog className="h-4 w-4 text-rose-500" />
+                    <span className="text-sm">Document processing</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-rose-500" />
+                    <span className="text-sm">Clinical note analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-rose-500" />
+                    <span className="text-sm">Entity extraction</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Database className="h-4 w-4 text-rose-500" />
+                    <span className="text-sm">Data structuring</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Processing Capabilities</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-2">Document Types</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Clinical notes and reports</li>
+                      <li>• Medical imaging metadata</li>
+                      <li>• Patient correspondence</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Analysis Features</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Medical language and terminology processing</li>
+                      <li>• Clinical endpoint extraction and estimation</li>
+                      <li>• Phenotype prediction</li>
+                      <li>• DICOM image processing</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Use Cases</CardTitle>
+              <CardDescription>Common applications for unstructured data processing</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Stethoscope className="h-5 w-5 text-rose-500" />
+                    <h4 className="font-semibold">Clinical Note Mining</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Extract clinical insights, diagnoses, and treatment patterns from physician notes and clinical documentation.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-rose-500" />
+                    <h4 className="font-semibold">Patient Journey Mapping</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Reconstruct patient care pathways from disparate unstructured sources to understand treatment progression.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-rose-500" />
+                    <h4 className="font-semibold">Outcome Prediction</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Analyze unstructured clinical data to identify patterns and predict patient outcomes and treatment responses.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-5 w-5 text-rose-500" />
+                    <h4 className="font-semibold">Quality Assurance</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Monitor data quality and completeness by analyzing unstructured documentation for missing or inconsistent information.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         <Separator />

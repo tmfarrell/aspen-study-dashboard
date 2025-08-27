@@ -15,7 +15,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity, Bot } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity, Bot, Building2, FileCog, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const homeItems = [
@@ -33,11 +33,6 @@ const appsItems = [
     icon: Activity,
   },
   {
-    title: 'Workflow Agent',
-    url: '/workflows',
-    icon: Bot,
-  },
-  {
     title: 'Cohort Explorer',
     url: '/explorer',
     icon: Search,
@@ -49,7 +44,30 @@ const appsItems = [
   },
 ];
 
+const servicesItems = [
+  {
+    title: 'Site Status',
+    url: '/site-status',
+    icon: Building2,
+  },
+  {
+    title: 'Structured Mapping',
+    url: '/workflows',
+    icon: Bot,
+  },
+  {
+    title: 'Unstructured Mapping',
+    url: '/unstructured',
+    icon: FileCog,
+  },
+];
+
 const resourcesItems = [
+  {
+    title: 'Notifications',
+    url: '/notifications',
+    icon: Bell,
+  },
   {
     title: 'Documentation',
     url: '/documentation',
@@ -105,6 +123,28 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {appsItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={location.pathname === item.url}
+                    tooltip={item.title}
+                  >
+                    <Link to={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Services</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {servicesItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 

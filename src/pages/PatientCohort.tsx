@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import GeographicDistribution from '@/components/cohort/GeographicDistribution';
 import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
@@ -33,7 +33,7 @@ const PatientCohort = () => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <LogoutButton />
+              <UserDropdown />
             </div>
           </div>
         </div>
