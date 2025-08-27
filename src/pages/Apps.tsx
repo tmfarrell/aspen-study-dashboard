@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, Search } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 
 const Apps = () => {
   const applications = [
@@ -31,7 +31,7 @@ const Apps = () => {
             <div>
               <h1 className="text-2xl font-bold text-[#003f7f]">Applications</h1>
             </div>
-            <LogoutButton />
+            <UserDropdown />
           </div>
         </div>
       </div>

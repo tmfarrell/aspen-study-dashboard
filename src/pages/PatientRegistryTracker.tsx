@@ -7,7 +7,7 @@ import { PatientEnrolmentPanel } from "@/components/PatientEnrolmentPanel";
 import { MedicationsPanel } from "@/components/MedicationsPanel";
 import { AFibPanel } from "@/components/AFibPanel";
 import { AIInsightsPanel } from "@/components/AIInsightsPanel";
-import LogoutButton from "@/components/LogoutButton";
+import UserDropdown from "@/components/UserDropdown";
 import { StudySelector } from "@/components/StudySelector";
 import BMIDistributionChart from "@/components/cohort/BMIDistributionChart";
 import GeographicDistribution from "@/components/cohort/GeographicDistribution";
@@ -42,7 +42,7 @@ export default function PatientRegistryTracker() {
             </div>
             <div className="flex items-center gap-4">
               <StudySelector />
-              <LogoutButton />
+              <UserDropdown />
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, HelpCircle } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 
 const FAQ = () => {
   const faqItems = [
@@ -49,7 +49,7 @@ const FAQ = () => {
               <h1 className="text-2xl font-bold text-[#003f7f]">Frequently Asked Questions</h1>
               <p className="text-muted-foreground">Browse through our frequently asked questions</p>
             </div>
-            <LogoutButton />
+            <UserDropdown />
           </div>
         </div>
       </div>

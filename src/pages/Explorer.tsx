@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Filter, Download, Plus, Users, Stethoscope, Pill, Eye, Scissors, TestTube, FileText, Calendar, Database, GripVertical, X, ChevronDown } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -439,7 +439,7 @@ const Explorer = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <LogoutButton />
+              <UserDropdown />
             </div>
           </div>
         </div>

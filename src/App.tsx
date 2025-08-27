@@ -13,6 +13,9 @@ import PatientRegistryTracker from './pages/PatientRegistryTracker';
 import AutomatedWorkflows from './pages/AutomatedWorkflows';
 import { AppSidebar } from './components/AppSidebar';
 import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
+import SiteStatus from './pages/SiteStatus';
+import UnstructuredData from './pages/UnstructuredData';
+import Notifications from './pages/Notifications';
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function App() {
                             <Route path="/workflows" element={<AutomatedWorkflows />} />
                             <Route path="/explorer" element={<Explorer />} />
                             <Route path="/reports" element={<Reports />} />
+                            <Route path="/site-status" element={<SiteStatus />} />
+                            <Route path="/unstructured" element={<UnstructuredData />} />
+                            <Route path="/notifications" element={<Notifications />} />
                             <Route path="/documentation" element={<Documentation />} />
                             <Route path="/faq" element={<FAQ />} />
                           </Routes>

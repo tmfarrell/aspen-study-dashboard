@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 import { StudySelector } from '@/components/StudySelector';
 
 const Reports = () => {
@@ -47,7 +47,7 @@ const Reports = () => {
             </div>
             <div className="flex items-center gap-4">
               <StudySelector />
-              <LogoutButton />
+              <UserDropdown />
             </div>
           </div>
         </div>

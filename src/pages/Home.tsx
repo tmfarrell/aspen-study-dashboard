@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { BarChart3, Users, TrendingUp, Activity, ArrowRight, Bell, Search, FileText } from 'lucide-react';
-import LogoutButton from '@/components/LogoutButton';
+import UserDropdown from '@/components/UserDropdown';
 
 const Home = () => {
   const quickStats = [
@@ -72,10 +72,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Welcome back!</h1>
-              <p className="text-gray-600">Here's what's happening with your studies today</p>
+              <h1 className="text-2xl font-bold text-[#003f7f]">Home</h1>
+              <p className="text-gray-600">Your central hub for real-time study progress, insights and updates</p>
             </div>
-            <LogoutButton />
+            <UserDropdown />
           </div>
         </div>
       </div>
@@ -117,7 +117,9 @@ const Home = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-4 w-4" />
-                Updates
+                <Link to="/notifications" className="hover:text-[#003f7f] transition-colors">
+                  Notifications
+                </Link>
               </CardTitle>
               <CardDescription>
                 Latest updates across all Aspen studies
