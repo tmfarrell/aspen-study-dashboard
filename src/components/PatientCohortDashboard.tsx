@@ -43,7 +43,7 @@ export function PatientCohortDashboard() {
   }).filter(item => item.patients > 0);
 
   return (
-    <div className="p-6 space-y-6 bg-background min-h-screen">
+    <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -80,7 +80,7 @@ export function PatientCohortDashboard() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center">
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Filter by Condition:</span>
+            <span className="text-sm font-medium">Filter by Heart Rhythm Disorder:</span>
           </div>
           <div className="flex flex-wrap gap-3 flex-1">
             <Select value={selectedCondition} onValueChange={setSelectedCondition}>
