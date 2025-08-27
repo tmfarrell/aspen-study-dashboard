@@ -8,6 +8,13 @@ interface AssessmentProgressProps {
   selectedStudy?: StudyType;
 }
 
+interface AssessmentItem {
+  name: string;
+  completed: number;
+  total: number;
+  description: string;
+}
+
 const AssessmentProgress = ({ selectedStudy = 'obesity' }: AssessmentProgressProps) => {
   const [selectedRegion, setSelectedRegion] = useState('global');
 
@@ -86,9 +93,9 @@ const AssessmentProgress = ({ selectedStudy = 'obesity' }: AssessmentProgressPro
   };
 
   const assessmentData = getAssessmentDataByStudy(selectedStudy);
-  const currentData = assessmentData[selectedRegion as keyof typeof assessmentData];
-  const overallCompleted = currentData.reduce((sum, assessment) => sum + assessment.completed, 0);
-  const overallTotal = currentData.reduce((sum, assessment) => sum + assessment.total, 0);
+  const currentData: AssessmentItem[] = assessmentData[selectedRegion as keyof typeof assessmentData] || [];
+  const overallCompleted = currentData.reduce((sum: number, assessment: AssessmentItem) => sum + assessment.completed, 0);
+  const overallTotal = currentData.reduce((sum: number, assessment: AssessmentItem) => sum + assessment.total, 0);
   const overallPercentage = overallTotal > 0 ? (overallCompleted / overallTotal) * 100 : 0;
 
   return (
