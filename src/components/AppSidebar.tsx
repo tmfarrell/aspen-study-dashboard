@@ -151,7 +151,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Services</SidebarGroupLabel>
+          <SidebarGroupLabel>OM1 Operations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {servicesItems.map((item) => (
