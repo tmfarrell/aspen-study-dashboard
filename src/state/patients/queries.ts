@@ -1,5 +1,5 @@
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { patientsApi } from '@/api/services';
+import { patientsApi } from './api';
 import { PatientFilters } from '@/api/types';
 
 // Query keys

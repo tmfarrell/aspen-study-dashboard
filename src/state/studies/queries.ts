@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { studiesApi } from '@/api/services';
-import { StudyData, StudyFilters, StudyType } from '@/api/types';
+import { studiesApi } from './api';
+import { StudyFilters, StudyType } from '@/api/types';
 
 // Query keys
 export const studyKeys = {

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { sitesApi } from '@/api/services';
+import { sitesApi } from './api';
 import { SiteFilters } from '@/api/types';
 
 // Query keys

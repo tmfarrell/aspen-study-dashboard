@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Users, Activity, TrendingUp, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { useAppState } from '@/contexts/AppStateContext';
-import { useStudies } from '@/hooks/useStudies';
+import { useStudies } from '@/state/studies';
 import { StudyType } from '@/api/types';
 
 const Home = () => {

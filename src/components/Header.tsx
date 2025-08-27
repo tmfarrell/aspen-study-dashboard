@@ -2,7 +2,7 @@ import React from 'react';
 import UserDropdown from './UserDropdown';
 import { StudySelector } from './StudySelector';
 import { useAppState } from '@/contexts/AppStateContext';
-import { useStudy } from '@/hooks/useStudies';
+import { useStudy } from '@/state/studies';
 
 interface HeaderProps {
   title?: string;

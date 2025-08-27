@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { assessmentsApi, qualityOfLifeApi } from '@/api/services';
+import { assessmentsApi, qualityOfLifeApi } from './api';
 import { StudyType } from '@/api/types';
 
 // Query keys
