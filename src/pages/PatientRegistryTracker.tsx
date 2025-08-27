@@ -45,7 +45,6 @@ export default function PatientRegistryTracker() {
     <div className="flex flex-col h-full">
       <Header 
         title={getRegistryTitle()} 
-        subtitle="Comprehensive view of your registry data and analytics"
         showStudySelector={true}
       />
       

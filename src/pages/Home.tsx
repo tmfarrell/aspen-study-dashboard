@@ -68,13 +68,18 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        title="Home" 
-        subtitle="Your central hub for real-time study progress, insights and updates" 
-      />
+      <Header title="Home" />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-6">
+          {/* Page Description */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Home</h2>
+            <p className="text-muted-foreground">
+              Your central hub for real-time study progress, insights and updates
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Quick Actions */}
           <Card className="lg:col-span-2">

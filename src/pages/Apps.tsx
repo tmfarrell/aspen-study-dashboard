@@ -25,13 +25,17 @@ const Apps = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        title="Applications" 
-        subtitle="Available applications and tools for your research" 
-      />
+      <Header title="Applications" />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6">
+          {/* Page Description */}
+          <div className="space-y-2 mb-6">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Applications</h2>
+            <p className="text-muted-foreground">
+              Available applications and tools for your research
+            </p>
+          </div>
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2">Available Applications</h2>
           <p className="text-muted-foreground">

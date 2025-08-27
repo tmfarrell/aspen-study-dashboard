@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, Users, Activity, TrendingUp, Heart, Stethoscope } from 'lucide-react';
-import UserDropdown from '@/components/UserDropdown';
+import { Header } from '@/components/Header';
 import { StudySelector } from '@/components/StudySelector';
 
 const Reports = () => {
@@ -35,25 +35,18 @@ const Reports = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Insights Library</h1>
-              <p className="text-muted-foreground">
-                Create comprehensive reports and insights from your study data
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <StudySelector />
-              <UserDropdown />
-            </div>
+    <div className="flex flex-col h-full">
+      <Header title="Insights Library" />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6 space-y-6">
+          {/* Page Description */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Insights Library</h2>
+            <p className="text-muted-foreground">
+              Create comprehensive reports and insights from your study data
+            </p>
           </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {reportTypes.map((report) => (
             <Card key={report.title} className="h-full hover:shadow-lg transition-shadow cursor-pointer">
@@ -72,6 +65,7 @@ const Reports = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
         </div>
       </div>
     </div>

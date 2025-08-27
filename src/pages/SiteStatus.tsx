@@ -24,12 +24,18 @@ export default function SiteStatus() {
     <div className="flex flex-col h-full">
       <Header 
         title="Site Status" 
-        subtitle="Monitor site performance and data quality across your study network"
         showStudySelector={true}
       />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-6">
+          {/* Page Description */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Site Status</h2>
+            <p className="text-muted-foreground">
+              Monitor site performance and data quality across your study network
+            </p>
+          </div>
           <SiteStatusHeader />
 
           <SiteListTable onSiteClick={handleSiteClick} />

@@ -42,13 +42,17 @@ const FAQ = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        title="Frequently Asked Questions" 
-        subtitle="Browse through our frequently asked questions" 
-      />
+      <Header title="FAQ" />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-4xl mx-auto p-6">
+          {/* Page Description */}
+          <div className="space-y-2 mb-6">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Frequently Asked Questions</h2>
+            <p className="text-muted-foreground">
+              Browse through our frequently asked questions
+            </p>
+          </div>
         <div className="mb-8">
           <Card>
             <CardHeader>

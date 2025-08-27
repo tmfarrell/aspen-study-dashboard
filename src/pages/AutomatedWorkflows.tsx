@@ -162,13 +162,19 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
     <div className="flex flex-col h-full">
       <Header 
         title="Structured Mapping" 
-        subtitle="Automate workflows and processes for your healthcare registry data"
         showStudySelector={true}
       />
 
       {/* Conversation Area */}
       <div className="flex-1 overflow-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-4 relative">
+          {/* Page Description */}
+          <div className="space-y-2 mb-6">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Structured Mapping</h2>
+            <p className="text-muted-foreground">
+              Automate workflows and processes for your healthcare registry data
+            </p>
+          </div>
         {/* Assistant Dropdown in upper right */}
         <div className="absolute top-0 right-0 z-10 pt-6 pr-6">
           <div className="flex items-center gap-2">
