@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Send, Bot, Settings, User, ChevronDown } from "lucide-react";
-import UserDropdown from "@/components/UserDropdown";
+import { Header } from "@/components/Header";
 import { StudySelector } from "@/components/StudySelector";
 
 export default function AutomatedWorkflows() {
@@ -159,28 +159,12 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
-      {/* Header */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Structured Mapping</h1>
-              <p className="text-muted-foreground">
-                Automate workflows and processes for your healthcare registry data
-              </p>
-            </div>
-            
-            {/* Controls */}
-            <div className="flex items-center gap-4">
-              <StudySelector />
-
-              {/* User Dropdown */}
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Structured Mapping" 
+        subtitle="Automate workflows and processes for your healthcare registry data"
+        showStudySelector={true}
+      />
 
       {/* Conversation Area */}
       <div className="flex-1 overflow-auto">

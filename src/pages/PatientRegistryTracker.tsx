@@ -7,8 +7,8 @@ import { PatientEnrolmentPanel } from "@/components/PatientEnrolmentPanel";
 import { MedicationsPanel } from "@/components/MedicationsPanel";
 import { AFibPanel } from "@/components/AFibPanel";
 import { AIInsightsPanel } from "@/components/AIInsightsPanel";
-import UserDropdown from "@/components/UserDropdown";
 import { StudySelector } from "@/components/StudySelector";
+import { Header } from "@/components/Header";
 import BMIDistributionChart from "@/components/cohort/BMIDistributionChart";
 import GeographicDistribution from "@/components/cohort/GeographicDistribution";
 import AgeDistributionChart from "@/components/cohort/AgeDistributionChart";
@@ -28,31 +28,30 @@ export default function PatientRegistryTracker() {
   const [activeTab, setActiveTab] = useState("overview");
   const { selectedStudy } = useCohortStore();
 
+  const getRegistryTitle = () => {
+    switch (selectedStudy) {
+      case 'heartrhythm':
+        return 'Heart Rhythm Registry';
+      case 'diabetes':
+        return 'Diabetes Registry';
+      case 'obesity':
+        return 'Obesity Registry';
+      default:
+        return 'Registry';
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
-      {/* Fixed Header */}
-      <div className="bg-[#003f7f] text-white border-b border-border sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-xl font-semibold">
-                {selectedStudy === 'heartrhythm' ? 'Heart Rhythm Registry' : 
-                 selectedStudy === 'diabetes' ? 'Diabetes Registry' :
-                 selectedStudy === 'obesity' ? 'Obesity Registry' : 'Registry'}
-              </h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <StudySelector />
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scrollable Content */}
+      <Header 
+        title={getRegistryTitle()} 
+        subtitle="Comprehensive view of your registry data and analytics"
+        showStudySelector={true}
+      />
+      
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-6">
-          {/* Page Title and Description */}
+          {/* Page Title */}
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Tracker</h2>
             <p className="text-muted-foreground">

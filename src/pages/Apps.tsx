@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, Search } from 'lucide-react';
-import UserDropdown from '@/components/UserDropdown';
+import { Header } from '@/components/Header';
 
 const Apps = () => {
   const applications = [
@@ -24,19 +24,14 @@ const Apps = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-[#003f7f]">Applications</h1>
-            </div>
-            <UserDropdown />
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Applications" 
+        subtitle="Available applications and tools for your research" 
+      />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2">Available Applications</h2>
           <p className="text-muted-foreground">
@@ -63,6 +58,7 @@ const Apps = () => {
               </Card>
             </Link>
           ))}
+        </div>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Filter, Download, Plus, Users, Stethoscope, Pill, Eye, Scissors, TestTube, FileText, Calendar, Database, GripVertical, X, ChevronDown } from 'lucide-react';
-import UserDropdown from '@/components/UserDropdown';
+import { Header } from '@/components/Header';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -414,38 +414,15 @@ const Explorer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className="pt-2">
-                <h1 className="text-2xl font-bold text-[#003f7f]">Cohort Explorer</h1>
-                <p className="text-muted-foreground">Create and explore custom patient cohorts based on your study data</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-blue-500">
-                <Select value={selectedStudy} onValueChange={setSelectedStudy}>
-                  <SelectTrigger className="w-48" id="study-select-header">
-                    <SelectValue placeholder="Select a study" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {getStudyOptions().map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Cohort Explorer" 
+        subtitle="Create and explore custom patient cohorts based on your study data"
+        showStudySelector={true}
+      />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6 space-y-6">
         <div className="flex justify-end items-center mb-8">
           <div className="flex items-center gap-4 mr-4">
             <div className="flex flex-col gap-1 text-right">
@@ -453,9 +430,9 @@ const Explorer = () => {
               <div className="text-2xl font-bold text-[#003f7f]">
                 {(currentCohortSize || 0).toLocaleString()}
               </div>
-            </div>
-          </div>
         </div>
+      </div>
+    </div>
 
         {/* Cohort Overview Card */}
         <Card className="border border-none shadow-none mb-4">
@@ -725,6 +702,7 @@ const Explorer = () => {
             </Card>
           </TabsContent>
         </Tabs>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import UserDropdown from "@/components/UserDropdown";
+import { Header } from "@/components/Header";
 import { StudySelector } from "@/components/StudySelector";
 import { SiteStatusHeader } from "@/components/SiteStatusHeader";
 import { SiteListTable } from "@/components/SiteListTable";
@@ -21,34 +21,25 @@ export default function SiteStatus() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Site Status</h1>
-              <p className="text-muted-foreground">
-                Monitor site performance, health checks, and system status
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <StudySelector />
-              <UserDropdown />
-            </div>
-          </div>
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Site Status" 
+        subtitle="Monitor site performance and data quality across your study network"
+        showStudySelector={true}
+      />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6 space-y-6">
+          <SiteStatusHeader />
+
+          <SiteListTable onSiteClick={handleSiteClick} />
+
+          <SiteDetailModal 
+            site={selectedSite}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+          />
         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
-        <SiteStatusHeader />
-
-        <SiteListTable onSiteClick={handleSiteClick} />
-
-        <SiteDetailModal 
-          site={selectedSite}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
       </div>
     </div>
   );

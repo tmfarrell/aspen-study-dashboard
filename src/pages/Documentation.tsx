@@ -3,24 +3,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { BarChart3, Search, FileText, Users, Activity, Database, TrendingUp, Stethoscope, Bot, Building2, FileCog } from 'lucide-react';
-import UserDropdown from '@/components/UserDropdown';
+import { Header } from '@/components/Header';
 
 const Documentation = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-[#003f7f]">Documentation</h1>
-              <p className="text-muted-foreground">Platform guidance and feature descriptions</p>
-            </div>
-            <UserDropdown />
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6 space-y-8">
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Documentation" 
+        subtitle="Comprehensive guides and documentation for the Aspen platform" 
+      />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6 space-y-8">
         {/* Aspen Studies Section */}
         <section id="aspen-studies">
           <div className="flex items-center gap-3 mb-6">
@@ -650,6 +644,7 @@ const Documentation = () => {
             </Card>
           </div>
         </section>
+        </div>
       </div>
     </div>
   );

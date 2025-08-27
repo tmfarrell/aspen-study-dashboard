@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, HelpCircle } from 'lucide-react';
-import UserDropdown from '@/components/UserDropdown';
+import { Header } from '@/components/Header';
 
 const FAQ = () => {
   const faqItems = [
@@ -41,20 +41,14 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-[#003f7f]">Frequently Asked Questions</h1>
-              <p className="text-muted-foreground">Browse through our frequently asked questions</p>
-            </div>
-            <UserDropdown />
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto p-6">
+    <div className="flex flex-col h-full">
+      <Header 
+        title="Frequently Asked Questions" 
+        subtitle="Browse through our frequently asked questions" 
+      />
+      
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto p-6">
         <div className="mb-8">
           <Card>
             <CardHeader>
@@ -89,6 +83,7 @@ const FAQ = () => {
               </Collapsible>
             </Card>
           ))}
+        </div>
         </div>
       </div>
     </div>
