@@ -22,11 +22,11 @@ import GenderDistribution from "@/components/cohort/GenderDistribution";
 import RaceDistribution from "@/components/cohort/RaceDistribution";
 import CountryDistribution from "@/components/cohort/CountryDistribution";
 import ComorbidityDistribution from "@/components/cohort/ComorbidityDistribution";
-import { useCohortStore } from "@/stores/cohortStore";
+import { useAppState } from "@/contexts/AppStateContext";
 
 export default function PatientRegistryTracker() {
   const [activeTab, setActiveTab] = useState("overview");
-  const { selectedStudy } = useCohortStore();
+  const { selectedStudy } = useAppState();
 
   return (
     <div className="flex flex-col h-full">

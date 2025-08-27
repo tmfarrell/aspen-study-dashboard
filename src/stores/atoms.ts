@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import { StudyType } from '@/api/types';
 
 // UI State Atoms
-export const selectedStudyAtom = atom<StudyType>('obesity');
+export const selectedStudyAtom = atom<StudyType>('heartrhythm');
 
 export const sidebarCollapsedAtom = atom<boolean>(false);
 
