@@ -36,7 +36,7 @@ export default function PatientRegistryTracker() {
         <div className="pl-8 pr-4 py-6 space-y-6">
           {/* Page Title */}
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Tracker</h2>
+            <h2 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Overview</h2>
             <p className="text-muted-foreground">
               Comprehensive view of your registry data and analytics
             </p>
@@ -79,37 +79,36 @@ export default function PatientRegistryTracker() {
           </Tabs>
         ) : (
           // Other studies content (from PatientCohort)
-          <>
-            <CohortSummary selectedStudy={selectedStudy} />
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-9">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
+              <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
+              <TabsTrigger value="geography">Geographic</TabsTrigger>
+              <TabsTrigger value="demographics">Demographics</TabsTrigger>
+              <TabsTrigger value="comorbidity">Comorbidity</TabsTrigger>
+              <TabsTrigger value="medication">Medication</TabsTrigger>
+              <TabsTrigger value="qol">Quality of Life</TabsTrigger>
+              <TabsTrigger value="insights">AI Insights</TabsTrigger>
+            </TabsList>
 
-            {/* Progress tracking section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-              <EnrollmentProgress selectedStudy={selectedStudy} />
-              <AssessmentProgress selectedStudy={selectedStudy} />
-            </div>
+            <TabsContent value="overview" className="space-y-6">
+              <CohortSummary selectedStudy={selectedStudy} />
+              
+              {/* Progress tracking section */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <EnrollmentProgress selectedStudy={selectedStudy} />
+                <AssessmentProgress selectedStudy={selectedStudy} />
+              </div>
 
-            <Tabs defaultValue="overview" className="mt-8">
-              <TabsList className="grid w-full grid-cols-9">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
-                <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
-                <TabsTrigger value="geography">Geographic</TabsTrigger>
-                <TabsTrigger value="demographics">Demographics</TabsTrigger>
-                <TabsTrigger value="comorbidity">Comorbidity</TabsTrigger>
-                <TabsTrigger value="medication">Medication</TabsTrigger>
-                <TabsTrigger value="qol">Quality of Life</TabsTrigger>
-                <TabsTrigger value="insights">AI Insights</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="overview" className="mt-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <BMIDistributionChart />
-                  <AgeDistributionChart />
-                  <div className="lg:col-span-2">
-                    <GeographicDistribution />
-                  </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <BMIDistributionChart />
+                <AgeDistributionChart />
+                <div className="lg:col-span-2">
+                  <GeographicDistribution />
                 </div>
-              </TabsContent>
+              </div>
+            </TabsContent>
 
               <TabsContent value="enrollment" className="mt-6">
                 <EnrollmentProgress detailed selectedStudy={selectedStudy} />
@@ -178,8 +177,7 @@ export default function PatientRegistryTracker() {
               <TabsContent value="insights" className="mt-6">
                 <AIInsightsPanel />
               </TabsContent>
-            </Tabs>
-          </>
+          </Tabs>
         )}
         </div>
       </div>
