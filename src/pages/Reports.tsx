@@ -36,7 +36,7 @@ const Reports = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Insights Library" />
+      <Header useRegistryTitle={true} />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-6">

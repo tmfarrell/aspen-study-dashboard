@@ -161,7 +161,7 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
   return (
     <div className="flex flex-col h-full">
       <Header 
-        title="Structured Mapping" 
+        useRegistryTitle={true}
         showStudySelector={true}
       />
 

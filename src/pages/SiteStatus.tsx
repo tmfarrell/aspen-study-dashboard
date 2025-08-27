@@ -23,7 +23,7 @@ export default function SiteStatus() {
   return (
     <div className="flex flex-col h-full">
       <Header 
-        title="Site Status" 
+        useRegistryTitle={true}
         showStudySelector={true}
       />
       

@@ -5,7 +5,7 @@ export default function UnstructuredData() {
   return (
     <div className="flex flex-col h-full">
       <Header 
-        title="Unstructured Mapping" 
+        useRegistryTitle={true}
         showStudySelector={true}
       />
       

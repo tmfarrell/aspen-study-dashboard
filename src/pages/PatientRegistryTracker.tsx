@@ -28,23 +28,10 @@ export default function PatientRegistryTracker() {
   const [activeTab, setActiveTab] = useState("overview");
   const { selectedStudy } = useCohortStore();
 
-  const getRegistryTitle = () => {
-    switch (selectedStudy) {
-      case 'heartrhythm':
-        return 'Heart Rhythm Registry';
-      case 'diabetes':
-        return 'Diabetes Registry';
-      case 'obesity':
-        return 'Obesity Registry';
-      default:
-        return 'Registry';
-    }
-  };
-
   return (
     <div className="flex flex-col h-full">
       <Header 
-        title={getRegistryTitle()} 
+        useRegistryTitle={true}
         showStudySelector={true}
       />
       

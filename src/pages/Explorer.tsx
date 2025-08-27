@@ -416,7 +416,7 @@ const Explorer = () => {
   return (
     <div className="flex flex-col h-full">
       <Header 
-        title="Cohort Explorer" 
+        useRegistryTitle={true}
         showStudySelector={true}
       />
       
