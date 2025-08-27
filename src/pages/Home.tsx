@@ -53,17 +53,17 @@ const Home = () => {
       <Header title="Aspen" />
       
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div className="pl-8 pr-4 py-6 space-y-6">
           {/* Welcome Section */}
-          <div className="text-center space-y-4 mb-8">
+          <div className="space-y-4 mb-8">
             <h1 className="text-4xl font-bold text-[#003f7f]">Welcome to Aspen</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-4xl">
               Select a registry to access comprehensive clinical research data, analytics, and insights
             </p>
           </div>
 
           {/* Study Registry Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl">
             {studyOptions.map((option) => {
               const studyType = option.value as StudyType;
               const studyInfo = studyData[studyType];

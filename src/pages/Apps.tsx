@@ -28,7 +28,7 @@ const Apps = () => {
       <Header useRegistryTitle={true} />
       
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="pl-8 pr-4 py-6">
           {/* Page Description */}
           <div className="space-y-2 mb-6">
             <h2 className="text-2xl font-bold text-[#003f7f]">Applications</h2>

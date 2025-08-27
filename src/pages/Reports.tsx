@@ -39,7 +39,7 @@ const Reports = () => {
       <Header useRegistryTitle={true} />
       
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div className="pl-8 pr-4 py-6 space-y-6">
           {/* Page Description */}
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-[#003f7f]">Insights Library</h2>

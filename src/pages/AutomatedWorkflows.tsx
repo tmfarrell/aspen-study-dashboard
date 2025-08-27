@@ -164,7 +164,7 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
 
       {/* Conversation Area */}
       <div className="flex-1 overflow-auto">
-        <div className="max-w-7xl mx-auto p-6 space-y-4 relative">
+        <div className="pl-8 pr-4 py-6 space-y-4 relative">
           {/* Page Description */}
           <div className="space-y-2 mb-6">
             <h2 className="text-2xl font-bold text-[#003f7f]">Structured Mapping</h2>
