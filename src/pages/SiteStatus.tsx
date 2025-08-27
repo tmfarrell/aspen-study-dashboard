@@ -22,10 +22,7 @@ export default function SiteStatus() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        useRegistryTitle={true}
-        showStudySelector={true}
-      />
+      <Header useRegistryTitle={true} />
       
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto p-6 space-y-6">

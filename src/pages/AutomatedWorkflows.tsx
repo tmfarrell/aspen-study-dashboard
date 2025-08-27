@@ -160,10 +160,7 @@ This step is complete. Next, I will run dbt build to validate the encounter and 
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        useRegistryTitle={true}
-        showStudySelector={true}
-      />
+      <Header useRegistryTitle={true} />
 
       {/* Conversation Area */}
       <div className="flex-1 overflow-auto">
