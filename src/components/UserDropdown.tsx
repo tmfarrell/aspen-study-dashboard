@@ -30,15 +30,15 @@ const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center justify-center w-8 h-8 rounded-full bg-[#003f7f] text-white hover:bg-[#0056b3] transition-colors focus:outline-none focus:ring-2 focus:ring-[#003f7f] focus:ring-offset-2">
+        <button className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#003f7f]">
           <Avatar className="w-8 h-8">
-            <AvatarFallback className="bg-[#003f7f] text-white text-sm font-medium">
+            <AvatarFallback className="bg-white text-[#003f7f] text-sm font-medium">
               {user?.email ? getUserInitials(user.email) : <User className="h-4 w-4" />}
             </AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg z-50">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">Account</p>
