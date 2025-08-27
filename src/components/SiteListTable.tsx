@@ -75,14 +75,14 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
     }
   };
 
-  const getStatusVariant = (status: SiteStatus): "success" | "warning" | "muted" => {
+  const getStatusVariant = (status: SiteStatus): "default" | "secondary" | "outline" => {
     switch (status) {
       case 'active':
-        return 'success'; // Green
+        return 'default'; // Green
       case 'onboarding':
-        return 'warning'; // Yellow
+        return 'secondary'; // Yellow
       case 'inactive':
-        return 'muted'; // Gray
+        return 'outline'; // Gray
     }
   };
 

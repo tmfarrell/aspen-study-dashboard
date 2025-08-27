@@ -29,16 +29,17 @@ export default function PatientRegistryTracker() {
   const { selectedStudy } = useCohortStore();
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
+    <div className="flex flex-col h-full">
+      {/* Fixed Header */}
+      <div className="bg-[#003f7f] text-white border-b border-border sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="pt-2">
-              <h1 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Tracker</h1>
-              <p className="text-muted-foreground">
-                Comprehensive view of your registry data and analytics
-              </p>
+            <div>
+              <h1 className="text-xl font-semibold">
+                {selectedStudy === 'heartrhythm' ? 'Heart Rhythm Registry' : 
+                 selectedStudy === 'diabetes' ? 'Diabetes Registry' :
+                 selectedStudy === 'obesity' ? 'Obesity Registry' : 'Registry'}
+              </h1>
             </div>
             <div className="flex items-center gap-4">
               <StudySelector />
@@ -48,7 +49,16 @@ export default function PatientRegistryTracker() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6">
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-6 space-y-6">
+          {/* Page Title and Description */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-[#003f7f]">Aspen Registry Tracker</h2>
+            <p className="text-muted-foreground">
+              Comprehensive view of your registry data and analytics
+            </p>
+          </div>
         {selectedStudy === 'heartrhythm' ? (
           // Heart Rhythm Study specific content
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -189,6 +199,7 @@ export default function PatientRegistryTracker() {
             </Tabs>
           </>
         )}
+        </div>
       </div>
     </div>
   );

@@ -89,7 +89,7 @@ const AssessmentProgress = ({ selectedStudy = 'obesity' }: AssessmentProgressPro
   const currentData = assessmentData[selectedRegion as keyof typeof assessmentData];
   const overallCompleted = currentData.reduce((sum, assessment) => sum + assessment.completed, 0);
   const overallTotal = currentData.reduce((sum, assessment) => sum + assessment.total, 0);
-  const overallPercentage = (overallCompleted / overallTotal) * 100;
+  const overallPercentage = overallTotal > 0 ? (overallCompleted / overallTotal) * 100 : 0;
 
   return (
     <Card>

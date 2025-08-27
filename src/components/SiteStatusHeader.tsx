@@ -1,4 +1,4 @@
-import { StatCard } from "@/components/ui/stat-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, AlertCircle, CheckCircle, Users, Database } from "lucide-react";
 import { sites, getSitesByStatus, getSitesByHealthStatus, getTotalPatients, getAverageDataQuality } from "@/data/siteData";
 
