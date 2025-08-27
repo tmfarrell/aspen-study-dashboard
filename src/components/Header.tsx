@@ -1,7 +1,8 @@
 import React from 'react';
 import UserDropdown from './UserDropdown';
 import { StudySelector } from './StudySelector';
-import { useCohortStore } from '@/stores/cohortStore';
+import { useAppState } from '@/contexts/AppStateContext';
+import { useStudy } from '@/hooks/useStudies';
 
 interface HeaderProps {
   title?: string;
@@ -11,25 +12,11 @@ interface HeaderProps {
   useRegistryTitle?: boolean;
 }
 
-const getRegistryTitle = (selectedStudy: string) => {
-  switch (selectedStudy) {
-    case 'heartrhythm':
-      return 'Heart Rhythm Registry';
-    case 'diabetes':
-      return 'Diabetes Registry';
-    case 'obesity':
-      return 'Obesity Registry';
-    case 'hypertension':
-      return 'Hypertension Registry';
-    default:
-      return 'Registry';
-  }
-};
-
 export function Header({ title, subtitle, showStudySelector = false, actions, useRegistryTitle = false }: HeaderProps) {
-  const { selectedStudy } = useCohortStore();
+  const { selectedStudy } = useAppState();
+  const { data: currentStudy } = useStudy(selectedStudy);
   
-  const displayTitle = useRegistryTitle ? getRegistryTitle(selectedStudy) : title;
+  const displayTitle = useRegistryTitle && currentStudy ? currentStudy.name : title;
 
   return (
     <div className="bg-[#003f7f] text-white border-b border-border sticky top-0 z-50">

@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { AppStateProvider } from './contexts/AppStateContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
@@ -20,7 +21,8 @@ import Notifications from './pages/Notifications';
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <AppStateProvider>
+        <Router>
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route
@@ -56,7 +58,8 @@ function App() {
             }
           />
         </Routes>
-      </Router>
+        </Router>
+      </AppStateProvider>
     </AuthProvider>
   );
 }

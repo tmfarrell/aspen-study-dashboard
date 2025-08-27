@@ -4,31 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Users, Activity, TrendingUp, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
-import { useCohortStore } from '@/stores/cohortStore';
-import { studyData, StudyType, getStudyOptions } from '@/data/studyData';
+import { useAppState } from '@/contexts/AppStateContext';
+import { useStudies } from '@/hooks/useStudies';
+import { StudyType } from '@/api/types';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { setSelectedStudy } = useCohortStore();
+  const { setSelectedStudy } = useAppState();
+  const { data: studies, isLoading, error } = useStudies();
 
   const handleStudySelect = (studyType: StudyType) => {
     setSelectedStudy(studyType);
     navigate('/patient-registry');
-  };
-
-  const getStudyDescription = (studyType: StudyType) => {
-    switch (studyType) {
-      case 'obesity':
-        return 'Comprehensive obesity research tracking patient outcomes, treatments, and interventions';
-      case 'diabetes':
-        return 'Type 2 diabetes management and outcomes research across multiple healthcare settings';
-      case 'heartrhythm':
-        return 'Heart rhythm disorders and arrhythmia treatment effectiveness studies';
-      case 'hypertension':
-        return 'Hypertension management and cardiovascular risk reduction research';
-      default:
-        return 'Clinical research study tracking patient outcomes and treatments';
-    }
   };
 
   const getStudyIcon = (studyType: StudyType) => {
@@ -46,7 +33,37 @@ const Home = () => {
     }
   };
 
-  const studyOptions = getStudyOptions();
+  if (isLoading) {
+    return (
+      <div className="flex flex-col h-full">
+        <Header title="Aspen" />
+        <div className="flex-1 overflow-y-auto">
+          <div className="pl-8 pr-4 py-6 space-y-6">
+            <div className="text-center">
+              <p className="text-muted-foreground">Loading studies...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col h-full">
+        <Header title="Aspen" />
+        <div className="flex-1 overflow-y-auto">
+          <div className="pl-8 pr-4 py-6 space-y-6">
+            <div className="text-center">
+              <p className="text-red-500">Error loading studies: {error.message}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const studyList = studies || [];
 
   return (
     <div className="flex flex-col h-full">
@@ -64,9 +81,8 @@ const Home = () => {
 
           {/* Study Registry Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl">
-            {studyOptions.map((option) => {
-              const studyType = option.value as StudyType;
-              const studyInfo = studyData[studyType];
+            {studyList.map((study) => {
+              const studyType = study.id as StudyType;
               
               return (
                 <Card 
@@ -80,10 +96,10 @@ const Home = () => {
                         {getStudyIcon(studyType)}
                         <div>
                           <CardTitle className="text-xl font-semibold text-[#003f7f]">
-                            {option.label}
+                            {study.name}
                           </CardTitle>
                           <CardDescription className="text-sm text-muted-foreground mt-1">
-                            {getStudyDescription(studyType)}
+                            {study.description}
                           </CardDescription>
                         </div>
                       </div>
@@ -95,14 +111,14 @@ const Home = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <div className="text-2xl font-bold text-[#003f7f]">
-                          {studyInfo?.totalPatients?.toLocaleString() || '0'}
+                          {study.totalPatients?.toLocaleString() || '0'}
                         </div>
                         <div className="text-sm text-muted-foreground">Total Patients</div>
                       </div>
                       
                       <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <div className="text-2xl font-bold text-[#003f7f]">
-                          {Math.floor(Math.random() * 50) + 20}
+                          {study.enrolledSites || Math.floor(Math.random() * 50) + 20}
                         </div>
                         <div className="text-sm text-muted-foreground">Active Sites</div>
                       </div>
