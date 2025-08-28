@@ -3,16 +3,40 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { useStudyMetrics } from '@/state/metrics';
+import { useAppState } from '@/contexts/AppStateContext';
+import { StudyType } from '@/api/types';
 
-const GenderDistribution = ({ detailed = false }: { detailed?: boolean }) => {
-  // Mock data for gender distribution
-  const genderData = [
-    { gender: 'Female', count: 6200, percentage: 62, color: '#8884d8' },
-    { gender: 'Male', count: 3600, percentage: 36, color: '#82ca9d' },
-    { gender: 'Non-binary', count: 150, percentage: 1.5, color: '#ffc658' },
-    { gender: 'Prefer not to say', count: 50, percentage: 0.5, color: '#ff7300' }
+const GenderDistribution = ({ detailed = false, studyId }: { detailed?: boolean; studyId?: StudyType }) => {
+  const { selectedStudy } = useAppState();
+  const currentStudyId = studyId || selectedStudy;
+  const { data: metricsData, isLoading } = useStudyMetrics(currentStudyId);
+
+  // Get gender metric from API
+  const genderMetric = metricsData?.metrics.find(m => m.id === 'gender');
+
+  // OM1 Color scheme for gender categories
+  const om1Colors = [
+    'hsl(var(--om1-primary-dark-blue))',     // Primary blue
+    'hsl(var(--om1-secondary-light-blue))',  // Light blue
+    'hsl(var(--om1-secondary-green))',       // Green
+    'hsl(var(--om1-secondary-orange))',      // Orange
+    'hsl(var(--om1-secondary-purple))',      // Purple
   ];
 
+  // Transform metric data for charts
+  const genderData = React.useMemo(() => {
+    if (!genderMetric || genderMetric.type !== 'categorical') return [];
+    
+    return genderMetric.data.map((item, index) => ({
+      gender: item.category,
+      count: item.count,
+      percentage: Math.round(item.percentage * 10) / 10, // Round to 1 decimal
+      color: om1Colors[index % om1Colors.length]
+    }));
+  }, [genderMetric]);
+
+  // Mock age-gender data for detailed view (this could be a separate metric in the future)
   const ageGenderData = [
     { ageGroup: '18-29', female: 800, male: 450, nonBinary: 25, other: 10 },
     { ageGroup: '30-39', female: 1200, male: 680, nonBinary: 35, other: 15 },
@@ -27,6 +51,34 @@ const GenderDistribution = ({ detailed = false }: { detailed?: boolean }) => {
       label: "Count",
     }
   };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Gender Distribution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] bg-muted animate-pulse rounded-lg" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!genderData.length) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Gender Distribution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center text-muted-foreground p-8">
+            No gender data available for this study
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -92,10 +144,10 @@ const GenderDistribution = ({ detailed = false }: { detailed?: boolean }) => {
                   <XAxis dataKey="ageGroup" />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="female" stackId="a" fill="#8884d8" name="Female" />
-                  <Bar dataKey="male" stackId="a" fill="#82ca9d" name="Male" />
-                  <Bar dataKey="nonBinary" stackId="a" fill="#ffc658" name="Non-binary" />
-                  <Bar dataKey="other" stackId="a" fill="#ff7300" name="Other" />
+                  <Bar dataKey="female" stackId="a" fill="hsl(var(--om1-primary-dark-blue))" name="Female" />
+                  <Bar dataKey="male" stackId="a" fill="hsl(var(--om1-secondary-light-blue))" name="Male" />
+                  <Bar dataKey="nonBinary" stackId="a" fill="hsl(var(--om1-secondary-green))" name="Non-binary" />
+                  <Bar dataKey="other" stackId="a" fill="hsl(var(--om1-secondary-orange))" name="Other" />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
