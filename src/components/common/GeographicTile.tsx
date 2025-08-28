@@ -354,7 +354,12 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
                       
-                      // For country-specific maps, only show regions with data
+                      // For US subdivision level, show all US states
+                      if (navigation.level === 'subdivision' && navigation.selectedCountry === 'United States') {
+                        return true;
+                      }
+                      
+                      // For other country-specific maps, only show regions with data
                       if (navigation.level === 'country' || navigation.level === 'subdivision') {
                         return geographicData.data[regionName] !== undefined;
                       }
