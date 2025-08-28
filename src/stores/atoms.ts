@@ -1,8 +1,13 @@
 import { atom } from 'jotai';
 import { StudyType } from '@/api/types';
+import { calculateTotalPatients } from '@/data/studyHelpers';
 
 // UI State Atoms
-export const selectedStudyAtom = atom<StudyType>('cardiology');
+export const selectedStudyAtom = atom<StudyType>('obesity');
+
+// Cohort State Atoms
+export const populationSizeAtom = atom<number>(0);
+export const currentCohortSizeAtom = atom<number>(0);
 
 export const sidebarCollapsedAtom = atom<boolean>(false);
 
@@ -62,4 +67,12 @@ export const currentPatientFiltersAtom = atom(
     ...get(patientFiltersAtom),
     studyId: get(selectedStudyAtom),
   })
+);
+
+// Derived cohort atom that updates when study changes
+export const populationSizeForStudyAtom = atom(
+  (get) => {
+    const study = get(selectedStudyAtom);
+    return calculateTotalPatients(study);
+  }
 );

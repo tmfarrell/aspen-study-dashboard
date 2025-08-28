@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { studyData, StudyType, getStudyOptions } from '@/data/studyData';
-import { useCohortStore } from '@/stores/cohortStore';
+import { useAppState } from '@/contexts/AppStateContext';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area, LineChart, Line } from 'recharts';
 
@@ -292,7 +292,7 @@ const Explorer = () => {
     currentCohortSize = 0, 
     applyCriteria,
     resetCohortSize
-  } = useCohortStore();
+  } = useAppState();
 
   const currentStudyData = studyData[selectedStudy];
 

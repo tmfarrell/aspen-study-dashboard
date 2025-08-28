@@ -1,19 +1,20 @@
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getStudyOptions } from '@/data/studyData';
-import { useCohortStore } from '@/stores/cohortStore';
+import { useAppState } from '@/contexts/AppStateContext';
+import { StudyType } from '@/api/types';
 
 interface StudySelectorProps {
   className?: string;
 }
 
 export function StudySelector({ className = "w-48" }: StudySelectorProps) {
-  const { selectedStudy, setSelectedStudy } = useCohortStore();
+  const { selectedStudy, setSelectedStudy } = useAppState();
   const studyOptions = getStudyOptions();
 
   return (
     <div className="flex items-center gap-2 text-blue-500">
-      <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+      <Select value={selectedStudy} onValueChange={(value) => setSelectedStudy(value as StudyType)}>
         <SelectTrigger className={className} id="study-select">
           <SelectValue placeholder="Select a study" />
         </SelectTrigger>

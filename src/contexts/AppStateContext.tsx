@@ -9,9 +9,13 @@ import {
   patientDetailModalAtom,
   siteDetailModalAtom,
   chartTypeAtom,
-  regionFilterAtom
+  regionFilterAtom,
+  populationSizeAtom,
+  currentCohortSizeAtom,
+  populationSizeForStudyAtom
 } from '@/stores/atoms';
 import { StudyType } from '@/api/types';
+import { calculateTotalPatients } from '@/data/studyHelpers';
 
 interface AppStateContextType {
   // Study Selection
@@ -41,6 +45,12 @@ interface AppStateContextType {
   setChartType: (type: 'bar' | 'pie' | 'line') => void;
   regionFilter: string;
   setRegionFilter: (region: string) => void;
+  
+  // Cohort Management
+  populationSize: number;
+  currentCohortSize: number;
+  applyCriteria: (criteriaCount: number) => void;
+  resetCohortSize: () => void;
 }
 
 const AppStateContext = createContext<AppStateContextType | undefined>(undefined);
@@ -59,10 +69,53 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
   const [siteDetailModal, setSiteDetailModal] = useAtom(siteDetailModalAtom);
   const [chartType, setChartType] = useAtom(chartTypeAtom);
   const [regionFilter, setRegionFilter] = useAtom(regionFilterAtom);
+  const [populationSize, setPopulationSize] = useAtom(populationSizeAtom);
+  const [currentCohortSize, setCurrentCohortSize] = useAtom(currentCohortSizeAtom);
+  const [populationForStudy] = useAtom(populationSizeForStudyAtom);
+
+  // Custom setSelectedStudy that also updates cohort data
+  const handleSetSelectedStudy = (study: StudyType) => {
+    setSelectedStudy(study);
+    const newPopulation = calculateTotalPatients(study);
+    setPopulationSize(newPopulation);
+    setCurrentCohortSize(newPopulation); // Reset cohort size when changing studies
+  };
+
+  // Apply criteria function (same logic as cohortStore)
+  const applyCriteria = (criteriaCount: number) => {
+    if (!populationSize || criteriaCount === 0) {
+      setCurrentCohortSize(populationSize);
+      return;
+    }
+    
+    // Simulate reduction based on criteria count
+    // Each criteria reduces the cohort by 5-15% randomly
+    const reductionFactor = Math.pow(
+      1 - (Math.random() * 0.1 + 0.05), 
+      criteriaCount
+    );
+    
+    const newCohortSize = Math.max(Math.floor(populationSize * reductionFactor), 0);
+    setCurrentCohortSize(newCohortSize);
+  };
+
+  // Reset cohort size function
+  const resetCohortSize = () => {
+    setCurrentCohortSize(populationSize);
+  };
+
+  // Initialize population size when component mounts or study changes
+  React.useEffect(() => {
+    const newPopulation = calculateTotalPatients(selectedStudy);
+    setPopulationSize(newPopulation);
+    if (currentCohortSize === 0) {
+      setCurrentCohortSize(newPopulation);
+    }
+  }, [selectedStudy, setPopulationSize, setCurrentCohortSize, currentCohortSize]);
 
   const value: AppStateContextType = {
     selectedStudy,
-    setSelectedStudy,
+    setSelectedStudy: handleSetSelectedStudy,
     sidebarCollapsed,
     setSidebarCollapsed,
     patientFilters,
@@ -79,6 +132,10 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     setChartType,
     regionFilter,
     setRegionFilter,
+    populationSize,
+    currentCohortSize,
+    applyCriteria,
+    resetCohortSize,
   };
 
   return (
