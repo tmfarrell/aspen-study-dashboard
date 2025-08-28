@@ -87,14 +87,13 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Sync Frequency</span>
               <span className="text-sm font-medium">
-                {site.connectionMethod === 'FHIR' ? 'Real-time' : 'Daily at 2 AM'}
+                {site.region === 'us' ? 'Real-time' : 'Daily at 2 AM'}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Data Format</span>
               <span className="text-sm font-medium">
-                {site.connectionMethod === 'FHIR' ? 'FHIR R4' : 
-                 site.connectionMethod === 'SFTP' ? 'CSV/HL7' : 'JSON'}
+                {site.region === 'us' ? 'FHIR R4' : 'HL7 FHIR'}
               </span>
             </div>
           </div>
@@ -109,33 +108,33 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Error Count</span>
               <div className="flex items-center gap-2">
-                {site.errorCount === 0 ? (
+                {site.healthStatus === 'healthy' ? (
                   <CheckCircle className="h-4 w-4 text-green-600" />
                 ) : (
                   <AlertTriangle className="h-4 w-4 text-red-600" />
                 )}
-                <Badge variant={site.errorCount === 0 ? "default" : "destructive"}>
-                  {site.errorCount} errors
+                <Badge variant={site.healthStatus === 'healthy' ? "default" : "destructive"}>
+                  {site.healthStatus === 'healthy' ? 'No errors' : 'Issues detected'}
                 </Badge>
               </div>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Warning Count</span>
-              <Badge variant={site.warningCount <= 3 ? "secondary" : "destructive"}>
-                {site.warningCount} warnings
+              <Badge variant={site.healthStatus === 'healthy' ? "default" : "secondary"}>
+                {site.healthStatus === 'warning' ? 'Minor warnings' : 'No warnings'}
               </Badge>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Uptime</span>
               <span className="text-sm font-medium text-green-600">
-                {site.healthStatus === 'green' ? '99.9%' : 
-                 site.healthStatus === 'yellow' ? '97.2%' : '85.1%'}
+                {site.healthStatus === 'healthy' ? '99.9%' : 
+                 site.healthStatus === 'warning' ? '97.2%' : '85.1%'}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Response Time</span>
               <span className="text-sm font-medium">
-                {site.connectionMethod === 'FHIR' ? '< 200ms' : '< 5min'}
+                {site.region === 'us' ? '< 200ms' : '< 5min'}
               </span>
             </div>
           </div>
@@ -176,14 +175,14 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
             <Badge variant="default">1,000+ patients</Badge>
           </div>
           
-          {site.warningCount > 0 && (
+          {site.healthStatus === 'warning' && (
             <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg">
               <AlertTriangle className="h-4 w-4 text-yellow-600" />
               <div className="flex-1">
                 <div className="text-sm font-medium">Data quality warnings detected</div>
                 <div className="text-xs text-muted-foreground">4 hours ago</div>
               </div>
-              <Badge variant="secondary">{site.warningCount} warnings</Badge>
+              <Badge variant="secondary">3 warnings</Badge>
             </div>
           )}
         </div>
