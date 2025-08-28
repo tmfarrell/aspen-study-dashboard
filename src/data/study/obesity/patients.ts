@@ -31,7 +31,13 @@ export const obesityPatientConfig = {
     'Naltrexone-Bupropion',
     'Topiramate',
     'Insulin'
-  ]
+  ],
+  enrollmentDateRange: {
+    startYear: 2023,
+    startMonth: 0, // January
+    endYear: 2024,
+    endMonth: 7 // August
+  }
 };
 
 // Generate obesity-specific mock patients

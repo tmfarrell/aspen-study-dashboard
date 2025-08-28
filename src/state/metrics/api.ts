@@ -1,0 +1,218 @@
+// Metrics API functions
+import { 
+  StudyMetrics, 
+  MetricResult, 
+  MetricDefinition,
+  CategoricalMetric,
+  NumericalMetric,
+  getAllMetricsForStudy
+} from '@/api/metrics';
+import { StudyType, PatientData } from '@/api/types';
+import { generateStudyPatients } from '@/data/patientHelpers';
+import { getStudySites } from '@/data/studyHelpers';
+import { cardiologyPatientConfig } from '@/data/study/cardiology/patients';
+import { obesityPatientConfig } from '@/data/study/obesity/patients';
+import { diabetesPatientConfig } from '@/data/study/diabetes/patients';
+import { hypertensionPatientConfig } from '@/data/study/hypertension/patients';
+
+// Cache for computed metrics to avoid recalculation
+const metricsCache = new Map<StudyType, StudyMetrics>();
+
+// Simulate network delay
+const delay = (ms: number = 200) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Get patient config for study
+const getPatientConfig = (studyId: StudyType) => {
+  switch (studyId) {
+    case 'cardiology': return cardiologyPatientConfig;
+    case 'obesity': return obesityPatientConfig;
+    case 'diabetes': return diabetesPatientConfig;
+    case 'hypertension': return hypertensionPatientConfig;
+    default: return obesityPatientConfig;
+  }
+};
+
+// Calculate categorical metric
+const calculateCategoricalMetric = (
+  definition: MetricDefinition,
+  patients: PatientData[]
+): CategoricalMetric => {
+  const counts = new Map<string, number>();
+  const total = patients.length;
+
+  patients.forEach(patient => {
+    let value: any;
+    
+    if (definition.field === 'medications' || definition.field === 'comorbidities') {
+      // Handle array fields - count each item separately
+      const arrayValue = patient[definition.field as keyof PatientData] as string[];
+      arrayValue.forEach(item => {
+        counts.set(item, (counts.get(item) || 0) + 1);
+      });
+      return;
+    } else {
+      value = patient[definition.field as keyof PatientData];
+    }
+    
+    const stringValue = String(value || 'Unknown');
+    counts.set(stringValue, (counts.get(stringValue) || 0) + 1);
+  });
+
+  const data = Array.from(counts.entries())
+    .map(([category, count]) => ({
+      category,
+      count,
+      percentage: total > 0 ? (count / total) * 100 : 0
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  return {
+    id: definition.id,
+    name: definition.name,
+    type: 'categorical',
+    data,
+    total
+  };
+};
+
+// Calculate numerical metric
+const calculateNumericalMetric = (
+  definition: MetricDefinition,
+  patients: PatientData[]
+): NumericalMetric => {
+  const values: number[] = [];
+  
+  patients.forEach(patient => {
+    let value: number;
+    
+    if (definition.field === 'comorbidities') {
+      // For comorbidity count
+      value = (patient.comorbidities as string[]).length;
+    } else {
+      value = patient[definition.field as keyof PatientData] as number;
+    }
+    
+    if (typeof value === 'number' && !isNaN(value)) {
+      values.push(value);
+    }
+  });
+
+  if (values.length === 0) {
+    return {
+      id: definition.id,
+      name: definition.name,
+      type: 'numerical',
+      min: 0,
+      max: 0,
+      average: 0,
+      median: 0,
+      data: [],
+      total: 0
+    };
+  }
+
+  values.sort((a, b) => a - b);
+  const min = values[0];
+  const max = values[values.length - 1];
+  const average = values.reduce((sum, val) => sum + val, 0) / values.length;
+  const median = values[Math.floor(values.length / 2)];
+
+  // Create buckets
+  let buckets: Array<{ min: number; max: number; label: string }> = [];
+  
+  if (definition.customBuckets) {
+    buckets = definition.customBuckets;
+  } else {
+    const bucketCount = definition.buckets || 5;
+    const range = max - min;
+    const bucketSize = range / bucketCount;
+    
+    for (let i = 0; i < bucketCount; i++) {
+      const bucketMin = min + (i * bucketSize);
+      const bucketMax = i === bucketCount - 1 ? max : min + ((i + 1) * bucketSize);
+      buckets.push({
+        min: bucketMin,
+        max: bucketMax,
+        label: `${Math.round(bucketMin)}-${Math.round(bucketMax)}`
+      });
+    }
+  }
+
+  // Count values in each bucket
+  const data = buckets.map(bucket => {
+    const count = values.filter(val => val >= bucket.min && val <= bucket.max).length;
+    return {
+      bucket: bucket.label,
+      min: bucket.min,
+      max: bucket.max,
+      count,
+      percentage: (count / values.length) * 100
+    };
+  });
+
+  return {
+    id: definition.id,
+    name: definition.name,
+    type: 'numerical',
+    min,
+    max,
+    average: Math.round(average * 100) / 100,
+    median,
+    data,
+    total: values.length
+  };
+};
+
+// Calculate all metrics for a study
+const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
+  const sites = getStudySites(studyId);
+  const config = getPatientConfig(studyId);
+  const patients = generateStudyPatients(studyId, sites, config);
+  
+  const metricDefinitions = getAllMetricsForStudy(studyId);
+  const metrics: MetricResult[] = [];
+
+  metricDefinitions.forEach(definition => {
+    if (definition.type === 'categorical') {
+      metrics.push(calculateCategoricalMetric(definition, patients));
+    } else {
+      metrics.push(calculateNumericalMetric(definition, patients));
+    }
+  });
+
+  return {
+    studyId,
+    totalPatients: patients.length,
+    metrics,
+    generatedAt: new Date().toISOString()
+  };
+};
+
+export const metricsApi = {
+  getStudyMetrics: async (studyId: StudyType): Promise<StudyMetrics> => {
+    await delay();
+    
+    // Check cache first
+    if (metricsCache.has(studyId)) {
+      return metricsCache.get(studyId)!;
+    }
+    
+    // Calculate and cache metrics
+    const metrics = calculateStudyMetrics(studyId);
+    metricsCache.set(studyId, metrics);
+    
+    return metrics;
+  },
+
+  getMetricById: async (studyId: StudyType, metricId: string): Promise<MetricResult | null> => {
+    await delay();
+    
+    const studyMetrics = await metricsApi.getStudyMetrics(studyId);
+    return studyMetrics.metrics.find(m => m.id === metricId) || null;
+  },
+
+  // Clear cache (useful for testing or forced refresh)
+  clearCache: () => {
+    metricsCache.clear();
+  }
+};

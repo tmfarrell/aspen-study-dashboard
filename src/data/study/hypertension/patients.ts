@@ -31,7 +31,13 @@ export const hypertensionPatientConfig = {
     'Carvedilol',
     'Chlorthalidone',
     'Valsartan'
-  ]
+  ],
+  enrollmentDateRange: {
+    startYear: 2023,
+    startMonth: 6, // July
+    endYear: 2024,
+    endMonth: 7 // August (13 months)
+  }
 };
 
 // Generate hypertension-specific mock patients

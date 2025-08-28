@@ -31,7 +31,13 @@ export const diabetesPatientConfig = {
     'Liraglutide',
     'Pioglitazone',
     'Glyburide'
-  ]
+  ],
+  enrollmentDateRange: {
+    startYear: 2022,
+    startMonth: 0, // January
+    endYear: 2024,
+    endMonth: 7 // August (24 months)
+  }
 };
 
 // Generate diabetes-specific mock patients

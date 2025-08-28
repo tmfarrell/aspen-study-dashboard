@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Filter, Search, MapPin, Heart, Users, PieChart } from "lucide-react";
 import { usePatients } from "@/state/patients";
-import { PatientData } from "@/api/types";
+import { useStudyMetrics } from "@/state/metrics";
+import { PatientData, StudyType } from "@/api/types";
 import { PatientChartModal } from "./PatientChartModal";
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
@@ -21,13 +22,19 @@ export function DemographicsPanel() {
   const [genderChartCondition, setGenderChartCondition] = useState<string>("all");
   const [ethnicityChartCondition, setEthnicityChartCondition] = useState<string>("all");
 
-  const { data: patientsData, isLoading } = usePatients({ studyId: 'cardiology' });
+  const studyId: StudyType = 'cardiology';
+  const { data: patientsData, isLoading } = usePatients({ studyId });
+  const { data: metricsData, isLoading: isLoadingMetrics } = useStudyMetrics(studyId);
   
-  if (isLoading) {
+  if (isLoading || isLoadingMetrics) {
     return <div className="p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
   }
 
   const mockPatients = patientsData?.data || [];
+  
+  // Get demographics from metrics
+  const genderMetric = metricsData?.metrics.find(m => m.id === 'gender');
+  const raceMetric = metricsData?.metrics.find(m => m.id === 'race');
   
   // Mock heart rhythm disorders and state statistics
   const heartRhythmDisorders = [
@@ -69,39 +76,26 @@ export function DemographicsPanel() {
     setIsPatientModalOpen(true);
   };
 
-  // Chart data calculations
+  // Chart data calculations using metrics
   const genderChartData = useMemo(() => {
-    const patients = mockPatients;
+    if (!genderMetric || genderMetric.type !== 'categorical') return [];
     
-    const genderCounts = patients.reduce((acc, patient) => {
-      acc[patient.gender] = (acc[patient.gender] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return Object.entries(genderCounts).map(([gender, count]) => ({
-      name: gender,
-      value: count,
-      percentage: patients.length > 0 ? ((count / patients.length) * 100).toFixed(1) : '0'
+    return genderMetric.data.map(item => ({
+      name: item.category,
+      value: item.count,
+      percentage: item.percentage.toFixed(1)
     }));
-  }, [mockPatients]);
+  }, [genderMetric]);
 
-  const ethnicityChartData = useMemo(() => {
-    const patients = mockPatients;
+  const raceChartData = useMemo(() => {
+    if (!raceMetric || raceMetric.type !== 'categorical') return [];
     
-    const ethnicityCounts = patients.reduce((acc, patient) => {
-      const ethnicity = patient.ethnicity || 'Unknown';
-      acc[ethnicity] = (acc[ethnicity] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return Object.entries(ethnicityCounts)
-      .map(([ethnicity, count]) => ({
-        name: ethnicity,
-        count,
-        percentage: patients.length > 0 ? ((count / patients.length) * 100).toFixed(1) : '0'
-      }))
-      .sort((a, b) => b.count - a.count);
-  }, [mockPatients]);
+    return raceMetric.data.map(item => ({
+      name: item.category,
+      count: item.count,
+      percentage: item.percentage.toFixed(1)
+    }));
+  }, [raceMetric]);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d', '#ffc658'];
 
@@ -154,12 +148,12 @@ export function DemographicsPanel() {
           </div>
         </Card>
 
-        {/* Race/Ethnicity Distribution Chart */}
+        {/* Race Distribution Chart */}
         <Card className="p-6 bg-card border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Users className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-semibold">Race/Ethnicity Distribution</h3>
+              <h3 className="text-lg font-semibold">Race Distribution</h3>
             </div>
             <Select value={ethnicityChartCondition} onValueChange={setEthnicityChartCondition}>
               <SelectTrigger className="w-48">
@@ -178,7 +172,7 @@ export function DemographicsPanel() {
           </div>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ethnicityChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart data={raceChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="name" 
@@ -190,7 +184,7 @@ export function DemographicsPanel() {
                 <YAxis />
                 <Tooltip 
                   formatter={(value: number) => [value.toLocaleString(), 'Patients']}
-                  labelFormatter={(label) => `Ethnicity: ${label}`}
+                  labelFormatter={(label) => `Race: ${label}`}
                 />
                 <Bar dataKey="count" fill="#8884d8" />
               </BarChart>
