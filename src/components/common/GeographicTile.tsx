@@ -270,7 +270,10 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
         return {
           geoUrl: worldGeoUrl,
           projection: "geoNaturalEarth1" as const,
-          projectionConfig: { scale: 120 },
+          projectionConfig: { 
+            scale: 200,
+            center: [-30, 50] as [number, number]
+          },
           getRegionName: (geo: any) => geo.properties.NAME
         };
     }
