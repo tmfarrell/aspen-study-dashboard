@@ -37,7 +37,7 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
     if (!metric || metric.type !== 'categorical') return [];
     
     return metric.data.map((item, index) => ({
-      category: item.category,
+      category: item.category.charAt(0).toUpperCase() + item.category.slice(1).toLowerCase(),
       count: item.count,
       percentage: Math.round(item.percentage * 10) / 10, // Round to 1 decimal
       color: om1Colors[index % om1Colors.length]
@@ -101,13 +101,19 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartTooltip 
+                  content={<ChartTooltipContent />}
+                  formatter={(value, name, props) => [
+                    `${value.toLocaleString()} patients`,
+                    props.payload?.category || name
+                  ]}
+                />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>
 
           <div className="w-full">
-            <div className="grid grid-cols-1 gap-1 text-xs">
+            <div className="grid grid-cols-1 gap-1 text-sm">
               {chartData.map((item, index) => (
                 <div key={index} className="flex justify-between items-center py-1 px-2">
                   <div className="flex items-center space-x-2">
@@ -115,11 +121,11 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
                       className="w-2 h-2 rounded-full flex-shrink-0" 
                       style={{ backgroundColor: item.color }}
                     ></div>
-                    <span className="text-xs font-medium truncate">{item.category}</span>
+                    <span className="text-sm font-medium truncate">{item.category}</span>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <span className="font-semibold text-xs">{item.count.toLocaleString()}</span>
-                    <span className="text-xs text-muted-foreground ml-1">({item.percentage}%)</span>
+                    <span className="font-semibold text-sm">{item.count.toLocaleString()}</span>
+                    <span className="text-sm text-muted-foreground ml-1">({item.percentage}%)</span>
                   </div>
                 </div>
               ))}

@@ -103,18 +103,20 @@ const DistributionMetric = ({ metricId, title, studyId }: DistributionMetricProp
           </ChartContainer>
           
           {metric && metric.type === 'numerical' && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-1 text-xs">
-              {[
-                { label: "Total", value: metric.total.toLocaleString() },
-                { label: "Average", value: Math.round(metric.average * 10) / 10 },
-                { label: "Median", value: Math.round(metric.median * 10) / 10 },
-                { label: "Range", value: `${metric.min} - ${metric.max}` }
-              ].map((stat, index) => (
-                <div key={index} className="flex justify-between items-center py-1 px-2">
-                  <span className="text-xs font-medium">{stat.label}:</span>
-                  <span className="font-semibold text-xs">{stat.value}</span>
-                </div>
-              ))}
+            <div className="w-full">
+              <div className="grid grid-cols-1 gap-1 text-xs">
+                {[
+                  { label: "Total", value: metric.total.toLocaleString() },
+                  { label: "Average", value: Math.round(metric.average * 10) / 10 },
+                  { label: "Median", value: Math.round(metric.median * 10) / 10 },
+                  { label: "Range", value: `${metric.min} - ${metric.max}` }
+                ].map((stat, index) => (
+                  <div key={index} className="flex justify-between items-center py-1 px-2">
+                    <span className="text-sm font-medium">{stat.label}:</span>
+                    <span className="font-semibold text-sm">{stat.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
