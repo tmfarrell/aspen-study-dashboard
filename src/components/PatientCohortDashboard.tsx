@@ -7,9 +7,28 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { mockPatients, stateStatistics, heartRhythmDisorders } from "@/data/patientData";
 import { GeographicTile } from "./common/GeographicTile";
+import { studyData } from "@/data/studyData";
+import { calculateTotalPatients } from "@/data/studyHelpers";
 
 export function PatientCohortDashboard() {
   const [selectedCondition, setSelectedCondition] = useState<string>("all");
+
+  // Get cardiology study data for standardized metrics
+  const cardiologyData = studyData.cardiology;
+  const totalPatients = calculateTotalPatients('cardiology');
+  
+  // Generate target enrollment subtitle if target exists
+  const getEnrollmentSubtitle = () => {
+    if (cardiologyData.targetEnrollment) {
+      return `of ${cardiologyData.targetEnrollment.total.toLocaleString()} target`;
+    }
+    return undefined;
+  };
+
+  // Get the correct unit label based on enrollmentUnits
+  const getUnitLabel = () => {
+    return cardiologyData.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
+  };
 
   // Filter patients based on selections
   const filteredPatients = mockPatients.filter(patient => {
@@ -47,9 +66,9 @@ export function PatientCohortDashboard() {
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          title="Total Patients"
-          value={filteredPatients.length.toLocaleString()}
-          subtitle="Active in registry"
+          title={`Total ${getUnitLabel()}`}
+          value={totalPatients.toLocaleString()}
+          subtitle={getEnrollmentSubtitle()}
           icon={<Users className="w-5 h-5" />}
           trend={{ value: 12.5, isPositive: true }}
         />
