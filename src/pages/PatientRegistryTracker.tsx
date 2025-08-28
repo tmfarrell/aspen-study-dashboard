@@ -57,10 +57,7 @@ export default function PatientRegistryTracker() {
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <BMIDistributionChart />
-                <AgeDistributionChart />
-                <div className="lg:col-span-2">
-                  <GeographicTile studyId={selectedStudy} />
-                </div>
+                <GeographicTile studyId={selectedStudy} />
               </div>
             </TabsContent>
 
