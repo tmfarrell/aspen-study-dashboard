@@ -107,8 +107,23 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   if (study.targetEnrollment?.byCountry) {
     const countryEntries = Object.entries(study.targetEnrollment.byCountry);
     targetProgress = countryEntries.map(([countryCode, target]) => {
-      const current = Math.floor(totalPatients * (target / study.targetEnrollment!.total));
-      const lastMonthProgress = Math.floor(newPatientsLastMonth * (target / study.targetEnrollment!.total));
+      // Add variation in progress rates per country (some ahead, some behind)
+      const progressVariations: Record<string, number> = {
+        'DE': 0.65, // Germany ahead
+        'FR': 0.45, // France average
+        'ES': 0.38, // Spain behind
+        'IT': 0.52, // Italy slightly ahead
+        'CH': 0.71, // Switzerland well ahead
+        'US': 0.58, // US average
+        'CA': 0.42, // Canada behind
+        'MX': 0.48, // Mexico average
+        'UK': 0.61  // UK ahead
+      };
+      
+      const progressRate = progressVariations[countryCode] || 0.5;
+      const current = Math.floor(target * progressRate);
+      const lastMonthProgress = Math.floor(current * 0.08); // ~8% of current enrolled last month
+      
       return {
         country: countryNames[countryCode] || countryCode,
         target,
