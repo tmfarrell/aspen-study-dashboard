@@ -79,11 +79,11 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
   }
 
   return (
-    <Card>
+    <Card className="h-[500px] flex flex-col">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 flex flex-col justify-between">
         <div className="flex flex-col items-center space-y-4">
           <ChartContainer config={chartConfig} className="h-[250px] w-[250px]">
             <ResponsiveContainer width="100%" height="100%">
