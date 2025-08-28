@@ -391,6 +391,11 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
                       
+                      // Debug: Log all region names being processed
+                      if (navigation.level === 'overview' && geographicData.type === 'world') {
+                        console.log(`Processing region from GeoJSON: "${regionName}"`);
+                      }
+                      
                       // For overview level with world map, show all countries for now
                       if (navigation.level === 'overview' && geographicData.type === 'world') {
                         return true;
