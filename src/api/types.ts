@@ -13,6 +13,10 @@ export interface StudyData {
   status: 'active' | 'recruiting' | 'completed' | 'suspended';
   startDate: string;
   estimatedCompletionDate: string;
+  regions: {
+    us: boolean;
+    eu: boolean;
+  };
 }
 
 export interface PatientData {

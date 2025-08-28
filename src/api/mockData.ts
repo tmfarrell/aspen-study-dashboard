@@ -15,7 +15,11 @@ export const mockStudies: Record<StudyType, StudyData> = {
     description: 'Comprehensive obesity research tracking patient outcomes, treatments, and interventions',
     status: 'active',
     startDate: '2023-01-15',
-    estimatedCompletionDate: '2025-12-31'
+    estimatedCompletionDate: '2025-12-31',
+    regions: {
+      us: false,
+      eu: true
+    }
   },
   diabetes: {
     id: 'diabetes',
@@ -30,7 +34,11 @@ export const mockStudies: Record<StudyType, StudyData> = {
     description: 'Type 2 diabetes management and outcomes research across multiple healthcare settings',
     status: 'active',
     startDate: '2022-06-01',
-    estimatedCompletionDate: '2026-05-31'
+    estimatedCompletionDate: '2026-05-31',
+    regions: {
+      us: true,
+      eu: true
+    }
   },
   cardiology: {
     id: 'cardiology',
@@ -45,7 +53,11 @@ export const mockStudies: Record<StudyType, StudyData> = {
     description: 'Heart rhythm disorders and arrhythmia treatment effectiveness studies',
     status: 'recruiting',
     startDate: '2023-03-01',
-    estimatedCompletionDate: '2026-02-28'
+    estimatedCompletionDate: '2026-02-28',
+    regions: {
+      us: true,
+      eu: false
+    }
   },
   hypertension: {
     id: 'hypertension',
@@ -60,7 +72,11 @@ export const mockStudies: Record<StudyType, StudyData> = {
     description: 'Hypertension management and cardiovascular risk reduction research',
     status: 'active',
     startDate: '2023-09-01',
-    estimatedCompletionDate: '2025-08-31'
+    estimatedCompletionDate: '2025-08-31',
+    regions: {
+      us: true,
+      eu: false
+    }
   }
 };
 
