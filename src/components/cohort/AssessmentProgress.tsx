@@ -23,10 +23,17 @@ const AssessmentProgress = ({ selectedStudy = 'obesity' }: AssessmentProgressPro
     const baseMultipliers = {
       obesity: { target: 10000, multiplier: 1 },
       diabetes: { target: 15000, multiplier: 1.5 },
-      hypertension: { target: 8500, multiplier: 0.85 }
+      hypertension: { target: 8500, multiplier: 0.85 },
+      cardiology: { target: 1266, multiplier: 0.13 }
     };
 
     const studyConfig = baseMultipliers[study];
+    
+    // Fallback if study is not found
+    if (!studyConfig) {
+      console.warn(`No assessment configuration found for study: ${study}`);
+      return { global: [], us: [], eu: [] };
+    }
 
     return {
       global: [
