@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Users, Activity, TrendingUp, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { useAppState } from '@/contexts/AppStateContext';
@@ -31,6 +32,18 @@ const Home = () => {
       default:
         return <Users className="h-8 w-8 text-gray-600" />;
     }
+  };
+
+  const getRegionBadge = (study: any) => {
+    const { regions } = study;
+    if (regions?.us && regions?.eu) {
+      return <Badge variant="secondary" className="text-xs">Global</Badge>;
+    } else if (regions?.us) {
+      return <Badge variant="outline" className="text-xs">US</Badge>;
+    } else if (regions?.eu) {
+      return <Badge variant="outline" className="text-xs">EU</Badge>;
+    }
+    return null;
   };
 
   if (isLoading) {
@@ -94,11 +107,14 @@ const Home = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {getStudyIcon(studyType)}
-                        <div>
-                          <CardTitle className="text-xl font-semibold text-[#003f7f]">
-                            {study.name}
-                          </CardTitle>
-                          <CardDescription className="text-sm text-muted-foreground mt-1">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <CardTitle className="text-xl font-semibold text-[#003f7f]">
+                              {study.name}
+                            </CardTitle>
+                            {getRegionBadge(study)}
+                          </div>
+                          <CardDescription className="text-sm text-muted-foreground">
                             {study.description}
                           </CardDescription>
                         </div>
