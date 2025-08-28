@@ -6,7 +6,7 @@ import {
   CategoricalMetric,
   NumericalMetric,
   getAllMetricsForStudy
-} from '@/api/metrics';
+} from '@/data/studyHelpers';
 import { StudyType, PatientData } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
 import { getStudySites } from '@/data/studyHelpers';

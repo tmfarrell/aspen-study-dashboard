@@ -33,5 +33,6 @@ export const hypertensionStudyData: StudyData = {
   patientConfig: hypertensionPatientConfig
 };
 
+
 export { hypertensionSites } from './sites';
 export { generateHypertensionPatients, hypertensionPatientConfig } from './patients';

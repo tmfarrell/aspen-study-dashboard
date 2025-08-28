@@ -34,5 +34,6 @@ export const obesityStudyData: StudyData = {
   patientConfig: obesityPatientConfig
 };
 
+
 export { obesitySites } from './sites';
 export { generateObesityPatients, obesityPatientConfig } from './patients';

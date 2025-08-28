@@ -24,5 +24,6 @@ export const cardiologyStudyData: StudyData = {
   patientConfig: cardiologyPatientConfig
 };
 
+
 export { cardiologySites } from './sites';
 export { generateCardiologyPatients, cardiologyPatientConfig } from './patients';

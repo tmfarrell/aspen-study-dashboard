@@ -34,5 +34,6 @@ export const diabetesStudyData: StudyData = {
   patientConfig: diabetesPatientConfig
 };
 
+
 export { diabetesSites } from './sites';
 export { generateDiabetesPatients, diabetesPatientConfig } from './patients';
