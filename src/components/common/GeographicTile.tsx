@@ -341,6 +341,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const mapConfig = getMapConfig();
   const totalPatients = Object.values(geographicData.data).reduce((sum, count) => sum + count, 0);
   const totalSites = Object.values(geographicData.siteData).reduce((sum, count) => sum + count, 0);
+  const studyTotalPatients = study.totalPatients; // Use study total for percentage calculations
   
   const regionalBreakdown = getRegionalBreakdown(sites, geographicData, navigation);
 
@@ -527,7 +528,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           
           <div className="space-y-2 max-h-[320px] overflow-y-auto">
             {regionalBreakdown.map((item, index) => {
-              const percentage = totalPatients > 0 ? ((item.patients / totalPatients) * 100).toFixed(1) : "0.0";
+              const percentage = studyTotalPatients > 0 ? ((item.patients / studyTotalPatients) * 100).toFixed(1) : "0.0";
               
               return (
                  <div 
