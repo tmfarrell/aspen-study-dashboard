@@ -16,6 +16,29 @@ export interface EnrollmentTrend {
   breakdown: Record<string, number>;
 }
 
+export interface EnrollmentTargetProgress {
+  country: string;
+  target: number;
+  current: number;
+  lastMonthProgress: number;
+  progressPercentage: number;
+}
+
+export interface TargetCompletion {
+  targetDate: string; // "YYYY-MM" format
+  confidence: 'high' | 'medium' | 'low';
+  estimatedCompletion: string;
+}
+
+export interface SiteEnrollment {
+  siteId: string;
+  siteName: string;
+  state: string;
+  city: string;
+  lastMonthEnrollment: number;
+  totalEnrollment: number;
+}
+
 export interface EnrollmentStats {
   totalPatients: number;
   newPatientsLastMonth: number;
@@ -29,6 +52,9 @@ export interface EnrollmentStats {
   breakdowns: EnrollmentBreakdown[];
   monthlyTrends: EnrollmentTrend[];
   topEnrollingCategories: EnrollmentBreakdown[];
+  targetProgress?: EnrollmentTargetProgress[];
+  targetCompletion?: TargetCompletion;
+  recentSiteEnrollment: SiteEnrollment[];
 }
 
 export interface StudyEnrollmentConfig {
@@ -40,4 +66,12 @@ export interface StudyEnrollmentConfig {
     label: string;
     weight: number; // Used for realistic data distribution
   }>;
+  targetEnrollment?: {
+    total: number;
+    targetDate: string; // "YYYY-MM" format
+    byCountry?: Array<{
+      country: string;
+      target: number;
+    }>;
+  };
 }

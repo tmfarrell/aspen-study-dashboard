@@ -1,7 +1,8 @@
-import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend } from '@/api/enrollmentTypes';
+import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend, SiteEnrollment, EnrollmentTargetProgress, TargetCompletion } from '@/api/enrollmentTypes';
 import { StudyType, ApiResponse } from '@/api/types';
 import { calculateTotalPatients } from '@/data/studyHelpers';
 import { enrollmentConfigs } from '@/data/enrollmentConfigs';
+import { sites } from '@/data/siteData';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -72,6 +73,56 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     .sort((a, b) => b.last12Months - a.last12Months)
     .slice(0, 3);
 
+  // Generate site enrollment data
+  const recentSiteEnrollment: SiteEnrollment[] = sites
+    .filter(site => site.status === 'active')
+    .map(site => ({
+      siteId: site.id,
+      siteName: site.name,
+      state: site.state,
+      city: site.city,
+      lastMonthEnrollment: Math.floor(site.patientsEnrolled * 0.05 + Math.random() * 10), // 5% base + variance
+      totalEnrollment: site.patientsEnrolled
+    }))
+    .sort((a, b) => b.lastMonthEnrollment - a.lastMonthEnrollment)
+    .slice(0, 10);
+
+  // Generate target progress if targets are defined
+  let targetProgress: EnrollmentTargetProgress[] | undefined;
+  let targetCompletion: TargetCompletion | undefined;
+  
+  if (config.targetEnrollment?.byCountry) {
+    targetProgress = config.targetEnrollment.byCountry.map(countryTarget => {
+      const current = Math.floor(totalPatients * (countryTarget.target / config.targetEnrollment!.total));
+      const lastMonthProgress = Math.floor(newPatientsLastMonth * (countryTarget.target / config.targetEnrollment!.total));
+      return {
+        country: countryTarget.country,
+        target: countryTarget.target,
+        current,
+        lastMonthProgress,
+        progressPercentage: Math.round((current / countryTarget.target) * 100)
+      };
+    });
+  }
+
+  if (config.targetEnrollment) {
+    const currentProgress = totalPatients / config.targetEnrollment.total;
+    const monthsRemaining = Math.ceil((config.targetEnrollment.total - totalPatients) / (newPatientsLast12Months / 12));
+    
+    let confidence: 'high' | 'medium' | 'low' = 'medium';
+    if (currentProgress > 0.8 && monthsRemaining <= 6) confidence = 'high';
+    else if (currentProgress < 0.3 || monthsRemaining > 24) confidence = 'low';
+    
+    const estimatedDate = new Date();
+    estimatedDate.setMonth(estimatedDate.getMonth() + monthsRemaining);
+    
+    targetCompletion = {
+      targetDate: config.targetEnrollment.targetDate,
+      confidence,
+      estimatedCompletion: estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
+    };
+  }
+
   return {
     totalPatients,
     newPatientsLastMonth,
@@ -84,7 +135,10 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     },
     breakdowns,
     monthlyTrends,
-    topEnrollingCategories
+    topEnrollingCategories,
+    targetProgress,
+    targetCompletion,
+    recentSiteEnrollment
   };
 };
 
