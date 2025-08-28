@@ -396,13 +396,13 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                         return geographicData.data[regionName] !== undefined;
                       }
                       
-                      // For world/EU maps, only show regions with data or major countries
-                      if (geographicData.type === 'world' || geographicData.type === 'eu') {
-                        const hasData = geographicData.data[regionName] !== undefined && geographicData.data[regionName] > 0;
-                        // Show countries with data or major US/EU countries even without data for context
-                        const majorCountries = ['United States', 'Germany', 'France', 'Italy', 'Spain', 'United Kingdom'];
-                        return hasData || majorCountries.includes(regionName);
-                      }
+                       // For world/EU maps, show countries with data and major countries for context
+                       if (geographicData.type === 'world' || geographicData.type === 'eu') {
+                         const hasData = geographicData.data[regionName] > 0;
+                         // Show countries with data or major US/EU countries for context
+                         const majorCountries = ['United States', 'Germany', 'France', 'Italy', 'Spain', 'United Kingdom'];
+                         return hasData || majorCountries.includes(regionName);
+                       }
                       
                       return true;
                     })
