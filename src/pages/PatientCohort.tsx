@@ -132,11 +132,10 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="demographics" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <AgeDistributionChart detailed />
               <GenderDistribution />
               <RaceDistribution />
-              <CountryDistribution />
             </div>
             <div className="mt-6">
               <PatientTable />

@@ -72,51 +72,52 @@ const DistributionMetric = ({ metricId, title, studyId }: DistributionMetricProp
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="bucket" 
-                tick={{ fontSize: 12 }}
-                interval={0}
-                angle={-45}
-                textAnchor="end"
-                height={80}
-              />
-              <YAxis tick={{ fontSize: 12 }} />
-              <ChartTooltip 
-                content={<ChartTooltipContent />}
-                formatter={(value, name) => [
-                  `${value.toLocaleString()} patients (${chartData.find(d => d.count === value)?.percentage}%)`,
-                  "Count"
-                ]}
-                labelFormatter={(label) => `${label}`}
-              />
-              <Bar 
-                dataKey="count" 
-                fill="var(--color-count)"
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-        
-        {metric && metric.type === 'numerical' && (
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-            <div>
-              <span className="font-medium">Total:</span> {metric.total.toLocaleString()}
+        <div className="flex flex-col space-y-4">
+          <ChartContainer config={chartConfig} className="h-[250px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                <XAxis 
+                  dataKey="bucket" 
+                  tick={{ fontSize: 10 }}
+                  interval={0}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                />
+                <YAxis tick={{ fontSize: 10 }} />
+                <ChartTooltip 
+                  content={<ChartTooltipContent />}
+                  formatter={(value, name) => [
+                    `${value.toLocaleString()} patients (${chartData.find(d => d.count === value)?.percentage}%)`,
+                    "Count"
+                  ]}
+                  labelFormatter={(label) => `${label}`}
+                />
+                <Bar 
+                  dataKey="count" 
+                  fill="var(--color-count)"
+                  radius={[2, 2, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+          
+          {metric && metric.type === 'numerical' && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-1 text-xs">
+              {[
+                { label: "Total", value: metric.total.toLocaleString() },
+                { label: "Average", value: Math.round(metric.average * 10) / 10 },
+                { label: "Median", value: Math.round(metric.median * 10) / 10 },
+                { label: "Range", value: `${metric.min} - ${metric.max}` }
+              ].map((stat, index) => (
+                <div key={index} className="flex justify-between items-center py-1 px-2">
+                  <span className="text-xs font-medium">{stat.label}:</span>
+                  <span className="font-semibold text-xs">{stat.value}</span>
+                </div>
+              ))}
             </div>
-            <div>
-              <span className="font-medium">Average:</span> {Math.round(metric.average * 10) / 10}
-            </div>
-            <div>
-              <span className="font-medium">Median:</span> {Math.round(metric.median * 10) / 10}
-            </div>
-            <div>
-              <span className="font-medium">Range:</span> {metric.min} - {metric.max}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </CardContent>
     </Card>
   );

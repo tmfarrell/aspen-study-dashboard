@@ -84,46 +84,46 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="flex justify-start">
-            <ChartContainer config={chartConfig} className="h-[400px] w-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 40, right: 40, bottom: 40, left: 40 }}>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    dataKey="count"
-                    label={({ category, percentage }) => `${category}: ${percentage}%`}
-                    labelLine={false}
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </div>
+        <div className="flex flex-col items-center space-y-4">
+          <ChartContainer config={chartConfig} className="h-[250px] w-[250px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="count"
+                  label={({ percentage }) => `${percentage}%`}
+                  labelLine={false}
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartContainer>
 
-          <div className="space-y-2">
-            {chartData.map((item, index) => (
-              <div key={index} className="flex justify-between items-center p-2 border rounded">
-                <div className="flex items-center space-x-2">
-                  <div 
-                    className="w-3 h-3 rounded" 
-                    style={{ backgroundColor: item.color }}
-                  ></div>
-                  <span className="font-medium text-sm">{item.category}</span>
+          <div className="w-full">
+            <div className="grid grid-cols-1 gap-1 text-xs">
+              {chartData.map((item, index) => (
+                <div key={index} className="flex justify-between items-center py-1 px-2">
+                  <div className="flex items-center space-x-2">
+                    <div 
+                      className="w-2 h-2 rounded-full flex-shrink-0" 
+                      style={{ backgroundColor: item.color }}
+                    ></div>
+                    <span className="text-xs font-medium truncate">{item.category}</span>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <span className="font-semibold text-xs">{item.count.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground ml-1">({item.percentage}%)</span>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-semibold text-sm">{item.count.toLocaleString()}</div>
-                  <div className="text-xs text-muted-foreground">{item.percentage}%</div>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </CardContent>
