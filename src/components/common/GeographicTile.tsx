@@ -2,26 +2,57 @@ import { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, ArrowLeft } from "lucide-react";
 import { studyData } from "@/data/studyData";
 import { useSites } from "@/state/sites";
 import { SiteData, StudyType } from "@/api/types";
+
+// Navigation state for drill-down
+interface NavigationState {
+  level: 'overview' | 'country' | 'subdivision';
+  selectedCountry?: string;
+  selectedSubdivision?: string;
+}
 
 interface GeographicTileProps {
   studyId: StudyType;
 }
 
-// US Map GeoURL
+// Map URLs
 const usGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
-// EU Map GeoURL (Europe-specific)
 const euGeoUrl = "https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson";
-
-// World Map GeoURL
 const worldGeoUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
 
-// Process site data into geographic data
-const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolean }) => {
+// Country-specific map configurations
+const countryMaps: Record<string, { geoUrl: string; projection: any; projectionConfig: any; getRegionName: (geo: any) => string }> = {
+  "United States": {
+    geoUrl: usGeoUrl,
+    projection: "geoAlbersUsa" as const,
+    projectionConfig: { scale: 600 },
+    getRegionName: (geo: any) => geo.properties.name
+  },
+  "Germany": {
+    geoUrl: "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/1_very-high.geo.json",
+    projection: "geoMercator" as const,
+    projectionConfig: { scale: 2000, center: [10.5, 51.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.NAME_1 || geo.properties.name
+  },
+  "France": {
+    geoUrl: "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson",
+    projection: "geoMercator" as const,
+    projectionConfig: { scale: 2400, center: [2.5, 46.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.nom
+  },
+  "United Kingdom": {
+    geoUrl: "https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/gb/lad.json",
+    projection: "geoMercator" as const,
+    projectionConfig: { scale: 2800, center: [-2, 54.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.LAD13NM
+  }
+};
+
+// Process site data based on navigation state
+const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolean }, navigation: NavigationState) => {
   if (!sites || sites.length === 0) {
     return { type: 'world', data: {}, siteData: {} };
   }
@@ -29,70 +60,72 @@ const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolea
   const data: Record<string, number> = {};
   const siteData: Record<string, number> = {};
 
-  if (regions.us && !regions.eu) {
-    // US-only: group by subdivision (state)
-    sites.forEach(site => {
-      if (site.region === 'us') {
-        data[site.subdivision] = (data[site.subdivision] || 0) + site.enrolledPatients;
-        siteData[site.subdivision] = (siteData[site.subdivision] || 0) + 1;
-      }
-    });
-    return { type: 'us', data, siteData };
-  } else if (!regions.us && regions.eu) {
-    // EU-only: group by country
-    sites.forEach(site => {
-      if (site.region === 'eu') {
+  if (navigation.level === 'overview') {
+    // Overview level: show countries or states for US-only
+    if (regions.us && !regions.eu) {
+      // US-only: group by subdivision (state)
+      sites.forEach(site => {
+        if (site.region === 'us') {
+          data[site.subdivision] = (data[site.subdivision] || 0) + site.enrolledPatients;
+          siteData[site.subdivision] = (siteData[site.subdivision] || 0) + 1;
+        }
+      });
+      return { type: 'us', data, siteData };
+    } else if (!regions.us && regions.eu) {
+      // EU-only: group by country
+      sites.forEach(site => {
+        if (site.region === 'eu') {
+          data[site.country] = (data[site.country] || 0) + site.enrolledPatients;
+          siteData[site.country] = (siteData[site.country] || 0) + 1;
+        }
+      });
+      return { type: 'eu', data, siteData };
+    } else {
+      // World: group by country
+      sites.forEach(site => {
         data[site.country] = (data[site.country] || 0) + site.enrolledPatients;
         siteData[site.country] = (siteData[site.country] || 0) + 1;
-      }
+      });
+      return { type: 'world', data, siteData };
+    }
+  } else if (navigation.level === 'country') {
+    // Country level: show subdivisions within the selected country
+    const countrySites = sites.filter(site => site.country === navigation.selectedCountry);
+    countrySites.forEach(site => {
+      data[site.subdivision] = (data[site.subdivision] || 0) + site.enrolledPatients;
+      siteData[site.subdivision] = (siteData[site.subdivision] || 0) + 1;
     });
-    return { type: 'eu', data, siteData };
+    return { type: 'country', data, siteData, selectedCountry: navigation.selectedCountry };
   } else {
-    // World: group by country
-    sites.forEach(site => {
-      data[site.country] = (data[site.country] || 0) + site.enrolledPatients;
-      siteData[site.country] = (siteData[site.country] || 0) + 1;
+    // Subdivision level: show individual sites
+    const subdivisionSites = sites.filter(site => 
+      site.country === navigation.selectedCountry && site.subdivision === navigation.selectedSubdivision
+    );
+    subdivisionSites.forEach(site => {
+      data[site.name] = site.enrolledPatients;
+      siteData[site.name] = 1;
     });
-    return { type: 'world', data, siteData };
+    return { type: 'subdivision', data, siteData, selectedCountry: navigation.selectedCountry, selectedSubdivision: navigation.selectedSubdivision };
   }
 };
 
 // Get breakdown data for the regional details panel
-const getRegionalBreakdown = (sites: SiteData[], geographicData: any, selectedRegion: string | null) => {
+const getRegionalBreakdown = (sites: SiteData[], geographicData: any, navigation: NavigationState) => {
   if (!sites || sites.length === 0) return [];
 
   const breakdown: Array<{ name: string; patients: number; sites: number }> = [];
   
-  if (selectedRegion) {
-    // If a region is selected, show site-level details for that region
-    const regionSites = sites.filter(site => {
-      if (geographicData.type === 'us') {
-        return site.subdivision === selectedRegion;
-      } else {
-        return site.country === selectedRegion;
-      }
-    });
-    
-    regionSites.forEach(site => {
-      breakdown.push({
-        name: site.name,
-        patients: site.enrolledPatients,
-        sites: 1
-      });
-    });
-  } else {
-    // No region selected, show breakdown by next level
+  if (navigation.level === 'overview') {
+    // Overview level: show breakdown by countries or states
     const grouped: Record<string, { patients: number; sites: number }> = {};
     
     sites.forEach(site => {
       let key: string;
       
       if (geographicData.type === 'us') {
-        // US map: group by state
-        key = site.subdivision;
+        key = site.subdivision; // Show states for US-only
       } else {
-        // World or EU map: group by country
-        key = site.country;
+        key = site.country; // Show countries for world/EU
       }
       
       if (!grouped[key]) {
@@ -104,26 +137,50 @@ const getRegionalBreakdown = (sites: SiteData[], geographicData: any, selectedRe
     });
     
     Object.entries(grouped).forEach(([name, data]) => {
+      breakdown.push({ name, patients: data.patients, sites: data.sites });
+    });
+  } else if (navigation.level === 'country') {
+    // Country level: show subdivisions within the selected country
+    const countrySites = sites.filter(site => site.country === navigation.selectedCountry);
+    const grouped: Record<string, { patients: number; sites: number }> = {};
+    
+    countrySites.forEach(site => {
+      if (!grouped[site.subdivision]) {
+        grouped[site.subdivision] = { patients: 0, sites: 0 };
+      }
+      grouped[site.subdivision].patients += site.enrolledPatients;
+      grouped[site.subdivision].sites += 1;
+    });
+    
+    Object.entries(grouped).forEach(([name, data]) => {
+      breakdown.push({ name, patients: data.patients, sites: data.sites });
+    });
+  } else {
+    // Subdivision level: show individual sites
+    const subdivisionSites = sites.filter(site => 
+      site.country === navigation.selectedCountry && site.subdivision === navigation.selectedSubdivision
+    );
+    
+    subdivisionSites.forEach(site => {
       breakdown.push({
-        name,
-        patients: data.patients,
-        sites: data.sites
+        name: site.name,
+        patients: site.enrolledPatients,
+        sites: 1
       });
     });
   }
   
-  // Sort by patient count descending
   return breakdown.sort((a, b) => b.patients - a.patients);
 };
 
 export function GeographicTile({ studyId }: GeographicTileProps) {
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [navigation, setNavigation] = useState<NavigationState>({ level: 'overview' });
   
   const study = studyData[studyId];
   const { data: sitesResponse } = useSites(studyId);
   const sites = sitesResponse?.data || [];
   
-  const geographicData = getGeographicData(sites, study.regions);
+  const geographicData = getGeographicData(sites, study.regions, navigation);
   const maxPatientCount = Math.max(...Object.values(geographicData.data), 1);
 
   const getRegionColor = (regionName: string) => {
@@ -139,10 +196,44 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   };
 
   const handleRegionClick = (regionName: string) => {
-    setSelectedRegion(selectedRegion === regionName ? null : regionName);
+    if (navigation.level === 'overview') {
+      if (geographicData.type === 'us') {
+        // US map: clicking state goes to subdivision level
+        setNavigation({ level: 'subdivision', selectedCountry: 'United States', selectedSubdivision: regionName });
+      } else {
+        // World/EU map: clicking country goes to country level
+        setNavigation({ level: 'country', selectedCountry: regionName });
+      }
+    } else if (navigation.level === 'country') {
+      // Country level: clicking subdivision goes to subdivision level
+      setNavigation({ 
+        level: 'subdivision', 
+        selectedCountry: navigation.selectedCountry, 
+        selectedSubdivision: regionName 
+      });
+    }
+    // Subdivision level: no further drill-down from map
+  };
+
+  const handleBackNavigation = () => {
+    if (navigation.level === 'subdivision') {
+      if (navigation.selectedCountry === 'United States' && study.regions.us && !study.regions.eu) {
+        // US-only study: go back to overview (US map)
+        setNavigation({ level: 'overview' });
+      } else {
+        // Multi-country study: go back to country level
+        setNavigation({ level: 'country', selectedCountry: navigation.selectedCountry });
+      }
+    } else if (navigation.level === 'country') {
+      setNavigation({ level: 'overview' });
+    }
   };
 
   const getMapConfig = () => {
+    if (navigation.level === 'country' && navigation.selectedCountry && countryMaps[navigation.selectedCountry]) {
+      return countryMaps[navigation.selectedCountry];
+    }
+    
     switch (geographicData.type) {
       case 'us':
         return {
@@ -175,35 +266,61 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const totalPatients = Object.values(geographicData.data).reduce((sum, count) => sum + count, 0);
   const totalSites = Object.values(geographicData.siteData).reduce((sum, count) => sum + count, 0);
   
-  const selectedPatients = selectedRegion ? geographicData.data[selectedRegion] || 0 : totalPatients;
-  const selectedSites = selectedRegion ? geographicData.siteData[selectedRegion] || 0 : totalSites;
-  
-  const regionalBreakdown = getRegionalBreakdown(sites, geographicData, selectedRegion);
+  const regionalBreakdown = getRegionalBreakdown(sites, geographicData, navigation);
+
+  const getNavigationTitle = () => {
+    if (navigation.level === 'country') {
+      return navigation.selectedCountry;
+    } else if (navigation.level === 'subdivision') {
+      return `${navigation.selectedSubdivision}, ${navigation.selectedCountry}`;
+    }
+    return null;
+  };
+
+  const handleItemClick = (itemName: string) => {
+    if (navigation.level === 'overview') {
+      if (geographicData.type === 'us') {
+        // US map: clicking state goes to subdivision level
+        setNavigation({ level: 'subdivision', selectedCountry: 'United States', selectedSubdivision: itemName });
+      } else {
+        // World/EU map: clicking country goes to country level
+        setNavigation({ level: 'country', selectedCountry: itemName });
+      }
+    } else if (navigation.level === 'country') {
+      // Country level: clicking subdivision goes to subdivision level
+      setNavigation({ 
+        level: 'subdivision', 
+        selectedCountry: navigation.selectedCountry, 
+        selectedSubdivision: itemName 
+      });
+    }
+  };
 
   return (
     <Card className="p-6 bg-card border">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold">Geographic Distribution</h3>
-          {selectedRegion && (
+          {navigation.level !== 'overview' && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4" />
-              <span>{selectedRegion}</span>
+              <span>{getNavigationTitle()}</span>
               <button
-                onClick={() => setSelectedRegion(null)}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                onClick={handleBackNavigation}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
               >
-                ← Back to all regions
+                <ArrowLeft className="w-3 h-3" />
+                Back
               </button>
             </div>
           )}
         </div>
         <div className="flex gap-2">
           <Badge variant="secondary">
-            {selectedPatients.toLocaleString()} patients
+            {totalPatients.toLocaleString()} patients
           </Badge>
           <Badge variant="outline">
-            {selectedSites} sites
+            {totalSites} sites
           </Badge>
         </div>
       </div>
@@ -230,16 +347,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     })
                     .map((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
-                      const isSelected = selectedRegion === regionName;
                       const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
                       
                       return (
                         <Geography
                           key={geo.rsmKey}
                           geography={geo}
-                          fill={isSelected ? "hsl(var(--accent))" : getRegionColor(regionName)}
+                          fill={getRegionColor(regionName)}
                           stroke="hsl(var(--border))"
-                          strokeWidth={isSelected ? 2 : 0.5}
+                          strokeWidth={0.5}
                           style={{
                             default: { outline: "none" },
                             hover: { 
@@ -276,15 +392,21 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
         </div>
 
-        {/* Regional Details */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h4 className="font-semibold text-sm">
-              {selectedRegion ? `Sites in ${selectedRegion}` : 
-                geographicData.type === 'us' ? 'By State' : 'By Country'}
+              {navigation.level === 'overview' 
+                ? (geographicData.type === 'us' ? 'By State' : 'By Country')
+                : navigation.level === 'country' 
+                ? 'By Region/State' 
+                : 'Individual Sites'}
             </h4>
             <span className="text-xs text-muted-foreground">
-              {regionalBreakdown.length} {selectedRegion ? 'sites' : geographicData.type === 'us' ? 'states' : 'countries'}
+              {regionalBreakdown.length} {
+                navigation.level === 'subdivision' ? 'sites' : 
+                navigation.level === 'country' ? 'regions' :
+                geographicData.type === 'us' ? 'states' : 'countries'
+              }
             </span>
           </div>
           
@@ -292,8 +414,10 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
             {regionalBreakdown.map((item, index) => (
               <div 
                 key={index}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
-                onClick={() => !selectedRegion && handleRegionClick(item.name)}
+                className={`flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors ${
+                  navigation.level !== 'subdivision' ? 'cursor-pointer' : ''
+                }`}
+                onClick={() => navigation.level !== 'subdivision' && handleItemClick(item.name)}
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{item.name}</p>
