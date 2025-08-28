@@ -216,14 +216,12 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
         </Card>
 
         {/* Breakdown by Category */}
-        <div className="p-6 bg-card border rounded-lg">
-          <DistributionMetric 
-            metricId={getEnrollmentMetricConfig(studyId).metricId}
-            title={getEnrollmentMetricTitle(studyId)}
-            studyId={studyId}
-            orientation={getEnrollmentMetricConfig(studyId).orientation as 'vertical' | 'horizontal'}
-          />
-        </div>
+        <DistributionMetric 
+          metricId={getEnrollmentMetricConfig(studyId).metricId}
+          title={getEnrollmentMetricTitle(studyId)}
+          studyId={studyId}
+          orientation={getEnrollmentMetricConfig(studyId).orientation as 'vertical' | 'horizontal'}
+        />
       </div>
 
       {/* Site Enrollment and Geography */}

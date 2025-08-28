@@ -68,13 +68,13 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
   }
 
   return (
-    <Card className="h-[500px] flex flex-col">
+    <Card className="h-[520px] flex flex-col">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
-        <div className="flex-1">
-          <ChartContainer config={chartConfig} className="h-[350px]">
+        <div className="flex-1 min-h-0">
+          <ChartContainer config={chartConfig} className="h-[320px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart 
                 data={chartData} 
@@ -132,7 +132,7 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
         <div className="mt-4">
           {metric && metric.type === 'numerical' && (
             <div className="w-full">
-              <div className="grid grid-cols-1 gap-1 text-xs">
+              <div className="grid grid-cols-1 gap-1 text-xs overflow-y-auto max-h-[120px]">
                 {[
                   { label: "Total", value: metric.total.toLocaleString() },
                   { label: "Average", value: Math.round(metric.average * 10) / 10 },

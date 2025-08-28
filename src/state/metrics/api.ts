@@ -204,7 +204,7 @@ export const metricsApi = {
   getStudyMetrics: async (studyId: StudyType): Promise<StudyMetrics> => {
     await delay();
     
-    // Always clear cache for now to ensure fresh data with enrollment categories
+    // Force cache clear to ensure fresh data with enrollment categories
     metricsCache.clear();
     
     // Calculate and cache metrics
