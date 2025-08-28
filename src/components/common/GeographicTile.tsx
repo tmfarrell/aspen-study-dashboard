@@ -196,14 +196,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const maxPatientCount = Math.max(...Object.values(geographicData.data), 1);
 
   const getRegionColor = (regionName: string) => {
-    const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
-    const intensity = patientCount / maxPatientCount;
+    const patientCount = geographicData.data[regionName] || 0;
     
-    if (intensity === 0) return "hsl(var(--muted))";
-    if (intensity < 0.2) return "hsl(var(--primary) / 0.2)";
-    if (intensity < 0.4) return "hsl(var(--primary) / 0.4)";
-    if (intensity < 0.6) return "hsl(var(--primary) / 0.6)";
-    if (intensity < 0.8) return "hsl(var(--primary) / 0.8)";
+    if (patientCount === 0) return "hsl(var(--muted))";
+    
+    const intensity = patientCount / maxPatientCount;
+    if (intensity < 0.2) return "hsl(var(--primary) / 0.3)";
+    if (intensity < 0.4) return "hsl(var(--primary) / 0.5)";
+    if (intensity < 0.6) return "hsl(var(--primary) / 0.7)";
+    if (intensity < 0.8) return "hsl(var(--primary) / 0.9)";
     return "hsl(var(--primary))";
   };
 
@@ -379,18 +380,21 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                         return geographicData.data[regionName] !== undefined;
                       }
                       
-                      // For EU maps, show all European countries
-                      if (geographicData.type === 'eu') {
-                        return true;
+                      // For world/EU maps, only show regions with data or major countries
+                      if (geographicData.type === 'world' || geographicData.type === 'eu') {
+                        const hasData = geographicData.data[regionName] !== undefined && geographicData.data[regionName] > 0;
+                        // Show countries with data or major US/EU countries even without data for context
+                        const majorCountries = ['United States', 'Germany', 'France', 'Italy', 'Spain', 'United Kingdom'];
+                        return hasData || majorCountries.includes(regionName);
                       }
                       
                       return true;
                     })
                     .map((geo) => {
-                      const regionName = mapConfig.getRegionName(geo);
-                        const isSelected = navigation.level === 'subdivision' && 
-                          navigation.selectedSubdivision === regionName;
-                        const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
+                        const regionName = mapConfig.getRegionName(geo);
+                        const isSelected = (navigation.level === 'subdivision' && navigation.selectedSubdivision === regionName) ||
+                                         (navigation.level === 'country' && navigation.selectedCountry === regionName);
+                        const patientCount = geographicData.data[regionName] || 0;
                         
                         return (
                           <Geography
