@@ -1,10 +1,21 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { StudyType } from '@/api/types';
 import { studyData } from '@/data/studyData';
 import { getStudySites } from '@/data/studyHelpers';
+
+// Country name to code mapping
+const countryToCode: Record<string, string> = {
+  'Germany': 'DE',
+  'France': 'FR', 
+  'Spain': 'ES',
+  'Italy': 'IT',
+  'Switzerland': 'CH',
+  'United States': 'US',
+  'Canada': 'CA',
+  'United Kingdom': 'GB'
+};
 
 interface EnrollmentProgressTileProps {
   studyId: StudyType;
@@ -63,7 +74,8 @@ export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps)
 
       return Object.entries(countryData)
         .map(([country, data]) => {
-          const target = study.targetEnrollment?.byCountry?.[country];
+          const countryCode = countryToCode[country];
+          const target = countryCode ? study.targetEnrollment?.byCountry?.[countryCode] : undefined;
           return {
             name: country,
             enrolled: data.enrolled,
