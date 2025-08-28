@@ -9,7 +9,7 @@ import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
 import CohortSummary from '@/components/cohort/CohortSummary';
 import PatientTable from '@/components/cohort/PatientTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
-import EnrollmentProgress from '@/components/cohort/EnrollmentProgress';
+
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import MedicationDistribution from '@/components/cohort/MedicationDistribution';
 import GenderDistribution from '@/components/cohort/GenderDistribution';
@@ -92,7 +92,9 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="enrollment" className="mt-6">
-            <EnrollmentProgress detailed selectedStudy={selectedStudy} />
+            <div className="text-center p-8 text-muted-foreground">
+              Enrollment details have been moved to the Overview tab
+            </div>
           </TabsContent>
 
           <TabsContent value="bmi" className="mt-6">
