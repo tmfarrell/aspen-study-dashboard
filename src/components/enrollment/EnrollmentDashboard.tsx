@@ -241,6 +241,8 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
 
       {/* Site Enrollment and Geography */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <EnrollmentProgressTile studyId={studyId} />
+        
         <Card className="p-6 bg-card border">
           <h3 className="text-lg font-semibold mb-4">Recent Site Enrollment (Last Month)</h3>
           <div className="space-y-3">
@@ -261,8 +263,6 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
             ))}
           </div>
         </Card>
-
-        <EnrollmentProgressTile studyId={studyId} />
       </div>
 
       {/* Detailed Enrollment Statistics */}

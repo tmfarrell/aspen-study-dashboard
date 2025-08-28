@@ -93,7 +93,7 @@ export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps)
     <Card className="p-6">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">
-          Enrollment Progress (12 Months)
+          Enrollment Progress
         </CardTitle>
       </CardHeader>
       
