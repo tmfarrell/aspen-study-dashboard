@@ -125,9 +125,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold">Geographic Distribution</h3>
           {selectedRegion && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4" />
               <span>{selectedRegion}</span>
+              <button
+                onClick={() => setSelectedRegion(null)}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                ← Back to all regions
+              </button>
             </div>
           )}
         </div>
@@ -211,15 +217,6 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
 
         {/* Coming Soon Section */}
         <div className="space-y-4">
-          {selectedRegion && (
-            <button
-              onClick={() => setSelectedRegion(null)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-            >
-              ← Back to all regions
-            </button>
-          )}
-          
           <div className="bg-muted/30 rounded-lg p-4 text-center space-y-3">
             <Clock className="w-8 h-8 text-muted-foreground mx-auto" />
             <div>
