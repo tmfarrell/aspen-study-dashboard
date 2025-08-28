@@ -35,7 +35,11 @@ const countryMaps: Record<string, { geoUrl: string; projection: any; projectionC
     geoUrl: "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/4_low.geo.json",
     projection: "geoMercator" as const,
     projectionConfig: { scale: 2500, center: [10.5, 51.5] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.NAME_1 || geo.properties.name || geo.properties.NAME
+    getRegionName: (geo: any) => {
+      // Debug German region properties
+      console.log('German region properties:', Object.keys(geo.properties));
+      return geo.properties.NAME_1 || geo.properties.name || geo.properties.NAME || geo.properties.GEN;
+    }
   },
   "France": {
     geoUrl: "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson",
@@ -461,17 +465,19 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                               hover: { 
                                 fill: "hsl(var(--accent))",
                                 outline: "none",
-                                cursor: navigation.level === 'overview' || patientCount > 0 ? "pointer" : "default"
+                                cursor: (navigation.level === 'overview' && patientCount > 0) || 
+                                       (navigation.level === 'country' && patientCount > 0) ||
+                                       navigation.level === 'subdivision' ? "pointer" : "default"
                               },
                               pressed: { outline: "none" }
                             }}
                             onClick={() => {
                               if (navigation.level === 'subdivision') {
-                                // At subdivision level, clicking on a region shows sites in that subdivision
                                 return;
                               }
-                              // Allow clicking on any country/region, not just those with patients
-                              if (navigation.level === 'overview' || patientCount > 0) {
+                              // Only allow clicks if there are patients (except overview level for major countries)
+                              if ((navigation.level === 'overview' && patientCount > 0) || 
+                                  (navigation.level === 'country' && patientCount > 0)) {
                                 handleRegionClick(normalizedName);
                               }
                             }}
@@ -524,13 +530,17 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
               const percentage = totalPatients > 0 ? ((item.patients / totalPatients) * 100).toFixed(1) : "0.0";
               
               return (
-                <div 
-                  key={index}
-                  className={`flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors ${
-                    navigation.level !== 'subdivision' ? 'cursor-pointer' : ''
-                  }`}
-                  onClick={() => navigation.level !== 'subdivision' && handleItemClick(item.name)}
-                >
+                 <div 
+                   key={index}
+                   className={`flex items-center justify-between p-3 bg-muted/30 rounded-lg transition-colors ${
+                     (navigation.level !== 'subdivision' && item.patients > 0) ? 'cursor-pointer hover:bg-muted/50' : ''
+                   }`}
+                   onClick={() => {
+                     if (navigation.level !== 'subdivision' && item.patients > 0) {
+                       handleItemClick(item.name);
+                     }
+                   }}
+                 >
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{item.name}</p>
                     <p className="text-xs text-muted-foreground">
