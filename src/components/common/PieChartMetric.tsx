@@ -105,8 +105,14 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
                   content={<ChartTooltipContent />}
                   formatter={(value, name, props) => [
                     `${value.toLocaleString()} patients`,
-                    props.payload?.category || name
+                    props.payload?.category || "Count"
                   ]}
+                  labelFormatter={(label, payload) => {
+                    if (payload && payload[0] && payload[0].payload) {
+                      return payload[0].payload.category;
+                    }
+                    return label;
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>
