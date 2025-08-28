@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { getStudyOptions } from '@/data/studyData';
-import { useCohortStore } from '@/stores/cohortStore';
+import { useAppState } from '@/contexts/AppStateContext';
 import { StudyType } from '@/api/types';
 
 export function StudyDropdown() {
-  const { selectedStudy, setSelectedStudy } = useCohortStore();
+  const { selectedStudy, setSelectedStudy } = useAppState();
   const studyOptions = getStudyOptions();
   
   const currentStudyName = studyOptions.find(option => option.value === selectedStudy)?.label || 'Select Study';
