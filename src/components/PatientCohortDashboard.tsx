@@ -7,6 +7,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { mockPatients, stateStatistics, heartRhythmDisorders } from "@/data/patientData";
 import { GeographicTile } from "./common/GeographicTile";
+import { EnrollmentProgressTile } from "./common/EnrollmentProgressTile";
 import { studyData } from "@/data/studyData";
 import { calculateTotalPatients } from "@/data/studyHelpers";
 
@@ -181,6 +182,9 @@ export function PatientCohortDashboard() {
           </ResponsiveContainer>
         </Card>
       </div>
+
+      {/* Enrollment Progress Tile - only show if target enrollment exists */}
+      <EnrollmentProgressTile studyId="cardiology" />
 
       {/* Geographic Distribution Map */}
       <GeographicTile studyId="cardiology" />
