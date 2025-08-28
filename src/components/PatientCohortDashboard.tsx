@@ -164,7 +164,7 @@ export function PatientCohortDashboard() {
       </div>
 
       {/* Geographic Distribution Map */}
-      <GeographicTile studyId="heartrhythm" />
+      <GeographicTile studyId="cardiology" />
     </div>
   );
 }

@@ -112,4 +112,4 @@ export interface SiteFilters {
   minDataQuality?: number;
 }
 
-export type StudyType = 'obesity' | 'diabetes' | 'heartrhythm' | 'hypertension';
+export type StudyType = 'obesity' | 'diabetes' | 'cardiology' | 'hypertension';

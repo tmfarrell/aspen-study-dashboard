@@ -11,13 +11,13 @@ export interface StudyData {
   };
 }
 
-import { heartrhuythmStudyData } from './study/heartrhythm';
+import { cardiologyStudyData } from './study/cardiology';
 import { obesityStudyData } from './study/obesity';
 import { diabetesStudyData } from './study/diabetes';
 import { hypertensionStudyData } from './study/hypertension';
 
 export const studyData: Record<string, StudyData> = {
-  heartrhythm: heartrhuythmStudyData,
+  cardiology: cardiologyStudyData,
   obesity: obesityStudyData,
   diabetes: diabetesStudyData,
   hypertension: hypertensionStudyData

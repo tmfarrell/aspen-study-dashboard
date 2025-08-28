@@ -32,9 +32,9 @@ export const mockStudies: Record<StudyType, StudyData> = {
     startDate: '2022-06-01',
     estimatedCompletionDate: '2026-05-31'
   },
-  heartrhythm: {
-    id: 'heartrhythm',
-    name: 'Heart Rhythm Registry',
+  cardiology: {
+    id: 'cardiology',
+    name: 'Cardiology Registry',
     studySize: '12,000 patients',
     totalPatients: 9500,
     totalDescription: 'of 12,000 target patients enrolled',

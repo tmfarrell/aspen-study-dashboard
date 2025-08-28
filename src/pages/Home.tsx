@@ -24,7 +24,7 @@ const Home = () => {
         return <TrendingUp className="h-8 w-8 text-blue-600" />;
       case 'diabetes':
         return <Activity className="h-8 w-8 text-green-600" />;
-      case 'heartrhythm':
+      case 'cardiology':
         return <Activity className="h-8 w-8 text-red-600" />;
       case 'hypertension':
         return <TrendingUp className="h-8 w-8 text-purple-600" />;

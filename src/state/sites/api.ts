@@ -5,7 +5,7 @@ import {
   SiteFilters,
   StudyType 
 } from '@/api/types';
-import { heartrhuythmSites } from '@/data/study/heartrhythm';
+import { cardiologySites } from '@/data/study/cardiology';
 import { diabetesSites } from '@/data/study/diabetes';
 import { obesitySites } from '@/data/study/obesity';
 import { hypertensionSites } from '@/data/study/hypertension';
@@ -16,8 +16,8 @@ const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, m
 // Get sites for a specific study
 const getStudySites = (studyId: StudyType): SiteData[] => {
   switch (studyId) {
-    case 'heartrhythm':
-      return heartrhuythmSites;
+    case 'cardiology':
+      return cardiologySites;
     case 'diabetes':
       return diabetesSites;
     case 'obesity':

@@ -1,6 +1,6 @@
 import { SiteData } from '@/api/types';
 
-export const heartrhuythmSites: SiteData[] = [
+export const cardiologySites: SiteData[] = [
   {
     id: 'hr-ucla',
     name: 'UCLA Medical Center',
