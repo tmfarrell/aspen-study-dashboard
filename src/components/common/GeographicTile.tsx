@@ -421,7 +421,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                               hover: { 
                                 fill: "hsl(var(--accent))",
                                 outline: "none",
-                                cursor: patientCount > 0 ? "pointer" : "default"
+                                cursor: navigation.level === 'overview' || patientCount > 0 ? "pointer" : "default"
                               },
                               pressed: { outline: "none" }
                             }}
@@ -430,7 +430,8 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                                 // At subdivision level, clicking on a region shows sites in that subdivision
                                 return;
                               }
-                              if (patientCount > 0) {
+                              // Allow clicking on any country/region, not just those with patients
+                              if (navigation.level === 'overview' || patientCount > 0) {
                                 handleRegionClick(regionName);
                               }
                             }}
