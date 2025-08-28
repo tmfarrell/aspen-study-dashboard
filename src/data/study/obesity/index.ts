@@ -6,5 +6,9 @@ export const obesityStudyData: StudyData = {
   totalPatients: 8000,
   totalDescription: 'of 10,000 target patients enrolled',
   averageBMI: '36.2',
-  ageRange: '18-89'
+  ageRange: '18-89',
+  regions: {
+    us: false,
+    eu: true
+  }
 };

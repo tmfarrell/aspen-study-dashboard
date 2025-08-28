@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { mockPatients, stateStatistics, heartRhythmDisorders } from "@/data/patientData";
-import { GeographicDistributionMap } from "./GeographicDistributionMap";
+import { GeographicTile } from "./common/GeographicTile";
 
 export function PatientCohortDashboard() {
   const [selectedCondition, setSelectedCondition] = useState<string>("all");
@@ -164,7 +164,7 @@ export function PatientCohortDashboard() {
       </div>
 
       {/* Geographic Distribution Map */}
-      <GeographicDistributionMap />
+      <GeographicTile studyId="heartrhythm" />
     </div>
   );
 }

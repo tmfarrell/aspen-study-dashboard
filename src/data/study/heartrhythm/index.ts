@@ -6,5 +6,9 @@ export const heartrhuythmStudyData: StudyData = {
   totalPatients: 9500,
   totalDescription: 'of 12,000 target patients enrolled',
   averageBMI: '29.8',
-  ageRange: '35-85'
+  ageRange: '35-85',
+  regions: {
+    us: true,
+    eu: false
+  }
 };

@@ -6,5 +6,9 @@ export const diabetesStudyData: StudyData = {
   totalPatients: 12500,
   totalDescription: 'of 15,000 target patients enrolled',
   averageBMI: '31.8',
-  ageRange: '25-85'
+  ageRange: '25-85',
+  regions: {
+    us: true,
+    eu: true
+  }
 };

@@ -12,6 +12,7 @@ import { Header } from "@/components/Header";
 import BMIDistributionChart from "@/components/cohort/BMIDistributionChart";
 import GeographicDistribution from "@/components/cohort/GeographicDistribution";
 import AgeDistributionChart from "@/components/cohort/AgeDistributionChart";
+import { GeographicTile } from "@/components/common/GeographicTile";
 import CohortSummary from "@/components/cohort/CohortSummary";
 import PatientTable from "@/components/cohort/PatientTable";
 import QualityOfLifeChart from "@/components/cohort/QualityOfLifeChart";
@@ -80,11 +81,10 @@ export default function PatientRegistryTracker() {
         ) : (
           // Other studies content (from PatientCohort)
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-9">
+            <TabsList className="grid w-full grid-cols-8">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
               <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
-              <TabsTrigger value="geography">Geographic</TabsTrigger>
               <TabsTrigger value="demographics">Demographics</TabsTrigger>
               <TabsTrigger value="comorbidity">Comorbidity</TabsTrigger>
               <TabsTrigger value="medication">Medication</TabsTrigger>
@@ -105,7 +105,7 @@ export default function PatientRegistryTracker() {
                 <BMIDistributionChart />
                 <AgeDistributionChart />
                 <div className="lg:col-span-2">
-                  <GeographicDistribution />
+                  <GeographicTile studyId={selectedStudy} />
                 </div>
               </div>
             </TabsContent>
@@ -143,9 +143,6 @@ export default function PatientRegistryTracker() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="geography" className="mt-6">
-                <GeographicDistribution detailed />
-              </TabsContent>
 
               <TabsContent value="demographics" className="mt-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

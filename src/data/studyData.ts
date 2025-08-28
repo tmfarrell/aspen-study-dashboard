@@ -5,6 +5,10 @@ export interface StudyData {
   totalDescription: string;
   averageBMI: string;
   ageRange: string;
+  regions: {
+    us: boolean;
+    eu: boolean;
+  };
 }
 
 import { heartrhuythmStudyData } from './study/heartrhythm';
