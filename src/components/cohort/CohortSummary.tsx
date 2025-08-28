@@ -61,6 +61,19 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
         ))}
       </div>
       
+      {/* BMI Distribution for relevant studies */}
+      {(selectedStudy === 'obesity' || selectedStudy === 'diabetes' || selectedStudy === 'hypertension') && (
+        <div className="grid grid-cols-1 gap-6">
+          <MetricTile
+            studyId={selectedStudy}
+            metricId="bmi"
+            displayType="distribution"
+            orientation="horizontal"
+            description="BMI Distribution"
+          />
+        </div>
+      )}
+      
       {/* Progress tracking tiles - side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={selectedStudy} />

@@ -6,8 +6,7 @@ export const obesityStudyData: StudyData = {
   name: 'Obesity Registry',
   enrollmentUnits: 'patients',
   overviewMetrics: [
-    { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² across cohort' },
-    { metricId: 'bmi', displayType: 'distribution', orientation: 'horizontal', icon: 'bar-chart', description: 'BMI Distribution' }
+    { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² across cohort' }
   ],
   targetEnrollment: {
     total: 10000,

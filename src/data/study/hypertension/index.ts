@@ -6,8 +6,7 @@ export const hypertensionStudyData: StudyData = {
   name: 'MASH Registry',
   enrollmentUnits: 'patients',
   overviewMetrics: [
-    { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Metabolic comorbidities per patient' },
-    { metricId: 'bmi', displayType: 'distribution', orientation: 'horizontal', icon: 'activity', description: 'BMI Distribution' }
+    { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Metabolic comorbidities per patient' }
   ],
   targetEnrollment: {
     total: 8500,
