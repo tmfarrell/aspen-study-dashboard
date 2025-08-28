@@ -7,7 +7,7 @@ export const hypertensionStudyData: StudyData = {
   ageRange: '30-80',
   enrollmentUnits: 'patients',
   overviewMetrics: [
-    { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² (cardiovascular risk factor)' }
+    { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Metabolic comorbidities per patient' }
   ],
   targetEnrollment: {
     total: 8500,
