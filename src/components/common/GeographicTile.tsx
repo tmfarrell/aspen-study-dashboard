@@ -447,26 +447,30 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
           
           <div className="space-y-2 max-h-[320px] overflow-y-auto">
-            {regionalBreakdown.map((item, index) => (
-              <div 
-                key={index}
-                className={`flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors ${
-                  navigation.level !== 'subdivision' ? 'cursor-pointer' : ''
-                }`}
-                onClick={() => navigation.level !== 'subdivision' && handleItemClick(item.name)}
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{item.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {item.sites} {item.sites === 1 ? 'site' : 'sites'}
-                  </p>
+            {regionalBreakdown.map((item, index) => {
+              const percentage = totalPatients > 0 ? ((item.patients / totalPatients) * 100).toFixed(1) : "0.0";
+              
+              return (
+                <div 
+                  key={index}
+                  className={`flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors ${
+                    navigation.level !== 'subdivision' ? 'cursor-pointer' : ''
+                  }`}
+                  onClick={() => navigation.level !== 'subdivision' && handleItemClick(item.name)}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.sites} {item.sites === 1 ? 'site' : 'sites'}
+                    </p>
+                  </div>
+                  <div className="text-right ml-2">
+                    <p className="text-sm font-semibold">{item.patients.toLocaleString()} patients</p>
+                    <p className="text-xs text-muted-foreground">{percentage}% of total</p>
+                  </div>
                 </div>
-                <div className="text-right ml-2">
-                  <p className="text-sm font-semibold">{item.patients.toLocaleString()}</p>
-                  <p className="text-xs text-muted-foreground">patients</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
             
             {regionalBreakdown.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
