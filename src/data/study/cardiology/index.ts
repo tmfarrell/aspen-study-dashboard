@@ -1,4 +1,5 @@
 import { StudyData } from '@/api/types';
+import { cardiologyPatientConfig } from './patients';
 
 export const cardiologyStudyData: StudyData = {
   id: 'cardiology',
@@ -24,7 +25,9 @@ export const cardiologyStudyData: StudyData = {
   regions: {
     us: true,
     eu: false
-  }
+  },
+  patientConfig: cardiologyPatientConfig
 };
 
 export { cardiologySites } from './sites';
+export { generateCardiologyPatients, cardiologyPatientConfig } from './patients';

@@ -29,6 +29,14 @@ export interface StudyData {
     us: boolean;
     eu: boolean;
   };
+  patientConfig: {
+    genderDistribution: { male: number; female: number; other: number };
+    ageDistribution: { min: number; max: number; mode: number };
+    bmiDistribution: { min: number; max: number; mode: number };
+    raceDistribution: Record<string, number>;
+    comorbidities: string[];
+    medications: string[];
+  };
 }
 
 export interface PatientData {

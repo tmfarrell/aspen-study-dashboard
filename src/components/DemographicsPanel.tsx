@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Filter, Search, MapPin, Heart, Users, PieChart } from "lucide-react";
-import { mockPatients, stateStatistics, heartRhythmDisorders, Patient } from "@/data/patientData";
+import { usePatients } from "@/state/patients";
+import { PatientData } from "@/api/types";
 import { PatientChartModal } from "./PatientChartModal";
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
@@ -13,22 +14,47 @@ export function DemographicsPanel() {
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedCondition, setSelectedCondition] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<PatientData | null>(null);
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
   
   // Separate filters for charts
   const [genderChartCondition, setGenderChartCondition] = useState<string>("all");
   const [ethnicityChartCondition, setEthnicityChartCondition] = useState<string>("all");
 
+  const { data: patientsData, isLoading } = usePatients({ studyId: 'cardiology' });
+  
+  if (isLoading) {
+    return <div className="p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
+  }
+
+  const mockPatients = patientsData?.data || [];
+  
+  // Mock heart rhythm disorders and state statistics
+  const heartRhythmDisorders = [
+    "Atrial Fibrillation",
+    "Atrial Flutter", 
+    "Supraventricular Tachycardia",
+    "Ventricular Tachycardia",
+    "Bradycardia",
+    "Heart Block",
+    "Premature Ventricular Contractions",
+    "Wolff-Parkinson-White Syndrome"
+  ];
+  
+  const stateStatistics = [
+    { state: 'California', patientCount: 450 },
+    { state: 'Texas', patientCount: 380 },
+    { state: 'Florida', patientCount: 320 },
+    { state: 'New York', patientCount: 280 },
+    { state: 'Pennsylvania', patientCount: 240 }
+  ];
+
   // Filter patients based on selections
   const filteredPatients = mockPatients.filter(patient => {
-    const matchesState = selectedState === "all" || patient.state === selectedState;
-    const matchesCondition = selectedCondition === "all" || patient.diagnosis === selectedCondition;
     const matchesSearch = searchTerm === "" || 
-      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       patient.id.toLowerCase().includes(searchTerm.toLowerCase());
     
-    return matchesState && matchesCondition && matchesSearch;
+    return matchesSearch;
   });
 
   const severityColors = {
@@ -38,16 +64,14 @@ export function DemographicsPanel() {
     Critical: "#7c2d12"
   };
 
-  const handlePatientClick = (patient: Patient) => {
+  const handlePatientClick = (patient: PatientData) => {
     setSelectedPatient(patient);
     setIsPatientModalOpen(true);
   };
 
   // Chart data calculations
   const genderChartData = useMemo(() => {
-    const patients = genderChartCondition === "all" 
-      ? mockPatients 
-      : mockPatients.filter(p => p.diagnosis === genderChartCondition);
+    const patients = mockPatients;
     
     const genderCounts = patients.reduce((acc, patient) => {
       acc[patient.gender] = (acc[patient.gender] || 0) + 1;
@@ -57,17 +81,16 @@ export function DemographicsPanel() {
     return Object.entries(genderCounts).map(([gender, count]) => ({
       name: gender,
       value: count,
-      percentage: ((count / patients.length) * 100).toFixed(1)
+      percentage: patients.length > 0 ? ((count / patients.length) * 100).toFixed(1) : '0'
     }));
-  }, [genderChartCondition]);
+  }, [mockPatients]);
 
   const ethnicityChartData = useMemo(() => {
-    const patients = ethnicityChartCondition === "all" 
-      ? mockPatients 
-      : mockPatients.filter(p => p.diagnosis === ethnicityChartCondition);
+    const patients = mockPatients;
     
     const ethnicityCounts = patients.reduce((acc, patient) => {
-      acc[patient.ethnicity] = (acc[patient.ethnicity] || 0) + 1;
+      const ethnicity = patient.ethnicity || 'Unknown';
+      acc[ethnicity] = (acc[ethnicity] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
@@ -75,10 +98,10 @@ export function DemographicsPanel() {
       .map(([ethnicity, count]) => ({
         name: ethnicity,
         count,
-        percentage: ((count / patients.length) * 100).toFixed(1)
+        percentage: patients.length > 0 ? ((count / patients.length) * 100).toFixed(1) : '0'
       }))
       .sort((a, b) => b.count - a.count);
-  }, [ethnicityChartCondition]);
+  }, [mockPatients]);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d', '#ffc658'];
 
@@ -266,29 +289,21 @@ export function DemographicsPanel() {
                   <td className="p-3 font-mono text-xs">{patient.id}</td>
                   <td className="p-3">{patient.age}</td>
                   <td className="p-3">{patient.gender}</td>
-                  <td className="p-3 text-xs">{patient.diagnosis}</td>
+                  <td className="p-3 text-xs">{patient.studyId}</td>
                   <td className="p-3">
                     <Badge 
                       variant="outline" 
-                      style={{ 
-                        borderColor: severityColors[patient.severity],
-                        color: severityColors[patient.severity]
-                      }}
                     >
-                      {patient.severity}
+                      {patient.status}
                     </Badge>
                   </td>
                   <td className="p-3">
-                    <span className={`font-semibold ${
-                      patient.riskScore > 80 ? 'text-destructive' :
-                      patient.riskScore > 60 ? 'text-warning' :
-                      'text-success'
-                    }`}>
-                      {patient.riskScore}
+                    <span className={`font-semibold text-success`}>
+                      {patient.bmi}
                     </span>
                   </td>
-                  <td className="p-3">{patient.state}</td>
-                  <td className="p-3 text-xs">{patient.lastVisit}</td>
+                  <td className="p-3">{patient.siteId}</td>
+                  <td className="p-3 text-xs">{new Date(patient.enrollmentDate).toLocaleDateString()}</td>
                   <td className="p-3">
                     <Button 
                       variant="outline" 

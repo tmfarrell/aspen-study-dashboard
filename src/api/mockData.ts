@@ -89,38 +89,7 @@ export const mockAssessments: AssessmentData[] = [
   }
 ];
 
-// Generate mock patient data
-export const generateMockPatients = (studyId: StudyType, count: number = 100): PatientData[] => {
-  const patients: PatientData[] = [];
-  const genders: PatientData['gender'][] = ['male', 'female'];
-  const statuses: PatientData['status'][] = ['active', 'completed', 'withdrawn'];
-  const races = ['White', 'Black', 'Asian', 'Hispanic', 'Other'];
-  const comorbidities = ['Hypertension', 'Type 2 Diabetes', 'Sleep Apnea', 'Depression', 'Arthritis'];
-  const medications = ['Metformin', 'Lisinopril', 'Atorvastatin', 'Omeprazole', 'Levothyroxine'];
-
-  for (let i = 0; i < count; i++) {
-    const gender = genders[Math.floor(Math.random() * genders.length)];
-    const age = Math.floor(Math.random() * 50) + 25; // 25-75 years
-    const bmi = Math.floor(Math.random() * 20) + 25; // 25-45 BMI
-    
-    patients.push({
-      id: `patient-${studyId}-${i.toString().padStart(3, '0')}`,
-      studyId,
-      age,
-      gender,
-      bmi,
-      enrollmentDate: new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString(),
-      status: statuses[Math.floor(Math.random() * statuses.length)],
-      siteId: mockSites[Math.floor(Math.random() * mockSites.length)].id,
-      race: races[Math.floor(Math.random() * races.length)],
-      ethnicity: Math.random() > 0.8 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
-      comorbidities: comorbidities.filter(() => Math.random() > 0.7),
-      medications: medications.filter(() => Math.random() > 0.6)
-    });
-  }
-
-  return patients;
-};
+// Patient data generation is now handled in study-specific data files
 
 // Mock Quality of Life Data
 export const generateMockQoLData = (patientIds: string[], studyId: StudyType): QualityOfLifeData[] => {
@@ -137,5 +106,4 @@ export const generateMockQoLData = (patientIds: string[], studyId: StudyType): Q
   }));
 };
 
-// Study options for dropdowns (now using src/data as source of truth)
-// This function is deprecated - use getStudyOptions from src/data/studyData.ts instead
+// Study options for dropdowns are now handled via React Query APIs

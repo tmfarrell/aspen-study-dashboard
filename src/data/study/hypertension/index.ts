@@ -1,4 +1,5 @@
 import { StudyData } from '@/api/types';
+import { hypertensionPatientConfig } from './patients';
 
 export const hypertensionStudyData: StudyData = {
   id: 'hypertension',
@@ -32,7 +33,9 @@ export const hypertensionStudyData: StudyData = {
   regions: {
     us: true,
     eu: false
-  }
+  },
+  patientConfig: hypertensionPatientConfig
 };
 
 export { hypertensionSites } from './sites';
+export { generateHypertensionPatients, hypertensionPatientConfig } from './patients';

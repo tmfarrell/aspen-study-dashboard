@@ -6,7 +6,10 @@ import {
   PatientFilters,
   StudyType 
 } from '@/api/types';
-import { generateMockPatients } from '@/api/mockData';
+import { generateCardiologyPatients } from '@/data/study/cardiology/patients';
+import { generateObesityPatients } from '@/data/study/obesity/patients';
+import { generateDiabetesPatients } from '@/data/study/diabetes/patients';
+import { generateHypertensionPatients } from '@/data/study/hypertension/patients';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -20,7 +23,25 @@ export const patientsApi = {
     await delay();
     
     const studyId = filters?.studyId as StudyType || 'obesity';
-    let patients = generateMockPatients(studyId, 500);
+    let patients: PatientData[] = [];
+    
+    // Generate study-specific patients
+    switch (studyId) {
+      case 'cardiology':
+        patients = generateCardiologyPatients(500);
+        break;
+      case 'obesity':
+        patients = generateObesityPatients(500);
+        break;
+      case 'diabetes':
+        patients = generateDiabetesPatients(500);
+        break;
+      case 'hypertension':
+        patients = generateHypertensionPatients(500);
+        break;
+      default:
+        patients = generateObesityPatients(500);
+    }
     
     // Apply filters
     if (filters?.ageRange) {
@@ -64,8 +85,27 @@ export const patientsApi = {
   getById: async (id: string): Promise<ApiResponse<PatientData>> => {
     await delay();
     
-    // Generate a single patient based on ID
-    const patients = generateMockPatients('obesity', 1);
+    // Extract study from patient ID prefix
+    const studyId = id.split('-')[0] as StudyType || 'obesity';
+    let patients: PatientData[] = [];
+    
+    switch (studyId) {
+      case 'cardiology':
+        patients = generateCardiologyPatients(1);
+        break;
+      case 'obesity':
+        patients = generateObesityPatients(1);
+        break;
+      case 'diabetes':
+        patients = generateDiabetesPatients(1);
+        break;
+      case 'hypertension':
+        patients = generateHypertensionPatients(1);
+        break;
+      default:
+        patients = generateObesityPatients(1);
+    }
+    
     const patient = { ...patients[0], id };
 
     return {

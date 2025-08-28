@@ -1,4 +1,5 @@
 import { StudyData } from '@/api/types';
+import { diabetesPatientConfig } from './patients';
 
 export const diabetesStudyData: StudyData = {
   id: 'diabetes',
@@ -33,7 +34,9 @@ export const diabetesStudyData: StudyData = {
   regions: {
     us: true,
     eu: true
-  }
+  },
+  patientConfig: diabetesPatientConfig
 };
 
 export { diabetesSites } from './sites';
+export { generateDiabetesPatients, diabetesPatientConfig } from './patients';

@@ -7,9 +7,12 @@ import {
 } from '@/api/types';
 import { 
   mockAssessments, 
-  generateMockPatients, 
   generateMockQoLData 
 } from '@/api/mockData';
+import { generateCardiologyPatients } from '@/data/study/cardiology/patients';
+import { generateObesityPatients } from '@/data/study/obesity/patients';
+import { generateDiabetesPatients } from '@/data/study/diabetes/patients';
+import { generateHypertensionPatients } from '@/data/study/hypertension/patients';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -34,7 +37,23 @@ export const qualityOfLifeApi = {
   getByStudy: async (studyId: StudyType): Promise<ApiResponse<QualityOfLifeData[]>> => {
     await delay();
     
-    const patients = generateMockPatients(studyId, 100);
+    let patients: any[] = [];
+    switch (studyId) {
+      case 'cardiology':
+        patients = generateCardiologyPatients(100);
+        break;
+      case 'obesity':
+        patients = generateObesityPatients(100);
+        break;
+      case 'diabetes':
+        patients = generateDiabetesPatients(100);
+        break;
+      case 'hypertension':
+        patients = generateHypertensionPatients(100);
+        break;
+      default:
+        patients = generateObesityPatients(100);
+    }
     const patientIds = patients.map(p => p.id);
     const qolData = generateMockQoLData(patientIds, studyId);
 

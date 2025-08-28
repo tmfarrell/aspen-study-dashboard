@@ -1,4 +1,5 @@
 import { StudyData } from '@/api/types';
+import { obesityPatientConfig } from './patients';
 
 export const obesityStudyData: StudyData = {
   id: 'obesity',
@@ -32,7 +33,9 @@ export const obesityStudyData: StudyData = {
   regions: {
     us: false,
     eu: true
-  }
+  },
+  patientConfig: obesityPatientConfig
 };
 
 export { obesitySites } from './sites';
+export { generateObesityPatients, obesityPatientConfig } from './patients';

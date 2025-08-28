@@ -2,17 +2,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Patient } from "@/data/patientData";
+import { PatientData } from "@/api/types";
 import { User, Heart, Pill, TestTube, Stethoscope } from "lucide-react";
 
 interface PatientChartModalProps {
-  patient: Patient | null;
+  patient: PatientData | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 // Mock detailed patient data
-const generatePatientChart = (patient: Patient) => {
+const generatePatientChart = (patient: PatientData) => {
   const procedures = [
     "ECG - 12 Lead", "Echocardiogram", "Holter Monitor", "Cardiac Catheterization",
     "Electrophysiology Study", "Cardioversion", "Ablation Therapy", "Pacemaker Implant"
@@ -71,14 +71,14 @@ export function PatientChartModal({ patient, isOpen, onClose }: PatientChartModa
                 <div className="font-medium">{patient.gender}</div>
               </div>
               <div>
-                <span className="text-muted-foreground">Location:</span>
-                <div className="font-medium">{patient.city}, {patient.state}</div>
+                <span className="text-muted-foreground">Site:</span>
+                <div className="font-medium">{patient.siteId}</div>
               </div>
               <div>
-                <span className="text-muted-foreground">Risk Score:</span>
+                <span className="text-muted-foreground">BMI:</span>
                 <div className="font-medium">
-                  <Badge variant={patient.riskScore > 70 ? "destructive" : patient.riskScore > 50 ? "secondary" : "default"}>
-                    {patient.riskScore}
+                  <Badge variant="outline">
+                    {patient.bmi}
                   </Badge>
                 </div>
               </div>
@@ -94,27 +94,19 @@ export function PatientChartModal({ patient, isOpen, onClose }: PatientChartModa
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-sm">
-                  {patient.diagnosis}
+                  {patient.studyId} Study
                 </Badge>
-                <Badge variant={
-                  patient.severity === "Critical" ? "destructive" :
-                  patient.severity === "High" ? "secondary" :
-                  patient.severity === "Moderate" ? "outline" : "default"
-                }>
-                  {patient.severity} Severity
+                <Badge variant="default">
+                  {patient.status}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                Last visit: {new Date(patient.lastVisit).toLocaleDateString()}
+                Enrolled: {new Date(patient.enrollmentDate).toLocaleDateString()}
               </p>
               <p className="text-sm">
-                <span className="text-muted-foreground">Outcome:</span> 
-                <Badge variant={
-                  patient.outcome === "Improved" ? "default" :
-                  patient.outcome === "Stable" ? "secondary" :
-                  patient.outcome === "Declined" ? "destructive" : "outline"
-                } className="ml-2">
-                  {patient.outcome}
+                <span className="text-muted-foreground">Race:</span> 
+                <Badge variant="outline" className="ml-2">
+                  {patient.race}
                 </Badge>
               </p>
             </div>

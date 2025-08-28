@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Pill, TrendingDown, AlertTriangle, Clock, Filter } from "lucide-react";
-import { mockPatients } from "@/data/patientData";
+import { usePatients } from "@/state/patients";
 
 // Anti-arrhythmic medications with market usage weights
 const antiArrhythmicMeds = [
@@ -33,11 +33,11 @@ const discontinuationReasons = [
 ];
 
 // Generate medication data for patients
-function generateMedicationData() {
+function generateMedicationData(patientCount: number) {
   const medicationData = [];
   
   antiArrhythmicMeds.forEach(med => {
-    const totalPatients = Math.round(mockPatients.length * med.weight);
+    const totalPatients = Math.round(patientCount * med.weight);
     const activePatients = Math.round(totalPatients * (Math.random() * 0.3 + 0.6)); // 60-90% still active
     const discontinuedPatients = totalPatients - activePatients;
     
@@ -89,8 +89,14 @@ function generateMedicationData() {
 
 export function MedicationsPanel() {
   const [selectedMedication, setSelectedMedication] = useState<string>("all");
+  const { data: patientsData, isLoading } = usePatients({ studyId: 'cardiology' });
   
-  const medicationData = generateMedicationData();
+  if (isLoading) {
+    return <div className="p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
+  }
+
+  const mockPatients = patientsData?.data || [];
+  const medicationData = generateMedicationData(mockPatients.length);
   
   // Filter data based on selection
   const filteredData = selectedMedication === "all" ? 
