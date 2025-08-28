@@ -37,30 +37,12 @@ export const qualityOfLifeApi = {
   getByStudy: async (studyId: StudyType): Promise<ApiResponse<QualityOfLifeData[]>> => {
     await delay();
     
-    let patients: any[] = [];
-    switch (studyId) {
-      case 'cardiology':
-        patients = generateCardiologyPatients(100);
-        break;
-      case 'obesity':
-        patients = generateObesityPatients(100);
-        break;
-      case 'diabetes':
-        patients = generateDiabetesPatients(100);
-        break;
-      case 'hypertension':
-        patients = generateHypertensionPatients(100);
-        break;
-      default:
-        patients = generateObesityPatients(100);
-    }
-    const patientIds = patients.map(p => p.id);
-    const qolData = generateMockQoLData(patientIds, studyId);
-
+    // Quality of life data is now embedded in patient records as assessments
+    // This API is deprecated - use the metrics system instead
     return {
-      data: qolData,
+      data: [],
       success: true,
-      message: 'Quality of life data retrieved successfully'
+      message: 'Quality of life data is now available through patient assessments and metrics'
     };
   }
 };

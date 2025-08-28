@@ -39,20 +39,48 @@ export interface StudyData {
   };
 }
 
+export interface QoLAssessment {
+  type: string;
+  date: string;
+  score: number;
+  maxScore: number;
+  timepoint: 'baseline' | '6months' | '1year' | '2years';
+}
+
+export interface VisitData {
+  id: string;
+  date: string;
+  type: string;
+}
+
 export interface PatientData {
   id: string;
-  studyId: string;
   age: number;
   gender: 'male' | 'female' | 'other';
   bmi: number;
-  enrollmentDate: string;
-  status: 'active' | 'completed' | 'withdrawn';
-  siteId: string;
-  race?: string;
-  ethnicity?: string;
-  comorbidities: string[];
+  race: string;
+  medicalHistory: string[];
   medications: string[];
-  enrollmentCategory?: string; // New field for enrollment-specific categorization
+  enrollmentDate: string;
+  enrollmentCategory: string;
+  status: 'active' | 'withdrawn' | 'completed';
+  visitHistory: VisitData[];
+  labResults: Record<string, any>;
+  studyId: StudyType;
+  siteId?: string;
+  ethnicity?: string;
+  qualityOfLifeAssessments?: QoLAssessment[];
+}
+
+export interface PatientConfig {
+  genderDistribution: { male: number; female: number; other: number };
+  ageDistribution: { mean: number; std: number };
+  bmiDistribution: { mean: number; std: number };
+  raceDistribution: Record<string, number>;
+  commonComorbidities: string[];
+  commonMedications: string[];
+  enrollmentDateRange: { start: string; end: string };
+  enrollmentCategories: Record<string, number>;
 }
 
 export interface SiteData {

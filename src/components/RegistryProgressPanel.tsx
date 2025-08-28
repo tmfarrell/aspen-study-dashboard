@@ -1,8 +1,23 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { registryGrowthData } from "@/data/qualityOfLifeData";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { TrendingUp, Users, MapPin } from "lucide-react";
+
+// Mock registry growth data (this would come from the API in a real application)
+const registryGrowthData = [
+  { month: "Jan 2024", patients: 3547, newPatients: 234, region: "Northeast: 28%, South: 35%, Midwest: 22%, West: 15%" },
+  { month: "Feb 2024", patients: 3698, newPatients: 151, region: "Northeast: 27%, South: 36%, Midwest: 22%, West: 15%" },
+  { month: "Mar 2024", patients: 3892, newPatients: 194, region: "Northeast: 27%, South: 36%, Midwest: 21%, West: 16%" },
+  { month: "Apr 2024", patients: 4067, newPatients: 175, region: "Northeast: 26%, South: 37%, Midwest: 21%, West: 16%" },
+  { month: "May 2024", patients: 4289, newPatients: 222, region: "Northeast: 26%, South: 37%, Midwest: 20%, West: 17%" },
+  { month: "Jun 2024", patients: 4456, newPatients: 167, region: "Northeast: 25%, South: 38%, Midwest: 20%, West: 17%" },
+  { month: "Jul 2024", patients: 4634, newPatients: 178, region: "Northeast: 25%, South: 38%, Midwest: 19%, West: 18%" },
+  { month: "Aug 2024", patients: 4823, newPatients: 189, region: "Northeast: 24%, South: 39%, Midwest: 19%, West: 18%" },
+  { month: "Sep 2024", patients: 4987, newPatients: 164, region: "Northeast: 24%, South: 39%, Midwest: 18%, West: 19%" },
+  { month: "Oct 2024", patients: 5134, newPatients: 147, region: "Northeast: 23%, South: 40%, Midwest: 18%, West: 19%" },
+  { month: "Nov 2024", patients: 5289, newPatients: 155, region: "Northeast: 23%, South: 40%, Midwest: 17%, West: 20%" },
+  { month: "Dec 2024", patients: 5447, newPatients: 158, region: "Northeast: 22%, South: 41%, Midwest: 17%, West: 20%" }
+];
 
 export function RegistryProgressPanel() {
   const totalGrowth = ((registryGrowthData[registryGrowthData.length - 1].patients - registryGrowthData[0].patients) / registryGrowthData[0].patients * 100).toFixed(1);

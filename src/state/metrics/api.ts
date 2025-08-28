@@ -44,7 +44,7 @@ const calculateCategoricalMetric = (
   patients.forEach(patient => {
     let value: any;
     
-    if (definition.field === 'medications' || definition.field === 'comorbidities') {
+    if (definition.field === 'medications' || definition.field === 'medicalHistory') {
       // Handle array fields - count each item separately
       const arrayValue = patient[definition.field as keyof PatientData] as string[];
       arrayValue.forEach(item => {
@@ -93,9 +93,9 @@ const calculateNumericalMetric = (
   patients.forEach(patient => {
     let value: number;
     
-    if (definition.field === 'comorbidities') {
+    if (definition.field === 'medicalHistory') {
       // For comorbidity count
-      value = (patient.comorbidities as string[]).length;
+      value = (patient.medicalHistory as string[]).length;
     } else {
       value = patient[definition.field as keyof PatientData] as number;
     }
@@ -128,10 +128,10 @@ const calculateNumericalMetric = (
   // Create buckets
   let buckets: Array<{ min: number; max: number; label: string }> = [];
   
-  if (definition.customBuckets) {
-    buckets = definition.customBuckets;
+  if (definition.buckets) {
+    buckets = definition.buckets;
   } else {
-    const bucketCount = definition.buckets || 5;
+    const bucketCount = 5;
     const range = max - min;
     const bucketSize = range / bucketCount;
     

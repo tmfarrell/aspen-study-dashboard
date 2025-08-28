@@ -11,8 +11,7 @@ export interface MetricDefinition {
   description: string;
   type: 'categorical' | 'numerical';
   field: keyof PatientData | string; // string for nested fields like 'comorbidities.length'
-  buckets?: number; // For numerical metrics
-  customBuckets?: { min: number; max: number; label: string }[]; // Custom bucket definitions
+  buckets?: { min: number; max: number; label: string }[]; // For numerical metrics
 }
 
 export interface CategoricalMetric {
@@ -62,7 +61,7 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     description: 'Patient age distribution in years',
     type: 'numerical',
     field: 'age',
-    buckets: 6
+    
   },
   {
     id: 'gender',
@@ -91,7 +90,7 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     description: 'Body Mass Index distribution',
     type: 'numerical',
     field: 'bmi',
-    customBuckets: [
+    buckets: [
       { min: 0, max: 18.5, label: 'Underweight' },
       { min: 18.5, max: 25, label: 'Normal' },
       { min: 25, max: 30, label: 'Overweight' },
@@ -106,7 +105,7 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     description: 'BMI categories for obesity study',
     type: 'numerical', 
     field: 'bmi',
-    customBuckets: [
+    buckets: [
       { min: 30, max: 34.9, label: 'Class I Obesity (30-34.9)' },
       { min: 35, max: 39.9, label: 'Class II Obesity (35-39.9)' },
       { min: 40, max: 60, label: 'Class III Obesity (40+)' }
@@ -125,7 +124,7 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     description: 'Number of comorbidities per patient',
     type: 'numerical',
     field: 'comorbidities',
-    buckets: 5
+    
   }
 ];
 
@@ -234,7 +233,63 @@ export const getStudySpecificMetrics = (studyId: StudyType): MetricDefinition[] 
   }
 };
 
+// Quality of Life Assessment metrics
+const QOL_METRICS: MetricDefinition[] = [
+  {
+    id: 'afeqt_scores',
+    name: 'AFEQT Scores',
+    description: 'Atrial Fibrillation Effect on Quality of Life scores',
+    type: 'numerical',
+    field: 'qualityOfLifeAssessments',
+    buckets: [
+      { min: 0, max: 25, label: 'Poor (0-25)' },
+      { min: 26, max: 50, label: 'Fair (26-50)' },
+      { min: 51, max: 75, label: 'Good (51-75)' },
+      { min: 76, max: 100, label: 'Excellent (76-100)' }
+    ]
+  },
+  {
+    id: 'sf36_scores',
+    name: 'SF-36 Physical Function Scores',
+    description: 'SF-36 Physical Function assessment scores',
+    type: 'numerical',
+    field: 'qualityOfLifeAssessments',
+    buckets: [
+      { min: 0, max: 25, label: 'Poor (0-25)' },
+      { min: 26, max: 50, label: 'Fair (26-50)' },
+      { min: 51, max: 75, label: 'Good (51-75)' },
+      { min: 76, max: 100, label: 'Excellent (76-100)' }
+    ]
+  },
+  {
+    id: 'eq5d_scores',
+    name: 'EQ-5D-5L Health Status',
+    description: 'EQ-5D-5L Health Status Index scores',
+    type: 'numerical',
+    field: 'qualityOfLifeAssessments',
+    buckets: [
+      { min: 0, max: 0.25, label: 'Poor (0-0.25)' },
+      { min: 0.26, max: 0.50, label: 'Fair (0.26-0.50)' },
+      { min: 0.51, max: 0.75, label: 'Good (0.51-0.75)' },
+      { min: 0.76, max: 1.0, label: 'Excellent (0.76-1.0)' }
+    ]
+  },
+  {
+    id: 'assessment_completion_rate',
+    name: 'Assessment Completion Rate',
+    description: 'Percentage of completed quality of life assessments',
+    type: 'numerical',
+    field: 'qualityOfLifeAssessments'
+  }
+];
+
 // Get all metrics for a study (standard + study-specific)
 export const getAllMetricsForStudy = (studyId: StudyType): MetricDefinition[] => {
-  return [...STANDARD_METRICS, ...getStudySpecificMetrics(studyId)];
+  const standardMetrics = STANDARD_METRICS;
+  const studySpecificMetrics = getStudySpecificMetrics(studyId);
+  
+  // Add QoL metrics for cardiology study
+  const qolMetrics = studyId === 'cardiology' ? QOL_METRICS : [];
+  
+  return [...standardMetrics, ...studySpecificMetrics, ...qolMetrics];
 };
