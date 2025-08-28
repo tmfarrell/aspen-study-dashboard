@@ -48,6 +48,18 @@ const countryMaps: Record<string, { geoUrl: string; projection: any; projectionC
     projection: "geoMercator" as const,
     projectionConfig: { scale: 2800, center: [-2, 54.5] as [number, number] },
     getRegionName: (geo: any) => geo.properties.LAD13NM
+  },
+  "Italy": {
+    geoUrl: "https://raw.githubusercontent.com/stefanocudini/leaflet-geojson-selector/master/examples/italy-regions.json",
+    projection: "geoMercator" as const,
+    projectionConfig: { scale: 2200, center: [12.5, 41.9] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.reg_name || geo.properties.name
+  },
+  "Spain": {
+    geoUrl: "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/spain-communities.geojson",
+    projection: "geoMercator" as const,
+    projectionConfig: { scale: 2000, center: [-3.7, 40.4] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.name
   }
 };
 
@@ -271,8 +283,8 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           geoUrl: worldGeoUrl,
           projection: "geoNaturalEarth1" as const,
           projectionConfig: { 
-            scale: 200,
-            center: [-30, 50] as [number, number]
+            scale: 250,
+            center: [-10, 45] as [number, number]
           },
           getRegionName: (geo: any) => geo.properties.NAME
         };
