@@ -234,6 +234,10 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
       return countryMaps[navigation.selectedCountry];
     }
     
+    if (navigation.level === 'subdivision' && navigation.selectedCountry && countryMaps[navigation.selectedCountry]) {
+      return countryMaps[navigation.selectedCountry];
+    }
+    
     switch (geographicData.type) {
       case 'us':
         return {
@@ -339,10 +343,17 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                   geographies
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
-                      // For EU maps, the Europe GeoJSON should already be filtered to EU countries
-                      if (geographicData.type === 'eu') {
-                        return true; // Europe GeoJSON should only contain European countries
+                      
+                      // For country-specific maps, only show regions with data
+                      if (navigation.level === 'country' || navigation.level === 'subdivision') {
+                        return geographicData.data[regionName] !== undefined;
                       }
+                      
+                      // For EU maps, show all European countries
+                      if (geographicData.type === 'eu') {
+                        return true;
+                      }
+                      
                       return true;
                     })
                     .map((geo) => {
@@ -365,7 +376,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                             },
                             pressed: { outline: "none" }
                           }}
-                          onClick={() => patientCount > 0 && handleRegionClick(regionName)}
+                          onClick={() => {
+                            if (navigation.level === 'subdivision') {
+                              // At subdivision level, clicking on a region shows sites in that subdivision
+                              return;
+                            }
+                            if (patientCount > 0) {
+                              handleRegionClick(regionName);
+                            }
+                          }}
                         />
                       );
                     })
