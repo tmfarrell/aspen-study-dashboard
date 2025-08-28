@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { 
   selectedStudyAtom, 
@@ -60,6 +60,9 @@ interface AppStateProviderProps {
 }
 
 export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+  
+  // Initialize atoms with error handling
   const [selectedStudy, setSelectedStudy] = useAtom(selectedStudyAtom);
   const [sidebarCollapsed, setSidebarCollapsed] = useAtom(sidebarCollapsedAtom);
   const [patientFilters, setPatientFilters] = useAtom(patientFiltersAtom);
@@ -73,13 +76,12 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
   const [currentCohortSize, setCurrentCohortSize] = useAtom(currentCohortSizeAtom);
   const [populationForStudy] = useAtom(populationSizeForStudyAtom);
 
-  // Get study stats through React Query
-  const { data: stats } = useStudyStats(selectedStudy);
+  // Get study stats through React Query - with error handling
+  const { data: stats, error } = useStudyStats(selectedStudy);
 
   // Custom setSelectedStudy that also updates cohort data
   const handleSetSelectedStudy = (study: StudyType) => {
     setSelectedStudy(study);
-    // The effect below will handle updating population size when stats load
   };
 
   // Apply criteria function (same logic as cohortStore)
@@ -113,8 +115,25 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
       if (currentCohortSize === 0) {
         setCurrentCohortSize(newPopulation);
       }
+    } else if (error) {
+      // Fallback to calculated population if API fails
+      try {
+        setPopulationSize(populationForStudy || 1000); // Default fallback
+        if (currentCohortSize === 0) {
+          setCurrentCohortSize(populationForStudy || 1000);
+        }
+      } catch (err) {
+        console.warn('Failed to calculate population size:', err);
+        setPopulationSize(1000);
+        setCurrentCohortSize(1000);
+      }
     }
-  }, [stats, setPopulationSize, setCurrentCohortSize, currentCohortSize]);
+  }, [stats, error, populationForStudy, setPopulationSize, setCurrentCohortSize, currentCohortSize]);
+
+  // Mark as initialized after first render
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
 
   const value: AppStateContextType = {
     selectedStudy,
@@ -141,6 +160,11 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     resetCohortSize,
   };
 
+  // Don't render children until context is initialized
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <AppStateContext.Provider value={value}>
       {children}
@@ -150,7 +174,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
 
 export const useAppState = (): AppStateContextType => {
   const context = useContext(AppStateContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAppState must be used within an AppStateProvider');
   }
   return context;
