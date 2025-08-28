@@ -1,7 +1,7 @@
 import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend, SiteEnrollment, EnrollmentTargetProgress, TargetCompletion } from '@/api/enrollmentTypes';
 import { StudyType, ApiResponse } from '@/api/types';
 import { calculateTotalPatients } from '@/data/studyHelpers';
-import { enrollmentConfigs } from '@/data/enrollmentConfigs';
+import { studyData } from '@/data/studyData';
 import { sites } from '@/data/siteData';
 
 // Simulate network delay
@@ -9,9 +9,9 @@ const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, m
 
 // Generate realistic enrollment data based on study configuration
 const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
-  const config = enrollmentConfigs[studyId];
-  if (!config) {
-    throw new Error(`No enrollment configuration found for study: ${studyId}`);
+  const study = studyData[studyId];
+  if (!study) {
+    throw new Error(`No study data found for study: ${studyId}`);
   }
 
   const totalPatients = calculateTotalPatients(studyId);
@@ -24,7 +24,7 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   const newPatientsLastMonth = Math.floor(newPatientsLast12Months / 12 * recentMonthsMultiplier);
   
   // Generate breakdown data
-  const breakdowns: EnrollmentBreakdown[] = config.categories.map(category => {
+  const breakdowns: EnrollmentBreakdown[] = study.enrollmentConfig.categories.map(category => {
     const total = Math.floor(totalPatients * category.weight);
     const last12Months = Math.floor(total * 0.6);
     const lastMonth = Math.floor(last12Months / 12 * recentMonthsMultiplier);
@@ -57,7 +57,7 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     
     // Generate breakdown for this month
     const monthlyBreakdown: Record<string, number> = {};
-    config.categories.forEach(category => {
+    study.enrollmentConfig.categories.forEach(category => {
       monthlyBreakdown[category.key] = Math.floor(monthlyEnrollment * category.weight);
     });
 
@@ -91,23 +91,24 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   let targetProgress: EnrollmentTargetProgress[] | undefined;
   let targetCompletion: TargetCompletion | undefined;
   
-  if (config.targetEnrollment?.byCountry) {
-    targetProgress = config.targetEnrollment.byCountry.map(countryTarget => {
-      const current = Math.floor(totalPatients * (countryTarget.target / config.targetEnrollment!.total));
-      const lastMonthProgress = Math.floor(newPatientsLastMonth * (countryTarget.target / config.targetEnrollment!.total));
+  if (study.targetEnrollment?.byCountry) {
+    const countryEntries = Object.entries(study.targetEnrollment.byCountry);
+    targetProgress = countryEntries.map(([country, target]) => {
+      const current = Math.floor(totalPatients * (target / study.targetEnrollment!.total));
+      const lastMonthProgress = Math.floor(newPatientsLastMonth * (target / study.targetEnrollment!.total));
       return {
-        country: countryTarget.country,
-        target: countryTarget.target,
+        country,
+        target,
         current,
         lastMonthProgress,
-        progressPercentage: Math.round((current / countryTarget.target) * 100)
+        progressPercentage: Math.round((current / target) * 100)
       };
     });
   }
 
-  if (config.targetEnrollment) {
-    const currentProgress = totalPatients / config.targetEnrollment.total;
-    const monthsRemaining = Math.ceil((config.targetEnrollment.total - totalPatients) / (newPatientsLast12Months / 12));
+  if (study.targetEnrollment) {
+    const currentProgress = totalPatients / study.targetEnrollment.total;
+    const monthsRemaining = Math.ceil((study.targetEnrollment.total - totalPatients) / (newPatientsLast12Months / 12));
     
     let confidence: 'high' | 'medium' | 'low' = 'medium';
     if (currentProgress > 0.8 && monthsRemaining <= 6) confidence = 'high';
@@ -117,7 +118,7 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     estimatedDate.setMonth(estimatedDate.getMonth() + monthsRemaining);
     
     targetCompletion = {
-      targetDate: config.targetEnrollment.targetDate,
+      targetDate: study.targetEnrollment.targetDate || estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }),
       confidence,
       estimatedCompletion: estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
     };

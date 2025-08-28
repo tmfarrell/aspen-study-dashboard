@@ -4,7 +4,7 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, R
 import { Users, TrendingUp, Calendar, UserPlus, Activity, Target, MapPin } from "lucide-react";
 import { useEnrollmentStats } from "@/state/enrollment/queries";
 import { StudyType } from "@/api/types";
-import { enrollmentConfigs } from "@/data/enrollmentConfigs";
+import { studyData } from "@/data/studyData";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -15,7 +15,7 @@ interface EnrollmentDashboardProps {
 
 export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
   const { data: enrollmentStats, isLoading, error } = useEnrollmentStats(studyId);
-  const config = enrollmentConfigs[studyId];
+  const study = studyData[studyId];
   const [trendsView, setTrendsView] = useState<'monthly' | 'cumulative'>('monthly');
 
   if (isLoading) {
@@ -30,7 +30,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
     );
   }
 
-  if (error || !enrollmentStats || !config) {
+  if (error || !enrollmentStats || !study) {
     return (
       <div className="p-6">
         <Card className="p-6">
@@ -206,7 +206,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
 
         {/* Breakdown by Category */}
         <Card className="p-6 bg-card border">
-          <h3 className="text-lg font-semibold mb-4">{config.breakdownLabel}</h3>
+          <h3 className="text-lg font-semibold mb-4">{study.enrollmentConfig.breakdownLabel}</h3>
           {enrollmentStats.breakdowns.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart 
@@ -316,7 +316,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
             </div>
             <div className="pt-2 border-t border-border">
               <p className="text-xs text-muted-foreground">
-                Average enrollment per {config.breakdownType}
+                Average enrollment per {study.enrollmentConfig.breakdownType}
               </p>
             </div>
           </div>

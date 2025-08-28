@@ -7,9 +7,19 @@ export interface StudyData {
   enrollmentUnits: 'cases' | 'patients';
   targetEnrollment?: {
     total: number;
+    targetDate?: string; // "YYYY-MM" format
     byCountry?: {
       [countryCode: string]: number;
     };
+  };
+  enrollmentConfig: {
+    breakdownType: 'conditions' | 'bmi' | 'demographics' | 'procedures';
+    breakdownLabel: string;
+    categories: Array<{
+      key: string;
+      label: string;
+      weight: number; // Used for realistic data distribution
+    }>;
   };
   description: string;
   status: 'active' | 'recruiting' | 'completed' | 'suspended';

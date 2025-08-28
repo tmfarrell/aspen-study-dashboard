@@ -16,6 +16,16 @@ export const diabetesStudyData: StudyData = {
       'IT': 1000
     }
   },
+  enrollmentConfig: {
+    breakdownType: 'demographics',
+    breakdownLabel: 'Patient Demographics',
+    categories: [
+      { key: 'type2_newly_diagnosed', label: 'Type 2 - Newly Diagnosed', weight: 0.30 },
+      { key: 'type2_established', label: 'Type 2 - Established', weight: 0.45 },
+      { key: 'prediabetes', label: 'Prediabetes', weight: 0.20 },
+      { key: 'gestational', label: 'Gestational Diabetes', weight: 0.05 }
+    ]
+  },
   description: 'Type 2 diabetes management and outcomes research across multiple healthcare settings',
   status: 'active',
   startDate: '2022-06-01',
