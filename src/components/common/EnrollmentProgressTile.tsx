@@ -29,6 +29,10 @@ export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps)
     return <div className="h-48 bg-muted animate-pulse rounded-lg" />;
   }
   
+  if (!study || !sites) {
+    return null;
+  }
+  
   // Don't render if no target enrollment
   if (!study.targetEnrollment) {
     return null;
