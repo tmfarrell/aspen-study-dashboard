@@ -183,8 +183,6 @@ export function PatientCohortDashboard() {
         </Card>
       </div>
 
-      {/* Enrollment Progress Tile - only show if target enrollment exists */}
-      <EnrollmentProgressTile studyId="cardiology" />
 
       {/* Geographic Distribution Map */}
       <GeographicTile studyId="cardiology" />

@@ -76,7 +76,9 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
       </div>
       
       {/* Enrollment Progress Tile - only show if target enrollment exists */}
-      <EnrollmentProgressTile studyId={selectedStudy} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <EnrollmentProgressTile studyId={selectedStudy} />
+      </div>
     </div>
   );
 };

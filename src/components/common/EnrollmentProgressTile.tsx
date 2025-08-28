@@ -80,19 +80,9 @@ export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps)
   return (
     <Card className="p-6">
       <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">
-            Enrollment Progress (12 Months)
-          </CardTitle>
-          <Select defaultValue="global">
-            <SelectTrigger className="w-24 h-8 text-xs">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="global">Global</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <CardTitle className="text-lg font-semibold">
+          Enrollment Progress (12 Months)
+        </CardTitle>
       </CardHeader>
       
       <CardContent className="space-y-6">
@@ -129,12 +119,10 @@ export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps)
                       item.enrolled.toLocaleString()
                     )}
                   </span>
-                  {item.target && (
-                    <Progress 
-                      value={item.percentage || 0} 
-                      className="h-2 flex-1" 
-                    />
-                  )}
+                  <Progress 
+                    value={item.percentage || 0} 
+                    className="h-2 flex-1" 
+                  />
                 </div>
               </div>
             ))}
