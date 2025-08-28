@@ -20,6 +20,11 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
   const study = studyData[studyId];
   const [trendsView, setTrendsView] = useState<'monthly' | 'cumulative'>('monthly');
 
+  // Get the correct unit label based on enrollmentUnits
+  const getUnitLabel = () => {
+    return study?.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
+  };
+
   if (isLoading) {
     return (
       <div className="p-6 space-y-6">
@@ -50,14 +55,14 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <TotalPatientsTile studyId={studyId} showTrend={false} />
         <MetricCard
-          title="New Patients (Past Month)"
+          title={`New ${getUnitLabel()} (Past Month)`}
           value={enrollmentStats.newPatientsLastMonth.toLocaleString()}
           subtitle="Recently enrolled"
           icon={<UserPlus className="w-5 h-5" />}
           trend={{ value: 18.5, isPositive: true }}
         />
         <MetricCard
-          title="New Patients (Past 12 Months)"
+          title={`New ${getUnitLabel()} (Past 12 Months)`}
           value={enrollmentStats.newPatientsLast12Months.toLocaleString()}
           subtitle="Annual enrollment"
           icon={<Calendar className="w-5 h-5" />}
@@ -97,7 +102,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
           <MetricCard
             title="Average Monthly Enrollment"
             value={enrollmentStats.averageMonthlyEnrollment.toLocaleString()}
-            subtitle="Patients per month"
+            subtitle={`${getUnitLabel()} per month`}
             icon={<TrendingUp className="w-5 h-5" />}
           />
         )}
@@ -216,7 +221,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "0.5rem"
                   }}
-                  formatter={(value, name) => [value, 'Patient Count']}
+                  formatter={(value, name) => [value, `${getUnitLabel()} Count`]}
                 />
                 <Bar 
                   dataKey="total" 
@@ -264,7 +269,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
       {/* Detailed Enrollment Statistics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="p-6 bg-card border">
-          <h3 className="text-lg font-semibold mb-4">Average New Patients per Category</h3>
+          <h3 className="text-lg font-semibold mb-4">Average New {getUnitLabel()} per Category</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Past Month</span>
