@@ -8,6 +8,7 @@ import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } f
 import { usePatients } from "@/state/patients";
 import { GeographicTile } from "./common/GeographicTile";
 import { EnrollmentProgressTile } from "./common/EnrollmentProgressTile";
+import AgeRangeTile from "./common/AgeRangeTile";
 import { useStudy, useStudyStats } from "@/state/studies";
 
 export function PatientCohortDashboard() {
@@ -93,12 +94,7 @@ export function PatientCohortDashboard() {
           icon={<Users className="w-5 h-5" />}
           trend={{ value: 12.5, isPositive: true }}
         />
-        <MetricCard
-          title="Average Age"
-          value={Math.round(filteredPatients.reduce((sum, p) => sum + p.age, 0) / filteredPatients.length || 0)}
-          subtitle="Years"
-          icon={<Clock className="w-5 h-5" />}
-        />
+        <AgeRangeTile studyId="cardiology" showAverage={true} />
         <MetricCard
           title="Critical Cases"
           value={Math.floor(filteredPatients.length * 0.15)}

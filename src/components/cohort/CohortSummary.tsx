@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MetricCard } from '@/components/ui/metric-card';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
 import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
+import AgeRangeTile from '@/components/common/AgeRangeTile';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import { useStudy } from "@/state/studies";
 import { StudyType } from "@/api/types";
-import { Users } from 'lucide-react';
 
 interface CohortSummaryProps {
   selectedStudy: StudyType;
@@ -41,11 +41,6 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
       title: "Average BMI",
       value: currentData.averageBMI,
       description: "kg/m² across cohort"
-    },
-    {
-      title: "Age Range",
-      value: currentData.ageRange,
-      description: "Years (median: 52)"
     }
   ];
 
@@ -54,6 +49,9 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Standardized Total Patients/Cases Tile */}
         <TotalPatientsTile studyId={selectedStudy} />
+        
+        {/* Age Range using metrics system */}
+        <AgeRangeTile studyId={selectedStudy} />
         
         {/* Other summary stats using existing Card style */}
         {summaryStats.map((stat, index) => (
