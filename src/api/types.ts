@@ -2,9 +2,14 @@
 export interface StudyData {
   id: string;
   name: string;
-  averageBMI: string;
   ageRange: string;
   enrollmentUnits: 'cases' | 'patients';
+  overviewMetrics: Array<{
+    metricId: string;
+    displayType: 'average' | 'total' | 'range' | 'median';
+    icon?: string;
+    description?: string;
+  }>;
   targetEnrollment?: {
     total: number;
     targetDate?: string; // "YYYY-MM" format

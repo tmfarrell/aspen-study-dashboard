@@ -4,6 +4,7 @@ import { MetricCard } from '@/components/ui/metric-card';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
 import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AgeRangeTile from '@/components/common/AgeRangeTile';
+import MetricTile from '@/components/common/MetricTile';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import { useStudy } from "@/state/studies";
 import { StudyType } from "@/api/types";
@@ -36,13 +37,6 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
     return currentData.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
   };
 
-  const summaryStats = [
-    {
-      title: "Average BMI",
-      value: currentData.averageBMI,
-      description: "kg/m² across cohort"
-    }
-  ];
 
   return (
     <div className="space-y-6">
@@ -53,21 +47,16 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
         {/* Age Range using metrics system */}
         <AgeRangeTile studyId={selectedStudy} />
         
-        {/* Other summary stats using existing Card style */}
-        {summaryStats.map((stat, index) => (
-          <Card key={index}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-[#0066CC]">{stat.value}</div>
-              <p className="text-sm text-muted-foreground mt-1">
-                {stat.description}
-              </p>
-            </CardContent>
-          </Card>
+        {/* Study-specific metric tiles */}
+        {currentData.overviewMetrics.map((metricConfig, index) => (
+          <MetricTile
+            key={index}
+            studyId={selectedStudy}
+            metricId={metricConfig.metricId}
+            displayType={metricConfig.displayType}
+            icon={metricConfig.icon}
+            description={metricConfig.description}
+          />
         ))}
       </div>
       

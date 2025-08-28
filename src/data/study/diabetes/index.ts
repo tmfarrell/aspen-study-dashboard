@@ -4,9 +4,11 @@ import { diabetesPatientConfig } from './patients';
 export const diabetesStudyData: StudyData = {
   id: 'diabetes',
   name: 'Diabetes Registry',
-  averageBMI: '31.8',
   ageRange: '25-85',
   enrollmentUnits: 'patients',
+  overviewMetrics: [
+    { metricId: 'bmi', displayType: 'average', icon: 'trending-up', description: 'kg/m² (diabetes management focus)' }
+  ],
   targetEnrollment: {
     total: 15000,
     byCountry: {

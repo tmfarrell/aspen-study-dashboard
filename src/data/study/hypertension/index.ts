@@ -4,9 +4,11 @@ import { hypertensionPatientConfig } from './patients';
 export const hypertensionStudyData: StudyData = {
   id: 'hypertension',
   name: 'MASH Registry',
-  averageBMI: '33.4',
   ageRange: '30-80',
   enrollmentUnits: 'patients',
+  overviewMetrics: [
+    { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² (cardiovascular risk factor)' }
+  ],
   targetEnrollment: {
     total: 8500,
     targetDate: '2025-12',

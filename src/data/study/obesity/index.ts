@@ -4,9 +4,11 @@ import { obesityPatientConfig } from './patients';
 export const obesityStudyData: StudyData = {
   id: 'obesity',
   name: 'Obesity Registry',
-  averageBMI: '36.2',
   ageRange: '18-89',
   enrollmentUnits: 'patients',
+  overviewMetrics: [
+    { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² across cohort' }
+  ],
   targetEnrollment: {
     total: 10000,
     byCountry: {
