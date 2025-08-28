@@ -329,7 +329,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
             scale: 250,
             center: [-10, 45] as [number, number]
           },
-          getRegionName: (geo: any) => geo.properties.NAME
+          getRegionName: (geo: any) => geo.properties.name || geo.properties.NAME || geo.properties.NAME_EN
         };
     }
   };
