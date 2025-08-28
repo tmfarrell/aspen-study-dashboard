@@ -6,6 +6,7 @@ import {
   StudyType 
 } from '@/api/types';
 import { studyData } from '@/data/studyData';
+import { calculateTotalPatients, calculateEnrolledSites } from '@/data/studyHelpers';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -20,11 +21,11 @@ export const studiesApi = {
     }
     
     if (filters?.minPatients) {
-      studies = studies.filter(study => study.totalPatients >= filters.minPatients!);
+      studies = studies.filter(study => calculateTotalPatients(study.id as StudyType) >= filters.minPatients!);
     }
     
     if (filters?.maxPatients) {
-      studies = studies.filter(study => study.totalPatients <= filters.maxPatients!);
+      studies = studies.filter(study => calculateTotalPatients(study.id as StudyType) <= filters.maxPatients!);
     }
 
     return {
@@ -62,11 +63,13 @@ export const studiesApi = {
       throw new Error(`Study with id ${id} not found`);
     }
 
+    const totalPatients = calculateTotalPatients(id);
+    
     return {
       data: {
-        totalPatients: study.totalPatients,
-        completedPatients: Math.floor(study.totalPatients * 0.3),
-        activeSites: study.enrolledSites,
+        totalPatients,
+        completedPatients: Math.floor(totalPatients * 0.3),
+        activeSites: calculateEnrolledSites(id),
         dataQuality: 96.2
       },
       success: true

@@ -2,12 +2,8 @@
 export interface StudyData {
   id: string;
   name: string;
-  studySize: string;
-  totalPatients: number;
-  totalDescription: string;
   averageBMI: string;
   ageRange: string;
-  enrolledSites: number;
   targetEnrollment: number;
   description: string;
   status: 'active' | 'recruiting' | 'completed' | 'suspended';

@@ -6,6 +6,7 @@ import { MapPin, ArrowLeft } from "lucide-react";
 import { studyData } from "@/data/studyData";
 import { useSites } from "@/state/sites";
 import { SiteData, StudyType } from "@/api/types";
+import { calculateTotalPatients } from "@/data/studyHelpers";
 
 // Navigation state for drill-down
 interface NavigationState {
@@ -341,7 +342,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const mapConfig = getMapConfig();
   const totalPatients = Object.values(geographicData.data).reduce((sum, count) => sum + count, 0);
   const totalSites = Object.values(geographicData.siteData).reduce((sum, count) => sum + count, 0);
-  const studyTotalPatients = study.totalPatients; // Use study total for percentage calculations
+  const studyTotalPatients = calculateTotalPatients(study.id as StudyType); // Use study total for percentage calculations
   
   const regionalBreakdown = getRegionalBreakdown(sites, geographicData, navigation);
 

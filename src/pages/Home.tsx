@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { useAppState } from '@/contexts/AppStateContext';
 import { useStudies } from '@/state/studies';
 import { StudyType } from '@/api/types';
+import { calculateTotalPatients, calculateEnrolledSites } from '@/data/studyHelpers';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -129,14 +130,14 @@ const Home = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <div className="text-2xl font-bold text-[#003f7f]">
-                          {study.totalPatients?.toLocaleString() || '0'}
+                          {calculateTotalPatients(study.id as StudyType).toLocaleString()}
                         </div>
                         <div className="text-sm text-muted-foreground">Total Patients</div>
                       </div>
                       
                       <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <div className="text-2xl font-bold text-[#003f7f]">
-                          {study.enrolledSites || Math.floor(Math.random() * 50) + 20}
+                          {calculateEnrolledSites(study.id as StudyType)}
                         </div>
                         <div className="text-sm text-muted-foreground">Active Sites</div>
                       </div>

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { studyData } from '@/data/studyData';
 import { StudyType } from '@/api/types';
+import { calculateTotalPatients } from '@/data/studyHelpers';
 
 interface CohortStore {
   selectedStudy: StudyType;
@@ -14,7 +15,7 @@ interface CohortStore {
 // Get initial values from the default study
 const DEFAULT_STUDY: StudyType = 'obesity';
 const getInitialPopulation = (): number => {
-  return studyData[DEFAULT_STUDY]?.totalPatients || 0;
+  return calculateTotalPatients(DEFAULT_STUDY);
 };
 
 export const useCohortStore = create<CohortStore>((set, get) => ({
@@ -23,7 +24,7 @@ export const useCohortStore = create<CohortStore>((set, get) => ({
   currentCohortSize: getInitialPopulation(),
   
   setSelectedStudy: (study) => set(() => {
-    const newPopulation = studyData[study]?.totalPatients || 0;
+    const newPopulation = calculateTotalPatients(study);
     return {
       selectedStudy: study,
       populationSize: newPopulation,

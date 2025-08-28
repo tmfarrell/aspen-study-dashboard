@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { studyData, StudyType } from '@/data/studyData';
+import { calculateTotalPatients, generateEnrollmentDescription } from '@/data/studyHelpers';
 
 interface CohortSummaryProps {
   selectedStudy: StudyType;
@@ -8,12 +9,13 @@ interface CohortSummaryProps {
 
 const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
   const currentData = studyData[selectedStudy];
+  const totalPatients = calculateTotalPatients(selectedStudy);
 
   const summaryStats = [
     {
       title: "Total Patients",
-      value: currentData.totalPatients,
-      description: currentData.totalDescription
+      value: totalPatients,
+      description: generateEnrollmentDescription(totalPatients, currentData.targetEnrollment)
     },
     {
       title: "Average BMI",
