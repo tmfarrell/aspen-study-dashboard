@@ -36,14 +36,16 @@ const Home = () => {
 
   const getRegionBadge = (study: any) => {
     const { regions } = study;
-    if (regions?.us && regions?.eu) {
-      return <Badge variant="secondary" className="text-xs">Global</Badge>;
-    } else if (regions?.us) {
-      return <Badge variant="outline" className="text-xs">US</Badge>;
-    } else if (regions?.eu) {
-      return <Badge variant="outline" className="text-xs">EU</Badge>;
+    const badges = [];
+    
+    if (regions?.us) {
+      badges.push(<Badge key="us" variant="outline" className="text-xs">US</Badge>);
     }
-    return null;
+    if (regions?.eu) {
+      badges.push(<Badge key="eu" variant="outline" className="text-xs">EU</Badge>);
+    }
+    
+    return badges.length > 0 ? <div className="flex gap-1">{badges}</div> : null;
   };
 
   if (isLoading) {
