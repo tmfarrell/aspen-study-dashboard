@@ -71,9 +71,9 @@ const DistributionMetric = ({ metricId, title, studyId }: DistributionMetricProp
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-between">
-        <div className="flex flex-col space-y-4">
-          <ChartContainer config={chartConfig} className="h-[250px]">
+      <CardContent className="flex-1 flex flex-col">
+        <div className="flex-1">
+          <ChartContainer config={chartConfig} className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                 <XAxis 
@@ -101,7 +101,9 @@ const DistributionMetric = ({ metricId, title, studyId }: DistributionMetricProp
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
-          
+        </div>
+        
+        <div className="mt-4">
           {metric && metric.type === 'numerical' && (
             <div className="w-full">
               <div className="grid grid-cols-1 gap-1 text-xs">
