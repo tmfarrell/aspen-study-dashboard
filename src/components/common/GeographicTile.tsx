@@ -381,6 +381,11 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
                       
+                      // For overview level with world map, show all countries for now
+                      if (navigation.level === 'overview' && geographicData.type === 'world') {
+                        return true;
+                      }
+                      
                       // For US subdivision level, show all US states
                       if (navigation.level === 'subdivision' && navigation.selectedCountry === 'United States') {
                         return true;
@@ -395,14 +400,6 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                       if (navigation.level === 'country' || navigation.level === 'subdivision') {
                         return geographicData.data[regionName] !== undefined;
                       }
-                      
-                       // For world/EU maps, show countries with data and major countries for context
-                       if (geographicData.type === 'world' || geographicData.type === 'eu') {
-                         const hasData = geographicData.data[regionName] > 0;
-                         // Show countries with data or major US/EU countries for context
-                         const majorCountries = ['United States', 'Germany', 'France', 'Italy', 'Spain', 'United Kingdom'];
-                         return hasData || majorCountries.includes(regionName);
-                       }
                       
                       return true;
                     })
