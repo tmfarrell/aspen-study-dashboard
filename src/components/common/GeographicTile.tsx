@@ -63,6 +63,25 @@ const countryMaps: Record<string, { geoUrl: string; projection: any; projectionC
   }
 };
 
+// Country name mapping for GeoJSON -> our data
+const countryNameMapping: Record<string, string> = {
+  "United States of America": "United States",
+  "USA": "United States",
+  "United Kingdom": "United Kingdom",
+  "UK": "United Kingdom", 
+  "Deutschland": "Germany",
+  "Italia": "Italy",
+  "España": "Spain",
+  "Espagne": "France", // In case of French names
+  "Frankreich": "Germany", // In case of German names
+  // Add more mappings as needed
+};
+
+// Helper function to normalize country names
+const normalizeCountryName = (name: string): string => {
+  return countryNameMapping[name] || name;
+};
+
 // Process site data based on navigation state
 const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolean }, navigation: NavigationState) => {
   if (!sites || sites.length === 0) {
@@ -199,11 +218,13 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   console.log('Max Patient Count:', maxPatientCount);
 
   const getRegionColor = (regionName: string) => {
-    const patientCount = geographicData.data[regionName] || 0;
+    // Normalize the region name to match our data
+    const normalizedName = normalizeCountryName(regionName);
+    const patientCount = geographicData.data[normalizedName] || 0;
     
     // Debug logging to see what countries are being checked
     if (navigation.level === 'overview' && geographicData.type === 'world') {
-      console.log(`Checking region: "${regionName}", patient count: ${patientCount}`);
+      console.log(`GeoJSON: "${regionName}" -> Normalized: "${normalizedName}", patient count: ${patientCount}`);
     }
     
     if (patientCount === 0) return "hsl(var(--muted))";
@@ -420,9 +441,10 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     })
                     .map((geo) => {
                         const regionName = mapConfig.getRegionName(geo);
-                        const isSelected = (navigation.level === 'subdivision' && navigation.selectedSubdivision === regionName) ||
-                                         (navigation.level === 'country' && navigation.selectedCountry === regionName);
-                        const patientCount = geographicData.data[regionName] || 0;
+                        const normalizedName = normalizeCountryName(regionName);
+                        const isSelected = (navigation.level === 'subdivision' && navigation.selectedSubdivision === normalizedName) ||
+                                         (navigation.level === 'country' && navigation.selectedCountry === normalizedName);
+                        const patientCount = geographicData.data[normalizedName] || 0;
                         
                         return (
                           <Geography
@@ -447,7 +469,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                               }
                               // Allow clicking on any country/region, not just those with patients
                               if (navigation.level === 'overview' || patientCount > 0) {
-                                handleRegionClick(regionName);
+                                handleRegionClick(normalizedName);
                               }
                             }}
                           />
