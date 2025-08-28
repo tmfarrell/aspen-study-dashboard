@@ -243,6 +243,16 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   };
 
   const getMapConfig = () => {
+    // Special handling for United States at country level
+    if (navigation.level === 'country' && navigation.selectedCountry === 'United States') {
+      return {
+        geoUrl: usGeoUrl,
+        projection: "geoAlbersUsa" as const,
+        projectionConfig: { scale: 1000 },
+        getRegionName: (geo: any) => geo.properties.name
+      };
+    }
+    
     // For US studies at subdivision level, continue showing US map
     if (navigation.level === 'subdivision' && navigation.selectedCountry === 'United States') {
       return {
@@ -253,14 +263,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
       };
     }
     
-    if (navigation.level === 'country' && navigation.selectedCountry && countryMaps[navigation.selectedCountry]) {
+    // For other specific country maps at country or subdivision level
+    if ((navigation.level === 'country' || navigation.level === 'subdivision') && 
+        navigation.selectedCountry && 
+        navigation.selectedCountry !== 'United States' &&
+        countryMaps[navigation.selectedCountry]) {
       return countryMaps[navigation.selectedCountry];
     }
     
-    if (navigation.level === 'subdivision' && navigation.selectedCountry && countryMaps[navigation.selectedCountry]) {
-      return countryMaps[navigation.selectedCountry];
-    }
-    
+    // Default maps based on geographic data type
     switch (geographicData.type) {
       case 'us':
         return {
@@ -372,6 +383,11 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                       
                       // For US subdivision level, show all US states
                       if (navigation.level === 'subdivision' && navigation.selectedCountry === 'United States') {
+                        return true;
+                      }
+                      
+                      // For US map at country level, show all US states
+                      if (navigation.level === 'country' && navigation.selectedCountry === 'United States') {
                         return true;
                       }
                       
