@@ -57,6 +57,65 @@ const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolea
   }
 };
 
+// Get breakdown data for the regional details panel
+const getRegionalBreakdown = (sites: SiteData[], geographicData: any, selectedRegion: string | null) => {
+  if (!sites || sites.length === 0) return [];
+
+  const breakdown: Array<{ name: string; patients: number; sites: number }> = [];
+  
+  if (selectedRegion) {
+    // If a region is selected, show site-level details for that region
+    const regionSites = sites.filter(site => {
+      if (geographicData.type === 'us') {
+        return site.subdivision === selectedRegion;
+      } else {
+        return site.country === selectedRegion;
+      }
+    });
+    
+    regionSites.forEach(site => {
+      breakdown.push({
+        name: site.name,
+        patients: site.enrolledPatients,
+        sites: 1
+      });
+    });
+  } else {
+    // No region selected, show breakdown by next level
+    const grouped: Record<string, { patients: number; sites: number }> = {};
+    
+    sites.forEach(site => {
+      let key: string;
+      
+      if (geographicData.type === 'us') {
+        // US map: group by state
+        key = site.subdivision;
+      } else {
+        // World or EU map: group by country
+        key = site.country;
+      }
+      
+      if (!grouped[key]) {
+        grouped[key] = { patients: 0, sites: 0 };
+      }
+      
+      grouped[key].patients += site.enrolledPatients;
+      grouped[key].sites += 1;
+    });
+    
+    Object.entries(grouped).forEach(([name, data]) => {
+      breakdown.push({
+        name,
+        patients: data.patients,
+        sites: data.sites
+      });
+    });
+  }
+  
+  // Sort by patient count descending
+  return breakdown.sort((a, b) => b.patients - a.patients);
+};
+
 export function GeographicTile({ studyId }: GeographicTileProps) {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   
@@ -118,6 +177,8 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   
   const selectedPatients = selectedRegion ? geographicData.data[selectedRegion] || 0 : totalPatients;
   const selectedSites = selectedRegion ? geographicData.siteData[selectedRegion] || 0 : totalSites;
+  
+  const regionalBreakdown = getRegionalBreakdown(sites, geographicData, selectedRegion);
 
   return (
     <Card className="p-6 bg-card border">
@@ -215,16 +276,42 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
         </div>
 
-        {/* Coming Soon Section */}
+        {/* Regional Details */}
         <div className="space-y-4">
-          <div className="bg-muted/30 rounded-lg p-4 text-center space-y-3">
-            <Clock className="w-8 h-8 text-muted-foreground mx-auto" />
-            <div>
-              <p className="text-sm font-medium">Regional Details</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Detailed site listings and analytics coming soon
-              </p>
-            </div>
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold text-sm">
+              {selectedRegion ? `Sites in ${selectedRegion}` : 
+                geographicData.type === 'us' ? 'By State' : 'By Country'}
+            </h4>
+            <span className="text-xs text-muted-foreground">
+              {regionalBreakdown.length} {selectedRegion ? 'sites' : geographicData.type === 'us' ? 'states' : 'countries'}
+            </span>
+          </div>
+          
+          <div className="space-y-2 max-h-[320px] overflow-y-auto">
+            {regionalBreakdown.map((item, index) => (
+              <div 
+                key={index}
+                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{item.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {item.sites} {item.sites === 1 ? 'site' : 'sites'}
+                  </p>
+                </div>
+                <div className="text-right ml-2">
+                  <p className="text-sm font-semibold">{item.patients.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">patients</p>
+                </div>
+              </div>
+            ))}
+            
+            {regionalBreakdown.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                <p className="text-sm">No data available</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
