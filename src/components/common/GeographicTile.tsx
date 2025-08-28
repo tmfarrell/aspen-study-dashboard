@@ -193,18 +193,23 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const sites = sitesResponse?.data || [];
   
   const geographicData = getGeographicData(sites, study.regions, navigation);
-  const maxPatientCount = Math.max(...Object.values(geographicData.data), 1);
+  const maxPatientCount = Math.max(...Object.values(geographicData.data).filter(count => count > 0), 1);
+  
+  console.log('Geographic Data:', geographicData);
+  console.log('Max Patient Count:', maxPatientCount);
 
   const getRegionColor = (regionName: string) => {
     const patientCount = geographicData.data[regionName] || 0;
     
     if (patientCount === 0) return "hsl(var(--muted))";
     
-    const intensity = patientCount / maxPatientCount;
-    if (intensity < 0.2) return "hsl(var(--primary) / 0.3)";
-    if (intensity < 0.4) return "hsl(var(--primary) / 0.5)";
-    if (intensity < 0.6) return "hsl(var(--primary) / 0.7)";
-    if (intensity < 0.8) return "hsl(var(--primary) / 0.9)";
+    const intensity = Math.min(patientCount / maxPatientCount, 1);
+    
+    // Use clearer color gradations
+    if (intensity <= 0.2) return "hsl(var(--primary) / 0.3)";
+    if (intensity <= 0.4) return "hsl(var(--primary) / 0.5)";
+    if (intensity <= 0.6) return "hsl(var(--primary) / 0.7)";
+    if (intensity <= 0.8) return "hsl(var(--primary) / 0.85)";
     return "hsl(var(--primary))";
   };
 
