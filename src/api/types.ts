@@ -74,13 +74,13 @@ export interface PatientData {
 
 export interface PatientConfig {
   genderDistribution: { male: number; female: number; other: number };
-  ageDistribution: { mean: number; std: number };
-  bmiDistribution: { mean: number; std: number };
+  ageDistribution: { min: number; max: number; mode: number };
+  bmiDistribution: { min: number; max: number; mode: number };
   raceDistribution: Record<string, number>;
-  commonComorbidities: string[];
-  commonMedications: string[];
-  enrollmentDateRange: { start: string; end: string };
-  enrollmentCategories: Record<string, number>;
+  comorbidities: string[];
+  medications: string[];
+  enrollmentDateRange: { startYear: number; startMonth: number; endYear: number; endMonth: number };
+  enrollmentCategories: Array<{ key: string; label: string; weight: number }>;
 }
 
 export interface SiteData {

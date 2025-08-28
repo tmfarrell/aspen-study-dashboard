@@ -100,9 +100,11 @@ export const generateObesityPatients = (count: number = 500): PatientData[] => {
       siteId: siteIds[Math.floor(Math.random() * siteIds.length)],
       race,
       ethnicity: Math.random() > 0.75 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
-      comorbidities: obesityPatientConfig.comorbidities.filter(() => Math.random() > 0.5),
+      medicalHistory: obesityPatientConfig.comorbidities.filter(() => Math.random() > 0.5),
       medications: obesityPatientConfig.medications.filter(() => Math.random() > 0.6),
-      enrollmentCategory
+      enrollmentCategory,
+      visitHistory: [],
+      labResults: {}
     });
   }
 

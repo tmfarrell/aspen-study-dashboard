@@ -101,9 +101,11 @@ export const generateHypertensionPatients = (count: number = 500): PatientData[]
       siteId: siteIds[Math.floor(Math.random() * siteIds.length)],
       race,
       ethnicity: Math.random() > 0.82 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
-      comorbidities: hypertensionPatientConfig.comorbidities.filter(() => Math.random() > 0.6),
+      medicalHistory: hypertensionPatientConfig.comorbidities.filter(() => Math.random() > 0.6),
       medications: hypertensionPatientConfig.medications.filter(() => Math.random() > 0.45),
-      enrollmentCategory
+      enrollmentCategory,
+      visitHistory: [],
+      labResults: {}
     });
   }
 

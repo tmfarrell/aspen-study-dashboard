@@ -78,8 +78,8 @@ const generateAssessmentsForPatient = (patientId: string, enrollmentCategory: st
 // Cardiology-specific patient data configuration
 export const cardiologyPatientConfig: PatientConfig = {
   genderDistribution: { male: 0.58, female: 0.40, other: 0.02 }, // Slightly more males in cardiology studies
-  ageDistribution: { mean: 65, std: 12 },
-  bmiDistribution: { mean: 29.8, std: 5 },
+  ageDistribution: { min: 35, max: 85, mode: 65 }, // Older population for heart issues
+  bmiDistribution: { min: 20, max: 45, mode: 29.8 }, // Normal to obese range
   raceDistribution: {
     'White': 0.65,
     'Black': 0.15,
@@ -87,7 +87,7 @@ export const cardiologyPatientConfig: PatientConfig = {
     'Hispanic': 0.10,
     'Other': 0.02
   },
-  commonComorbidities: [
+  comorbidities: [
     'Hypertension',
     'Type 2 Diabetes', 
     'Coronary Artery Disease',
@@ -96,7 +96,7 @@ export const cardiologyPatientConfig: PatientConfig = {
     'Sleep Apnea',
     'Hyperlipidemia'
   ],
-  commonMedications: [
+  medications: [
     'Metoprolol',
     'Lisinopril',
     'Atorvastatin',
@@ -107,16 +107,18 @@ export const cardiologyPatientConfig: PatientConfig = {
     'Clopidogrel'
   ],
   enrollmentDateRange: {
-    start: '2023-03-01',
-    end: '2024-08-31'
+    startYear: 2023,
+    startMonth: 2, // March
+    endYear: 2024,
+    endMonth: 7 // August
   },
-  enrollmentCategories: {
-    'Atrial Fibrillation': 0.35,
-    'Ventricular Tachycardia': 0.25,
-    'Supraventricular Tachycardia': 0.20,
-    'Bradycardia': 0.15,
-    'Heart Block': 0.05
-  }
+  enrollmentCategories: [
+    { key: 'atrial_fibrillation', label: 'Atrial Fibrillation', weight: 0.35 },
+    { key: 'ventricular_tachycardia', label: 'Ventricular Tachycardia', weight: 0.25 },
+    { key: 'supraventricular_tachycardia', label: 'Supraventricular Tachycardia', weight: 0.20 },
+    { key: 'bradycardia', label: 'Bradycardia', weight: 0.15 },
+    { key: 'heart_block', label: 'Heart Block', weight: 0.05 }
+  ]
 };
 
 // Generate cardiology patients with realistic data distribution
@@ -126,14 +128,14 @@ export const generateCardiologyPatients = (count: number = 500): PatientData[] =
   for (let i = 0; i < count; i++) {
     const id = `cardio-${String(i + 1).padStart(4, '0')}`;
     const gender = weightedRandom(cardiologyPatientConfig.genderDistribution) as 'male' | 'female' | 'other';
-    const age = Math.round(normalRandom(cardiologyPatientConfig.ageDistribution.mean, cardiologyPatientConfig.ageDistribution.std, cardiologyPatientConfig.ageDistribution.mean));
-    const bmi = Math.round(normalRandom(cardiologyPatientConfig.bmiDistribution.mean, cardiologyPatientConfig.bmiDistribution.std, cardiologyPatientConfig.bmiDistribution.mean) * 10) / 10;
+    const age = Math.round(normalRandom(cardiologyPatientConfig.ageDistribution.min, cardiologyPatientConfig.ageDistribution.max, cardiologyPatientConfig.ageDistribution.mode));
+    const bmi = Math.round(normalRandom(cardiologyPatientConfig.bmiDistribution.min, cardiologyPatientConfig.bmiDistribution.max, cardiologyPatientConfig.bmiDistribution.mode) * 10) / 10;
     const race = weightedRandom(cardiologyPatientConfig.raceDistribution);
     
     // Select random comorbidities (0-4 conditions)
     const numComorbidities = Math.floor(Math.random() * 5);
     const selectedComorbidities = [];
-    const availableComorbidities = [...cardiologyPatientConfig.commonComorbidities];
+    const availableComorbidities = [...cardiologyPatientConfig.comorbidities];
     
     for (let j = 0; j < numComorbidities && availableComorbidities.length > 0; j++) {
       const randomIndex = Math.floor(Math.random() * availableComorbidities.length);
@@ -143,7 +145,7 @@ export const generateCardiologyPatients = (count: number = 500): PatientData[] =
     // Select random medications (1-3 medications)
     const numMedications = Math.floor(Math.random() * 3) + 1;
     const selectedMedications = [];
-    const availableMedications = [...cardiologyPatientConfig.commonMedications];
+    const availableMedications = [...cardiologyPatientConfig.medications];
     
     for (let j = 0; j < numMedications && availableMedications.length > 0; j++) {
       const randomIndex = Math.floor(Math.random() * availableMedications.length);
@@ -151,12 +153,12 @@ export const generateCardiologyPatients = (count: number = 500): PatientData[] =
     }
     
     // Generate enrollment date within the specified range
-    const startDate = new Date(cardiologyPatientConfig.enrollmentDateRange.start);
-    const endDate = new Date(cardiologyPatientConfig.enrollmentDateRange.end);
+    const startDate = new Date(cardiologyPatientConfig.enrollmentDateRange.startYear, cardiologyPatientConfig.enrollmentDateRange.startMonth, 1);
+    const endDate = new Date(cardiologyPatientConfig.enrollmentDateRange.endYear, cardiologyPatientConfig.enrollmentDateRange.endMonth, 28);
     const enrollmentDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
     
     // Select enrollment category based on weights
-    const enrollmentCategory = weightedRandom(cardiologyPatientConfig.enrollmentCategories);
+    const enrollmentCategory = weightedRandom(cardiologyPatientConfig.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {}));
     
     // Generate quality of life assessments
     const qualityOfLifeAssessments = generateAssessmentsForPatient(id, enrollmentCategory);

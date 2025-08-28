@@ -98,9 +98,11 @@ export const generatePatientsForSite = (
       siteId: site.id,
       race,
       ethnicity: Math.random() > 0.80 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
-      comorbidities: config.comorbidities.filter(() => Math.random() > 0.5),
+      medicalHistory: config.comorbidities.filter(() => Math.random() > 0.5),
       medications: config.medications.filter(() => Math.random() > 0.6),
-      enrollmentCategory
+      enrollmentCategory,
+      visitHistory: [],
+      labResults: {}
     });
   }
 

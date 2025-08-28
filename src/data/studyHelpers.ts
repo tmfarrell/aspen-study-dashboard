@@ -123,7 +123,7 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     name: 'Comorbidity Count',
     description: 'Number of comorbidities per patient',
     type: 'numerical',
-    field: 'comorbidities',
+    field: 'medicalHistory',
     
   }
 ];
