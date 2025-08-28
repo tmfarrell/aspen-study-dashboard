@@ -11,7 +11,11 @@ import { PatientData, StudyType } from "@/api/types";
 import { PatientChartModal } from "./PatientChartModal";
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
-export function DemographicsPanel() {
+interface DemographicsPanelProps {
+  studyId: StudyType;
+}
+
+export function DemographicsPanel({ studyId }: DemographicsPanelProps) {
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedCondition, setSelectedCondition] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,8 +25,6 @@ export function DemographicsPanel() {
   // Separate filters for charts
   const [genderChartCondition, setGenderChartCondition] = useState<string>("all");
   const [ethnicityChartCondition, setEthnicityChartCondition] = useState<string>("all");
-
-  const studyId: StudyType = 'cardiology';
   const { data: patientsData, isLoading } = usePatients({ studyId });
   const { data: metricsData, isLoading: isLoadingMetrics } = useStudyMetrics(studyId);
 

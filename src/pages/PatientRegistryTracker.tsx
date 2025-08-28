@@ -71,21 +71,15 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="demographics" className="space-y-6">
-              {selectedStudy === 'cardiology' ? (
-                <DemographicsPanel />
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <AgeDistributionChart detailed />
-                    <GenderDistribution />
-                    <RaceDistribution />
-                    <CountryDistribution />
-                  </div>
-                  <div className="mt-6">
-                    <PatientTable />
-                  </div>
-                </>
-              )}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <AgeDistributionChart detailed />
+                <GenderDistribution />
+                <RaceDistribution />
+                <CountryDistribution />
+              </div>
+              <div className="mt-6">
+                <PatientTable />
+              </div>
             </TabsContent>
 
             <TabsContent value="enrollment" className="space-y-6">
