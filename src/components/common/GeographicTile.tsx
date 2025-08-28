@@ -292,7 +292,8 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
             {regionalBreakdown.map((item, index) => (
               <div 
                 key={index}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
+                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+                onClick={() => !selectedRegion && handleRegionClick(item.name)}
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{item.name}</p>
