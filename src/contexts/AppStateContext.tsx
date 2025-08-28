@@ -160,11 +160,6 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     resetCohortSize,
   };
 
-  // Don't render children until context is initialized
-  if (!isInitialized) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <AppStateContext.Provider value={value}>
       {children}
