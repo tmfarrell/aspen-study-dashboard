@@ -1,18 +1,18 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Site } from "@/data/siteData";
+import { SiteData } from "@/api/types";
 import { CheckCircle, AlertTriangle, XCircle, Database, FileText, Brain, BarChart3 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 interface SiteDataQualityTabProps {
-  site: Site;
+  site: SiteData;
 }
 
 export function SiteDataQualityTab({ site }: SiteDataQualityTabProps) {
   // Generate mock data quality metrics
   const generateQualityMetrics = () => {
-    const base = site.dataQualityScore;
+    const base = site.dataQuality;
     return {
       structuredMapping: Math.min(100, base + Math.floor(Math.random() * 10) - 5),
       completeness: Math.min(100, base + Math.floor(Math.random() * 15) - 7),
@@ -234,29 +234,29 @@ export function SiteDataQualityTab({ site }: SiteDataQualityTabProps) {
             Quality Issues
           </h3>
           <div className="space-y-3">
-            {site.errorCount > 0 && (
+            {site.healthStatus === 'critical' && (
               <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/10 rounded-lg">
                 <XCircle className="h-4 w-4 text-red-600" />
                 <div className="flex-1">
-                  <div className="text-sm font-medium">Critical Data Errors</div>
+                  <div className="text-sm font-medium">Critical Data Issues</div>
                   <div className="text-xs text-muted-foreground">
-                    {site.errorCount} records with validation failures
+                    Site requires immediate attention
                   </div>
                 </div>
-                <Badge variant="destructive">{site.errorCount}</Badge>
+                <Badge variant="destructive">Critical</Badge>
               </div>
             )}
             
-            {site.warningCount > 0 && (
+            {site.healthStatus === 'warning' && (
               <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg">
                 <AlertTriangle className="h-4 w-4 text-yellow-600" />
                 <div className="flex-1">
                   <div className="text-sm font-medium">Data Quality Warnings</div>
                   <div className="text-xs text-muted-foreground">
-                    {site.warningCount} records with quality concerns
+                    Some data quality concerns detected
                   </div>
                 </div>
-                <Badge variant="secondary">{site.warningCount}</Badge>
+                <Badge variant="secondary">Warning</Badge>
               </div>
             )}
 

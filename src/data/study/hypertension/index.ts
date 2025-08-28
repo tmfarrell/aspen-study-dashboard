@@ -12,3 +12,5 @@ export const hypertensionStudyData: StudyData = {
     eu: false
   }
 };
+
+export { hypertensionSites } from './sites';

@@ -4,13 +4,13 @@ import { StudySelector } from "@/components/StudySelector";
 import { SiteStatusHeader } from "@/components/SiteStatusHeader";
 import { SiteListTable } from "@/components/SiteListTable";
 import { SiteDetailModal } from "@/components/SiteDetailModal";
-import { Site } from "@/data/siteData";
+import { SiteData } from "@/api/types";
 
 export default function SiteStatus() {
-  const [selectedSite, setSelectedSite] = useState<Site | null>(null);
+  const [selectedSite, setSelectedSite] = useState<SiteData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSiteClick = (site: Site) => {
+  const handleSiteClick = (site: SiteData) => {
     setSelectedSite(site);
     setIsModalOpen(true);
   };

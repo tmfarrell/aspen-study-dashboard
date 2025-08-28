@@ -34,8 +34,9 @@ export interface SiteData {
   id: string;
   name: string;
   city: string;
-  state: string;
+  subdivision: string; // state for US, region for EU countries
   country: string;
+  region: 'us' | 'eu';
   status: 'active' | 'onboarding' | 'inactive';
   healthStatus: 'healthy' | 'warning' | 'critical';
   enrolledPatients: number;

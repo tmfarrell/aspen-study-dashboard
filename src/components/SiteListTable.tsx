@@ -5,57 +5,81 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CheckCircle2, Clock, XCircle, Eye, Search } from "lucide-react";
-import { sites, Site, SiteStatus, HealthStatus } from "@/data/siteData";
+import { useSites } from "@/state/sites/queries";
+import { useAppState } from "@/contexts/AppStateContext";
+import { SiteData } from "@/api/types";
 import { format, formatDistanceToNow } from "date-fns";
 
 interface SiteListTableProps {
-  onSiteClick: (site: Site) => void;
+  onSiteClick: (site: SiteData) => void;
 }
 
 export function SiteListTable({ onSiteClick }: SiteListTableProps) {
-  const [sortBy, setSortBy] = useState<string>("lastData"); // Default to lastData
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { selectedStudy } = useAppState();
+  const { data: sitesResponse, isLoading } = useSites(selectedStudy);
+  const [sortBy, setSortBy] = useState<string>('name');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredSites = sites
-    .filter(site => {
-      if (!searchQuery) return true;
-      return site.name.toLowerCase().includes(searchQuery.toLowerCase());
-    })
-    .sort((a, b) => {
-      let result = 0;
-      switch (sortBy) {
-        case "name":
-          result = a.name.localeCompare(b.name);
-          break;
-        case "status":
-          result = a.status.localeCompare(b.status);
-          break;
-        case "patients":
-          result = a.patientsEnrolled - b.patientsEnrolled;
-          break;
-        case "lastData":
-          // Handle null dates - null dates (None) come first when desc, last when asc
-          if (!a.lastDataReceived && !b.lastDataReceived) return 0;
-          if (!a.lastDataReceived) return sortDirection === 'desc' ? -1 : 1;
-          if (!b.lastDataReceived) return sortDirection === 'desc' ? 1 : -1;
-          result = a.lastDataReceived.getTime() - b.lastDataReceived.getTime();
-          break;
-        case "quality":
-          result = a.dataQualityScore - b.dataQualityScore;
-          break;
-        default:
-          return 0;
-      }
-      return sortDirection === 'desc' ? -result : result;
-    });
+  if (isLoading || !sitesResponse) {
+    return <div>Loading sites...</div>;
+  }
+
+  const sites = sitesResponse.data;
+
+  // Filter and sort sites
+  const filteredSites = sites.filter(site =>
+    site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    site.subdivision.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    site.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    site.country.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const sortedSites = [...filteredSites].sort((a, b) => {
+    let aValue: any, bValue: any;
+    
+    switch (sortBy) {
+      case 'name':
+        aValue = a.name;
+        bValue = b.name;
+        break;
+      case 'status':
+        aValue = a.status;
+        bValue = b.status;
+        break;
+      case 'health':
+        const healthOrder = { 'healthy': 0, 'warning': 1, 'critical': 2 };
+        aValue = healthOrder[a.healthStatus];
+        bValue = healthOrder[b.healthStatus];
+        break;
+      case 'patients':
+        aValue = a.enrolledPatients;
+        bValue = b.enrolledPatients;
+        break;
+      case 'lastData':
+        aValue = a.lastDataReceived ? new Date(a.lastDataReceived).getTime() : 0;
+        bValue = b.lastDataReceived ? new Date(b.lastDataReceived).getTime() : 0;
+        break;
+      case 'dataQuality':
+        aValue = a.dataQuality;
+        bValue = b.dataQuality;
+        break;
+      default:
+        aValue = a.name;
+        bValue = b.name;
+    }
+
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const handleSort = (column: string) => {
     if (sortBy === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortBy(column);
-      setSortDirection(column === 'lastData' ? 'desc' : 'asc');
+      setSortDirection('asc');
     }
   };
 
@@ -64,7 +88,7 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
     return sortDirection === 'asc' ? '↑' : '↓';
   };
 
-  const getStatusIcon = (status: SiteStatus) => {
+  const getStatusIcon = (status: SiteData['status']) => {
     switch (status) {
       case 'active':
         return <CheckCircle2 className="h-4 w-4 text-green-600" />;
@@ -75,37 +99,28 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
     }
   };
 
-  const getStatusVariant = (status: SiteStatus): "default" | "secondary" | "outline" => {
+  const getStatusVariant = (status: SiteData['status']): "default" | "secondary" | "outline" => {
     switch (status) {
       case 'active':
-        return 'default'; // Green
+        return 'default';
       case 'onboarding':
-        return 'secondary'; // Yellow
+        return 'secondary';
       case 'inactive':
-        return 'outline'; // Gray
+        return 'outline';
     }
   };
 
-  const getHealthIndicator = (health: HealthStatus, site: Site) => {
-    // Show nothing for sites with no data received or inactive sites
+  const getHealthIndicator = (health: SiteData['healthStatus'], site: SiteData) => {
     if (site.lastDataReceived === null || site.status === 'inactive') {
       return null;
     }
     
     const colors = {
-      green: 'bg-green-500',
-      yellow: 'bg-yellow-500',
-      red: 'bg-red-500',
-      'n/a': 'bg-gray-400'
+      healthy: 'bg-green-500',
+      warning: 'bg-yellow-500',
+      critical: 'bg-red-500'
     };
     return <div className={`w-3 h-3 rounded-full ${colors[health]}`}></div>;
-  };
-
-  const needsAttention = (site: Site) => {
-    return site.healthStatus === 'red' || 
-           site.healthStatus === 'yellow' ||
-           (site.status === 'onboarding' && site.caseCount > 0) ||
-           site.errorCount > 3;
   };
 
   return (
@@ -157,16 +172,16 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
               <TableHead>Connection</TableHead>
               <TableHead 
                 className="cursor-pointer hover:bg-muted/50" 
-                onClick={() => handleSort('quality')}
+                onClick={() => handleSort('dataQuality')}
               >
-                Data Quality {getSortIcon('quality')}
+                Data Quality {getSortIcon('dataQuality')}
               </TableHead>
               <TableHead>Issues</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredSites.map((site) => (
+            {sortedSites.map((site) => (
               <TableRow 
                 key={site.id} 
                 className=""
@@ -176,7 +191,7 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{site.name}</span>
                     </div>
-                    <div className="text-sm text-muted-foreground">{site.city}, {site.state}</div>
+                    <div className="text-sm text-muted-foreground">{site.city}, {site.subdivision}</div>
                   </div>
                 </TableCell>
                 <TableCell>
@@ -192,9 +207,9 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                     {getHealthIndicator(site.healthStatus, site)}
                     <span className="capitalize text-sm">
                       {site.lastDataReceived === null || site.status === 'inactive' ? '-' : 
-                       site.healthStatus === 'green' ? 'Healthy' :
-                       site.healthStatus === 'yellow' ? 'Warning' :
-                       site.healthStatus === 'red' ? 'Critical' : site.healthStatus}
+                       site.healthStatus === 'healthy' ? 'Healthy' :
+                       site.healthStatus === 'warning' ? 'Warning' :
+                       site.healthStatus === 'critical' ? 'Critical' : site.healthStatus}
                     </span>
                   </div>
                 </TableCell>
@@ -202,7 +217,7 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                   {site.lastDataReceived === null ? (
                     <span className="text-muted-foreground">-</span>
                   ) : (
-                    site.patientsEnrolled.toLocaleString()
+                    site.enrolledPatients.toLocaleString()
                   )}
                 </TableCell>
                 <TableCell>
@@ -210,10 +225,10 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                     {site.lastDataReceived ? (
                       <>
                         <div className="text-sm">
-                          {format(site.lastDataReceived, site.lastDataReceived.getFullYear() === new Date().getFullYear() ? 'MMM d' : 'MMM d, yyyy')}
+                          {format(new Date(site.lastDataReceived), new Date(site.lastDataReceived).getFullYear() === new Date().getFullYear() ? 'MMM d' : 'MMM d, yyyy')}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(site.lastDataReceived, { addSuffix: true })}
+                          {formatDistanceToNow(new Date(site.lastDataReceived), { addSuffix: true })}
                         </div>
                       </>
                     ) : (
@@ -225,7 +240,7 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                   {site.status === 'inactive' ? (
                     <span className="text-muted-foreground">-</span>
                   ) : (
-                    <Badge variant="outline">{site.connectionMethod}</Badge>
+                    <Badge variant="outline">API</Badge>
                   )}
                 </TableCell>
                 <TableCell>
@@ -233,14 +248,14 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                     <span className="text-muted-foreground">-</span>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">{site.dataQualityScore}%</span>
+                      <span className="text-sm font-medium">{site.dataQuality}%</span>
                       <div className="w-12 h-2 bg-gray-200 rounded-full">
                         <div 
                           className={`h-2 rounded-full ${
-                            site.dataQualityScore >= 90 ? 'bg-green-500' : 
-                            site.dataQualityScore >= 75 ? 'bg-yellow-500' : 'bg-red-500'
+                            site.dataQuality >= 90 ? 'bg-green-500' : 
+                            site.dataQuality >= 75 ? 'bg-yellow-500' : 'bg-red-500'
                           }`}
-                          style={{ width: `${site.dataQualityScore}%` }}
+                          style={{ width: `${site.dataQuality}%` }}
                         ></div>
                       </div>
                     </div>
@@ -251,14 +266,14 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
                     <span className="text-muted-foreground">-</span>
                   ) : (
                     <div className="space-y-1">
-                      {site.errorCount > 0 && (
+                      {site.healthStatus === 'critical' && (
                         <Badge variant="destructive" className="text-xs">
-                          {site.errorCount} errors
+                          Critical
                         </Badge>
                       )}
-                      {site.warningCount > 0 && (
+                      {site.healthStatus === 'warning' && (
                         <Badge variant="secondary" className="text-xs">
-                          {site.warningCount} warnings
+                          Warning
                         </Badge>
                       )}
                     </div>

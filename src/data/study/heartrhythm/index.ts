@@ -12,3 +12,5 @@ export const heartrhuythmStudyData: StudyData = {
     eu: false
   }
 };
+
+export { heartrhuythmSites } from './sites';

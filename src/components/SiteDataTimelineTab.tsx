@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Site } from "@/data/siteData";
+import { SiteData } from "@/api/types";
 import { AlertTriangle, CheckCircle, Database, TrendingUp, Clock, XCircle } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import { format, subDays, subHours } from "date-fns";
 
 interface SiteDataTimelineTabProps {
-  site: Site;
+  site: SiteData;
 }
 
 export function SiteDataTimelineTab({ site }: SiteDataTimelineTabProps) {

@@ -1,30 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, AlertCircle, CheckCircle, Users, Database } from "lucide-react";
-import { sites, getSitesByStatus, getSitesByHealthStatus, getTotalPatients, getAverageDataQuality } from "@/data/siteData";
+import { useSites } from "@/state/sites/queries";
+import { useAppState } from "@/contexts/AppStateContext";
 
 export function SiteStatusHeader() {
+  const { selectedStudy } = useAppState();
+  const { data: sitesResponse, isLoading } = useSites(selectedStudy);
+  
+  if (isLoading || !sitesResponse) {
+    return <div>Loading...</div>;
+  }
+  
+  const sites = sitesResponse.data;
   const totalSites = sites.length;
-  const activeSites = getSitesByStatus('active').length;
-  const onboardingSites = getSitesByStatus('onboarding').length;
-  const inactiveSites = getSitesByStatus('inactive').length;
-  const totalPatients = getTotalPatients();
-  const averageDataQuality = getAverageDataQuality();
+  const activeSites = sites.filter(site => site.status === 'active').length;
+  const onboardingSites = sites.filter(site => site.status === 'onboarding').length;
+  const inactiveSites = sites.filter(site => site.status === 'inactive').length;
+  const totalPatients = sites.reduce((sum, site) => sum + site.enrolledPatients, 0);
+  const averageDataQuality = Math.round(sites.reduce((sum, site) => sum + site.dataQuality, 0) / sites.length);
   
   // Calculate patient count categories
-  const highVolumeSites = sites.filter(site => site.patientsEnrolled > 400).length;
-  const mediumVolumeSites = sites.filter(site => site.patientsEnrolled >= 100 && site.patientsEnrolled <= 400).length;
-  const lowVolumeSites = sites.filter(site => site.patientsEnrolled < 100).length;
+  const highVolumeSites = sites.filter(site => site.enrolledPatients > 400).length;
+  const mediumVolumeSites = sites.filter(site => site.enrolledPatients >= 100 && site.enrolledPatients <= 400).length;
+  const lowVolumeSites = sites.filter(site => site.enrolledPatients < 100).length;
   
   // Calculate health status counts for sites with data (matching the list logic)
-  const healthySites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'green').length;
-  const warningSites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'yellow').length;
-  const criticalSites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'red').length;
+  const healthySites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'healthy').length;
+  const warningSites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'warning').length;
+  const criticalSites = sites.filter(site => site.lastDataReceived !== null && site.status !== 'inactive' && site.healthStatus === 'critical').length;
   const totalHealthSites = healthySites + warningSites + criticalSites;
   
   // Calculate data quality breakdown (same thresholds as in the list)
-  const excellentQuality = sites.filter(site => site.dataQualityScore >= 90).length;
-  const goodQuality = sites.filter(site => site.dataQualityScore >= 75 && site.dataQualityScore < 90).length;
-  const poorQuality = sites.filter(site => site.dataQualityScore < 75).length;
+  const excellentQuality = sites.filter(site => site.dataQuality >= 90).length;
+  const goodQuality = sites.filter(site => site.dataQuality >= 75 && site.dataQuality < 90).length;
+  const poorQuality = sites.filter(site => site.dataQuality < 75).length;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

@@ -2,14 +2,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Site } from "@/data/siteData";
+import { SiteData } from "@/api/types";
 import { SiteOverviewTab } from "./SiteOverviewTab";
 import { SiteDataTimelineTab } from "./SiteDataTimelineTab";
 import { SiteDataQualityTab } from "./SiteDataQualityTab";
 import { CheckCircle2, Clock, XCircle } from "lucide-react";
 
 interface SiteDetailModalProps {
-  site: Site | null;
+  site: SiteData | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -32,9 +32,9 @@ export function SiteDetailModal({ site, isOpen, onClose }: SiteDetailModalProps)
 
   const getHealthColor = (health: string) => {
     switch (health) {
-      case 'green': return 'bg-green-500';
-      case 'yellow': return 'bg-yellow-500';
-      case 'red': return 'bg-red-500';
+      case 'healthy': return 'bg-green-500';
+      case 'warning': return 'bg-yellow-500';
+      case 'critical': return 'bg-red-500';
       default: return 'bg-gray-500';
     }
   };
@@ -46,7 +46,7 @@ export function SiteDetailModal({ site, isOpen, onClose }: SiteDetailModalProps)
           <div className="flex items-center justify-between">
             <div>
               <DialogTitle className="text-2xl">{site.name}</DialogTitle>
-              <p className="text-muted-foreground">{site.city}, {site.state}</p>
+              <p className="text-muted-foreground">{site.city}, {site.subdivision}</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">

@@ -2,17 +2,37 @@
 import { 
   SiteData, 
   ApiResponse, 
-  SiteFilters 
+  SiteFilters,
+  StudyType 
 } from '@/api/types';
-import { mockSites } from '@/api/mockData';
+import { heartrhuythmSites } from '@/data/study/heartrhythm';
+import { diabetesSites } from '@/data/study/diabetes';
+import { obesitySites } from '@/data/study/obesity';
+import { hypertensionSites } from '@/data/study/hypertension';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Get sites for a specific study
+const getStudySites = (studyId: StudyType): SiteData[] => {
+  switch (studyId) {
+    case 'heartrhythm':
+      return heartrhuythmSites;
+    case 'diabetes':
+      return diabetesSites;
+    case 'obesity':
+      return obesitySites;
+    case 'hypertension':
+      return hypertensionSites;
+    default:
+      return [];
+  }
+};
+
 export const sitesApi = {
-  getAll: async (filters?: SiteFilters): Promise<ApiResponse<SiteData[]>> => {
+  getAll: async (studyId: StudyType, filters?: SiteFilters): Promise<ApiResponse<SiteData[]>> => {
     await delay();
-    let sites = [...mockSites];
+    let sites = [...getStudySites(studyId)];
     
     if (filters?.status?.length) {
       sites = sites.filter(site => filters.status!.includes(site.status));
@@ -37,12 +57,13 @@ export const sitesApi = {
     };
   },
 
-  getById: async (id: string): Promise<ApiResponse<SiteData>> => {
+  getById: async (studyId: StudyType, id: string): Promise<ApiResponse<SiteData>> => {
     await delay();
-    const site = mockSites.find(s => s.id === id);
+    const studySites = getStudySites(studyId);
+    const site = studySites.find(s => s.id === id);
     
     if (!site) {
-      throw new Error(`Site with id ${id} not found`);
+      throw new Error(`Site with id ${id} not found in study ${studyId}`);
     }
 
     return {

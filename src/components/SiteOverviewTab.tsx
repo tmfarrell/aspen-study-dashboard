@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { MetricCard } from "@/components/ui/metric-card";
 import { Badge } from "@/components/ui/badge";
-import { Site } from "@/data/siteData";
+import { SiteData } from "@/api/types";
 import { Users, Database, TrendingUp, Activity, AlertTriangle, CheckCircle, Calendar, Wifi } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
 interface SiteOverviewTabProps {
-  site: Site;
+  site: SiteData;
 }
 
 export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
@@ -25,7 +25,7 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total Patients"
-          value={site.patientsEnrolled.toLocaleString()}
+          value={site.enrolledPatients.toLocaleString()}
           subtitle="Enrolled in studies"
           trend={enrollmentTrend}
           icon={<Users className="h-5 w-5" />}
@@ -33,14 +33,14 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
         
         <MetricCard
           title="Active Cases"
-          value={site.caseCount.toLocaleString()}
+          value="Active"
           subtitle="Currently active"
           icon={<Database className="h-5 w-5" />}
         />
         
         <MetricCard
           title="Data Quality"
-          value={`${site.dataQualityScore}%`}
+          value={`${site.dataQuality}%`}
           subtitle="Overall score"
           trend={dataVolumeTrend}
           icon={<Activity className="h-5 w-5" />}
@@ -65,7 +65,7 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
           <div className="space-y-4">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Connection Type</span>
-              <Badge variant="outline">{site.connectionMethod}</Badge>
+              <Badge variant="outline">API</Badge>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Last Data Sync</span>
@@ -73,10 +73,10 @@ export function SiteOverviewTab({ site }: SiteOverviewTabProps) {
                 {site.lastDataReceived ? (
                   <>
                     <div className="text-sm font-medium">
-                      {format(site.lastDataReceived, site.lastDataReceived.getFullYear() === new Date().getFullYear() ? 'MMM d' : 'MMM d, yyyy')}
+                      {format(new Date(site.lastDataReceived), new Date(site.lastDataReceived).getFullYear() === new Date().getFullYear() ? 'MMM d' : 'MMM d, yyyy')}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(site.lastDataReceived, { addSuffix: true })}
+                      {formatDistanceToNow(new Date(site.lastDataReceived), { addSuffix: true })}
                     </div>
                   </>
                 ) : (

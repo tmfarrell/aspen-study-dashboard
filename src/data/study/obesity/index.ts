@@ -12,3 +12,5 @@ export const obesityStudyData: StudyData = {
     eu: true
   }
 };
+
+export { obesitySites } from './sites';

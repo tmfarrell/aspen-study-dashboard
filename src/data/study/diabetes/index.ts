@@ -12,3 +12,5 @@ export const diabetesStudyData: StudyData = {
     eu: true
   }
 };
+
+export { diabetesSites } from './sites';
