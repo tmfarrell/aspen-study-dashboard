@@ -82,10 +82,10 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
       <CardHeader className="pb-4">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col min-h-0">
-        <div className="flex-1 min-h-0">
-          <ChartContainer config={chartConfig} className="h-[340px]">
-            <ResponsiveContainer width="100%" height="100%">
+      <CardContent className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <div className="flex-1 min-h-0 w-full overflow-hidden">
+          <ChartContainer config={chartConfig} className="h-[340px] w-full">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart 
                 data={chartData} 
                 layout={orientation === 'horizontal' ? 'vertical' : undefined}
