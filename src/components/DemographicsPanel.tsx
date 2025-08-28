@@ -25,16 +25,48 @@ export function DemographicsPanel() {
   const studyId: StudyType = 'cardiology';
   const { data: patientsData, isLoading } = usePatients({ studyId });
   const { data: metricsData, isLoading: isLoadingMetrics } = useStudyMetrics(studyId);
-  
-  if (isLoading || isLoadingMetrics) {
-    return <div className="p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
-  }
 
   const mockPatients = patientsData?.data || [];
   
   // Get demographics from metrics
   const genderMetric = metricsData?.metrics.find(m => m.id === 'gender');
   const raceMetric = metricsData?.metrics.find(m => m.id === 'race');
+
+  // Chart data calculations using metrics - always call these hooks
+  const genderChartData = useMemo(() => {
+    if (!genderMetric || genderMetric.type !== 'categorical') return [];
+    
+    return genderMetric.data.map(item => ({
+      name: item.category,
+      value: item.count,
+      percentage: item.percentage.toFixed(1)
+    }));
+  }, [genderMetric]);
+
+  const raceChartData = useMemo(() => {
+    if (!raceMetric || raceMetric.type !== 'categorical') return [];
+    
+    return raceMetric.data.map(item => ({
+      name: item.category,
+      count: item.count,
+      percentage: item.percentage.toFixed(1)
+    }));
+  }, [raceMetric]);
+
+  // Filter patients based on selections
+  const filteredPatients = useMemo(() => {
+    return mockPatients.filter(patient => {
+      const matchesSearch = searchTerm === "" || 
+        patient.id.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return matchesSearch;
+    });
+  }, [mockPatients, searchTerm]);
+
+  // Early return AFTER all hooks are called
+  if (isLoading || isLoadingMetrics) {
+    return <div className="p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
+  }
   
   // Mock heart rhythm disorders and state statistics
   const heartRhythmDisorders = [
@@ -56,14 +88,6 @@ export function DemographicsPanel() {
     { state: 'Pennsylvania', patientCount: 240 }
   ];
 
-  // Filter patients based on selections
-  const filteredPatients = mockPatients.filter(patient => {
-    const matchesSearch = searchTerm === "" || 
-      patient.id.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesSearch;
-  });
-
   const severityColors = {
     Low: "#10b981",
     Moderate: "#f59e0b", 
@@ -75,27 +99,6 @@ export function DemographicsPanel() {
     setSelectedPatient(patient);
     setIsPatientModalOpen(true);
   };
-
-  // Chart data calculations using metrics
-  const genderChartData = useMemo(() => {
-    if (!genderMetric || genderMetric.type !== 'categorical') return [];
-    
-    return genderMetric.data.map(item => ({
-      name: item.category,
-      value: item.count,
-      percentage: item.percentage.toFixed(1)
-    }));
-  }, [genderMetric]);
-
-  const raceChartData = useMemo(() => {
-    if (!raceMetric || raceMetric.type !== 'categorical') return [];
-    
-    return raceMetric.data.map(item => ({
-      name: item.category,
-      count: item.count,
-      percentage: item.percentage.toFixed(1)
-    }));
-  }, [raceMetric]);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d', '#ffc658'];
 
