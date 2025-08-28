@@ -1,6 +1,7 @@
 import React from 'react';
 import UserDropdown from './UserDropdown';
 import { StudySelector } from './StudySelector';
+import { StudyDropdown } from './StudyDropdown';
 import { useAppState } from '@/contexts/AppStateContext';
 import { useStudy } from '@/state/studies';
 
@@ -31,6 +32,7 @@ export function Header({ title, subtitle, showStudySelector = false, actions, us
           <div className="flex items-center gap-4">
             {showStudySelector && <StudySelector />}
             {actions}
+            <StudyDropdown />
             <UserDropdown />
           </div>
         </div>
