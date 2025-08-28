@@ -8,15 +8,24 @@ import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } f
 import { mockPatients, stateStatistics, heartRhythmDisorders } from "@/data/patientData";
 import { GeographicTile } from "./common/GeographicTile";
 import { EnrollmentProgressTile } from "./common/EnrollmentProgressTile";
-import { studyData } from "@/data/studyData";
-import { calculateTotalPatients } from "@/data/studyHelpers";
+import { useStudy, useStudyStats } from "@/state/studies";
 
 export function PatientCohortDashboard() {
   const [selectedCondition, setSelectedCondition] = useState<string>("all");
 
   // Get cardiology study data for standardized metrics
-  const cardiologyData = studyData.cardiology;
-  const totalPatients = calculateTotalPatients('cardiology');
+  const { data: cardiologyData, isLoading: studyLoading } = useStudy('cardiology');
+  const { data: stats, isLoading: statsLoading } = useStudyStats('cardiology');
+  
+  if (studyLoading || statsLoading) {
+    return <div className="p-6 space-y-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
+  }
+  
+  if (!cardiologyData || !stats) {
+    return null;
+  }
+  
+  const totalPatients = stats.totalPatients;
   
   // Generate target enrollment subtitle if target exists
   const getEnrollmentSubtitle = () => {

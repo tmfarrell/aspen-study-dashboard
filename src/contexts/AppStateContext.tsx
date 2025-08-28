@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { 
   selectedStudyAtom, 
@@ -15,7 +15,7 @@ import {
   populationSizeForStudyAtom
 } from '@/stores/atoms';
 import { StudyType } from '@/api/types';
-import { calculateTotalPatients } from '@/data/studyHelpers';
+import { useStudyStats } from '@/state/studies';
 
 interface AppStateContextType {
   // Study Selection
@@ -73,12 +73,13 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
   const [currentCohortSize, setCurrentCohortSize] = useAtom(currentCohortSizeAtom);
   const [populationForStudy] = useAtom(populationSizeForStudyAtom);
 
+  // Get study stats through React Query
+  const { data: stats } = useStudyStats(selectedStudy);
+
   // Custom setSelectedStudy that also updates cohort data
   const handleSetSelectedStudy = (study: StudyType) => {
     setSelectedStudy(study);
-    const newPopulation = calculateTotalPatients(study);
-    setPopulationSize(newPopulation);
-    setCurrentCohortSize(newPopulation); // Reset cohort size when changing studies
+    // The effect below will handle updating population size when stats load
   };
 
   // Apply criteria function (same logic as cohortStore)
@@ -104,14 +105,16 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     setCurrentCohortSize(populationSize);
   };
 
-  // Initialize population size when component mounts or study changes
-  React.useEffect(() => {
-    const newPopulation = calculateTotalPatients(selectedStudy);
-    setPopulationSize(newPopulation);
-    if (currentCohortSize === 0) {
-      setCurrentCohortSize(newPopulation);
+  // Initialize population size when stats are loaded
+  useEffect(() => {
+    if (stats?.totalPatients) {
+      const newPopulation = stats.totalPatients;
+      setPopulationSize(newPopulation);
+      if (currentCohortSize === 0) {
+        setCurrentCohortSize(newPopulation);
+      }
     }
-  }, [selectedStudy, setPopulationSize, setCurrentCohortSize, currentCohortSize]);
+  }, [stats, setPopulationSize, setCurrentCohortSize, currentCohortSize]);
 
   const value: AppStateContextType = {
     selectedStudy,

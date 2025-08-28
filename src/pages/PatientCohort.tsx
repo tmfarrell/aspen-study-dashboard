@@ -17,10 +17,15 @@ import RaceDistribution from '@/components/cohort/RaceDistribution';
 import CountryDistribution from '@/components/cohort/CountryDistribution';
 import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
 import { StudyType } from '@/api/types';
-import { getStudyOptions } from '@/data/studyData';
+import { useStudyOptions } from '@/state/studies';
 
 const PatientCohort = () => {
   const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
+  const { data: studyOptions = [], isLoading } = useStudyOptions();
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-background p-6"><div className="h-96 bg-muted animate-pulse rounded-lg" /></div>;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,7 +56,7 @@ const PatientCohort = () => {
                   <SelectValue placeholder="Select a study" />
                 </SelectTrigger>
                 <SelectContent>
-                  {getStudyOptions().map((option) => (
+                  {studyOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
