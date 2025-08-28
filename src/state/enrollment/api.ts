@@ -124,8 +124,18 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     const monthsRemaining = Math.ceil((study.targetEnrollment.total - totalPatients) / (newPatientsLast12Months / 12));
     
     let confidence: 'high' | 'medium' | 'low' = 'medium';
-    if (currentProgress > 0.8 && monthsRemaining <= 6) confidence = 'high';
-    else if (currentProgress < 0.3 || monthsRemaining > 24) confidence = 'low';
+    let status: 'on-track' | 'at-risk' | 'off-track' = 'on-track';
+    
+    if (currentProgress > 0.8 && monthsRemaining <= 6) {
+      confidence = 'high';
+      status = 'on-track';
+    } else if (currentProgress < 0.3 || monthsRemaining > 24) {
+      confidence = 'low';
+      status = 'off-track';
+    } else if (currentProgress < 0.5 || monthsRemaining > 18) {
+      confidence = 'medium';
+      status = 'at-risk';
+    }
     
     const estimatedDate = new Date();
     estimatedDate.setMonth(estimatedDate.getMonth() + monthsRemaining);
@@ -133,7 +143,8 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     targetCompletion = {
       targetDate: study.targetEnrollment.targetDate || estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }),
       confidence,
-      estimatedCompletion: estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
+      estimatedCompletion: estimatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }),
+      status
     };
   }
 

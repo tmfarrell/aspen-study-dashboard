@@ -67,16 +67,35 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
           trend={{ value: 24.3, isPositive: true }}
         />
         {enrollmentStats.targetCompletion ? (
-          <MetricCard
-            title="Target Enrollment End Date"
-            value={enrollmentStats.targetCompletion.targetDate}
-            subtitle={`Est: ${enrollmentStats.targetCompletion.estimatedCompletion}`}
-            icon={<Target className="w-5 h-5" />}
-            trend={{ 
-              value: enrollmentStats.targetCompletion.confidence === 'high' ? 85 : enrollmentStats.targetCompletion.confidence === 'medium' ? 65 : 35, 
-              isPositive: enrollmentStats.targetCompletion.confidence !== 'low'
-            }}
-          />
+          <Card className="p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="text-muted-foreground">
+                    <Target className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Target Enrollment End Date</h3>
+                </div>
+                <div className="text-2xl font-bold text-foreground mb-2">{enrollmentStats.targetCompletion.targetDate}</div>
+                <Badge 
+                  variant={
+                    enrollmentStats.targetCompletion.status === 'on-track' ? 'default' : 
+                    enrollmentStats.targetCompletion.status === 'at-risk' ? 'secondary' : 
+                    'destructive'
+                  }
+                  className={
+                    enrollmentStats.targetCompletion.status === 'on-track' ? 'bg-green-100 text-green-800 hover:bg-green-100' :
+                    enrollmentStats.targetCompletion.status === 'at-risk' ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100' :
+                    'bg-red-100 text-red-800 hover:bg-red-100'
+                  }
+                >
+                  {enrollmentStats.targetCompletion.status === 'on-track' ? 'On Track' :
+                   enrollmentStats.targetCompletion.status === 'at-risk' ? 'At Risk' :
+                   'Off Track'}
+                </Badge>
+              </div>
+            </div>
+          </Card>
         ) : (
           <MetricCard
             title="Average Monthly Enrollment"

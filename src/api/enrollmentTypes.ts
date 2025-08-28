@@ -28,6 +28,7 @@ export interface TargetCompletion {
   targetDate: string; // "YYYY-MM" format
   confidence: 'high' | 'medium' | 'low';
   estimatedCompletion: string;
+  status: 'on-track' | 'at-risk' | 'off-track';
 }
 
 export interface SiteEnrollment {
