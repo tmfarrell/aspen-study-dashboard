@@ -97,6 +97,18 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     ]
   },
   {
+    id: 'bmi_obesity',
+    name: 'BMI Categories',
+    description: 'BMI categories for obesity study',
+    type: 'numerical', 
+    field: 'bmi',
+    customBuckets: [
+      { min: 30, max: 34.9, label: 'Class I Obesity (30-34.9)' },
+      { min: 35, max: 39.9, label: 'Class II Obesity (35-39.9)' },
+      { min: 40, max: 60, label: 'Class III Obesity (40+)' }
+    ]
+  },
+  {
     id: 'status',
     name: 'Patient Status',
     description: 'Current patient enrollment status',
@@ -138,13 +150,6 @@ export const STUDY_SPECIFIC_METRICS: Record<StudyType, MetricDefinition[]> = {
       description: 'Medications for weight management',
       type: 'categorical',
       field: 'medications'
-    },
-    {
-      id: 'bmi_categories',
-      name: 'BMI Categories',
-      description: 'Enrollment by BMI categories',
-      type: 'categorical',
-      field: 'enrollmentCategory'
     }
   ],
   diabetes: [

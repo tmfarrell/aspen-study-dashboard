@@ -17,14 +17,10 @@ export const obesityStudyData: StudyData = {
       'CH': 1000
     }
   },
-  enrollmentConfig: {
-    breakdownType: 'bmi',
-    breakdownLabel: 'BMI Categories',
-    categories: [
-      { key: 'class1', label: 'Class I Obesity (30-34.9)', weight: 0.42 },
-      { key: 'class2', label: 'Class II Obesity (35-39.9)', weight: 0.35 },
-      { key: 'class3', label: 'Class III Obesity (40+)', weight: 0.23 }
-    ]
+  enrollmentMetric: {
+    metricId: 'bmi',
+    displayType: 'distribution',
+    orientation: 'horizontal'
   },
   description: 'Comprehensive obesity research tracking patient outcomes, treatments, and interventions',
   status: 'active',

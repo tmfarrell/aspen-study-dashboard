@@ -12,14 +12,10 @@ export interface StudyData {
       [countryCode: string]: number;
     };
   };
-  enrollmentConfig: {
-    breakdownType: 'conditions' | 'bmi' | 'demographics' | 'procedures';
-    breakdownLabel: string;
-    categories: Array<{
-      key: string;
-      label: string;
-      weight: number; // Used for realistic data distribution
-    }>;
+  enrollmentMetric: {
+    metricId: string;
+    displayType: 'distribution' | 'pie';
+    orientation?: 'horizontal' | 'vertical';
   };
   description: string;
   status: 'active' | 'recruiting' | 'completed' | 'suspended';

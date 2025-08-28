@@ -54,21 +54,17 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   const newPatientsLast12Months = Math.floor(totalPatients * 0.6); // 60% enrolled in last 12 months
   const newPatientsLastMonth = Math.floor(newPatientsLast12Months / 12 * recentMonthsMultiplier);
   
-  // Generate breakdown data
-  const breakdowns: EnrollmentBreakdown[] = study.enrollmentConfig.categories.map(category => {
-    const total = Math.floor(totalPatients * category.weight);
-    const last12Months = Math.floor(total * 0.6);
-    const lastMonth = Math.floor(last12Months / 12 * recentMonthsMultiplier);
-    
-    return {
-      key: category.key,
-      label: category.label,
-      total,
-      lastMonth,
-      last12Months,
-      percentage: Math.round((total / totalPatients) * 100)
-    };
-  });
+  // Generate breakdown data - simplified for now since we're using metrics
+  const breakdowns: EnrollmentBreakdown[] = [
+    {
+      key: 'total',
+      label: 'Total Enrollment',
+      total: totalPatients,
+      lastMonth: newPatientsLastMonth,
+      last12Months: newPatientsLast12Months,
+      percentage: 100
+    }
+  ];
 
   // Generate monthly trends
   const monthlyTrends: EnrollmentTrend[] = [];
@@ -86,11 +82,10 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     
     cumulativeTotal += monthlyEnrollment;
     
-    // Generate breakdown for this month
-    const monthlyBreakdown: Record<string, number> = {};
-    study.enrollmentConfig.categories.forEach(category => {
-      monthlyBreakdown[category.key] = Math.floor(monthlyEnrollment * category.weight);
-    });
+    // Generate breakdown for this month - simplified
+    const monthlyBreakdown: Record<string, number> = {
+      total: monthlyEnrollment
+    };
 
     monthlyTrends.push({
       month: monthName,

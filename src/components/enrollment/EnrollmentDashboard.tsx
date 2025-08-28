@@ -26,14 +26,14 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
     return study?.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
   };
 
-  // Get enrollment metric ID for each study
-  const getEnrollmentMetricId = (studyId: StudyType) => {
+  // Get enrollment metric config for each study  
+  const getEnrollmentMetricConfig = (studyId: StudyType) => {
     switch (studyId) {
-      case 'cardiology': return 'heart_conditions';
-      case 'obesity': return 'bmi_categories';
-      case 'diabetes': return 'diabetes_types';
-      case 'hypertension': return 'treatment_categories';
-      default: return 'bmi_categories';
+      case 'cardiology': return { metricId: 'heart_conditions', displayType: 'distribution', orientation: 'horizontal' };
+      case 'obesity': return { metricId: 'bmi_obesity', displayType: 'distribution', orientation: 'horizontal' };
+      case 'diabetes': return { metricId: 'diabetes_types', displayType: 'distribution', orientation: 'horizontal' };
+      case 'hypertension': return { metricId: 'treatment_categories', displayType: 'distribution', orientation: 'horizontal' };
+      default: return { metricId: 'bmi_obesity', displayType: 'distribution', orientation: 'horizontal' };
     }
   };
 
@@ -218,14 +218,11 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
         {/* Breakdown by Category */}
         <div className="p-6 bg-card border rounded-lg">
           <DistributionMetric 
-            metricId={getEnrollmentMetricId(studyId)}
+            metricId={getEnrollmentMetricConfig(studyId).metricId}
             title={getEnrollmentMetricTitle(studyId)}
             studyId={studyId}
-            orientation="horizontal"
+            orientation={getEnrollmentMetricConfig(studyId).orientation as 'vertical' | 'horizontal'}
           />
-          <div className="text-xs text-muted-foreground mt-2">
-            Debug: Looking for metric "{getEnrollmentMetricId(studyId)}" for study "{studyId}"
-          </div>
         </div>
       </div>
 
