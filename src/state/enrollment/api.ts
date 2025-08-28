@@ -7,6 +7,19 @@ import { sites } from '@/data/siteData';
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Country code to full name mapping
+const countryNames: Record<string, string> = {
+  'US': 'United States',
+  'CA': 'Canada', 
+  'MX': 'Mexico',
+  'DE': 'Germany',
+  'FR': 'France',
+  'UK': 'United Kingdom',
+  'IT': 'Italy',
+  'ES': 'Spain',
+  'CH': 'Switzerland'
+};
+
 // Generate realistic enrollment data based on study configuration
 const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   const study = studyData[studyId];
@@ -93,11 +106,11 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   
   if (study.targetEnrollment?.byCountry) {
     const countryEntries = Object.entries(study.targetEnrollment.byCountry);
-    targetProgress = countryEntries.map(([country, target]) => {
+    targetProgress = countryEntries.map(([countryCode, target]) => {
       const current = Math.floor(totalPatients * (target / study.targetEnrollment!.total));
       const lastMonthProgress = Math.floor(newPatientsLastMonth * (target / study.targetEnrollment!.total));
       return {
-        country,
+        country: countryNames[countryCode] || countryCode,
         target,
         current,
         lastMonthProgress,
