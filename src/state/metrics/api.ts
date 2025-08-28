@@ -55,7 +55,8 @@ const calculateCategoricalMetric = (
       // Handle enrollment category field
       value = patient.enrollmentCategory;
       if (!value) {
-        console.warn(`Patient ${patient.id} missing enrollmentCategory`);
+        console.warn(`Patient ${patient.id} missing enrollmentCategory, available fields:`, Object.keys(patient));
+        return; // Skip patients without enrollment category
       }
     } else {
       value = patient[definition.field as keyof PatientData];
@@ -174,10 +175,12 @@ const calculateNumericalMetric = (
 const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
   const sites = getStudySites(studyId);
   const config = getPatientConfig(studyId);
+  console.log(`Patient config for ${studyId}:`, config.enrollmentCategories ? config.enrollmentCategories.length + ' categories' : 'No enrollment categories');
   const patients = generateStudyPatients(studyId, sites, config);
   
   console.log(`Generated ${patients.length} patients for ${studyId}`);
   console.log(`Sample patient:`, patients[0]);
+  console.log(`Enrollment categories in sample:`, patients.slice(0, 5).map(p => ({ id: p.id, enrollmentCategory: p.enrollmentCategory })));
   
   const metricDefinitions = getAllMetricsForStudy(studyId);
   console.log(`Metric definitions for ${studyId}:`, metricDefinitions);
@@ -185,10 +188,18 @@ const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
   const metrics: MetricResult[] = [];
 
   metricDefinitions.forEach(definition => {
-    if (definition.type === 'categorical') {
-      metrics.push(calculateCategoricalMetric(definition, patients));
-    } else {
-      metrics.push(calculateNumericalMetric(definition, patients));
+    try {
+      if (definition.type === 'categorical') {
+        const metric = calculateCategoricalMetric(definition, patients);
+        console.log(`Calculated categorical metric ${definition.id}:`, metric.data.length > 0 ? metric.data : 'No data');
+        metrics.push(metric);
+      } else {
+        const metric = calculateNumericalMetric(definition, patients);
+        console.log(`Calculated numerical metric ${definition.id}:`, metric.data.length > 0 ? metric.data : 'No data');
+        metrics.push(metric);
+      }
+    } catch (error) {
+      console.error(`Error calculating metric ${definition.id}:`, error);
     }
   });
 

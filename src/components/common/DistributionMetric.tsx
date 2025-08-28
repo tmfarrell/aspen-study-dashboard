@@ -68,13 +68,13 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
   }
 
   return (
-    <Card className="h-[520px] flex flex-col">
-      <CardHeader>
+    <Card className="h-[500px] flex flex-col">
+      <CardHeader className="pb-4">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col">
+      <CardContent className="flex-1 flex flex-col min-h-0">
         <div className="flex-1 min-h-0">
-          <ChartContainer config={chartConfig} className="h-[320px]">
+          <ChartContainer config={chartConfig} className="h-[340px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart 
                 data={chartData} 
@@ -129,19 +129,19 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
           </ChartContainer>
         </div>
         
-        <div className="mt-4">
+        <div className="mt-3 flex-shrink-0">
           {metric && metric.type === 'numerical' && (
             <div className="w-full">
-              <div className="grid grid-cols-1 gap-1 text-xs overflow-y-auto max-h-[120px]">
+              <div className="grid grid-cols-2 gap-2 text-xs overflow-y-auto max-h-[80px]">
                 {[
                   { label: "Total", value: metric.total.toLocaleString() },
                   { label: "Average", value: Math.round(metric.average * 10) / 10 },
                   { label: "Median", value: Math.round(metric.median * 10) / 10 },
                   { label: "Range", value: `${metric.min} - ${metric.max}` }
                 ].map((stat, index) => (
-                  <div key={index} className="flex justify-between items-center py-1 px-2">
-                    <span className="text-sm font-medium">{stat.label}:</span>
-                    <span className="font-semibold text-sm">{stat.value}</span>
+                  <div key={index} className="flex justify-between items-center py-1">
+                    <span className="text-xs font-medium">{stat.label}:</span>
+                    <span className="font-semibold text-xs">{stat.value}</span>
                   </div>
                 ))}
               </div>
