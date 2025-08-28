@@ -64,10 +64,6 @@ const PatientCohort = () => {
 
         <CohortSummary selectedStudy={selectedStudy} />
 
-        {/* Progress tracking section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <AssessmentProgress selectedStudy={selectedStudy} />
-        </div>
 
         <Tabs defaultValue="overview" className="mt-8">
           <TabsList className="grid w-full grid-cols-8">

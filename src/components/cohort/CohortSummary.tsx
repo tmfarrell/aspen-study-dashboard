@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MetricCard } from '@/components/ui/metric-card';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
+import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import { studyData, StudyType } from '@/data/studyData';
 import { calculateTotalPatients, generateEnrollmentDescription } from '@/data/studyHelpers';
 import { Users } from 'lucide-react';
@@ -75,9 +76,10 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
         ))}
       </div>
       
-      {/* Enrollment Progress Tile - only show if target enrollment exists */}
+      {/* Progress tracking tiles - side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={selectedStudy} />
+        <AssessmentProgress selectedStudy={selectedStudy} />
       </div>
     </div>
   );
