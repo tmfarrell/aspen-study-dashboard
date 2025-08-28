@@ -2,8 +2,10 @@ import { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin } from "lucide-react";
-import { studyData, StudyType } from "@/data/studyData";
+import { MapPin, Clock } from "lucide-react";
+import { studyData } from "@/data/studyData";
+import { useSites } from "@/state/sites";
+import { SiteData, StudyType } from "@/api/types";
 
 interface GeographicTileProps {
   studyId: StudyType;
@@ -18,59 +20,40 @@ const euGeoUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/mast
 // World Map GeoURL
 const worldGeoUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
 
-// Mock data for different regions
-const getMockData = (regions: { us: boolean; eu: boolean }) => {
+// Process site data into geographic data
+const getGeographicData = (sites: SiteData[], regions: { us: boolean; eu: boolean }) => {
+  if (!sites || sites.length === 0) {
+    return { type: 'world', data: {}, siteData: {} };
+  }
+
+  const data: Record<string, number> = {};
+  const siteData: Record<string, number> = {};
+
   if (regions.us && !regions.eu) {
-    // US-only data
-    return {
-      type: 'us',
-      data: {
-        "California": 1250,
-        "Texas": 980,
-        "Florida": 745,
-        "New York": 689,
-        "Pennsylvania": 567,
-        "Illinois": 456,
-        "Ohio": 398,
-        "Georgia": 345,
-        "North Carolina": 289,
-        "Michigan": 234
+    // US-only: group by subdivision (state)
+    sites.forEach(site => {
+      if (site.region === 'us') {
+        data[site.subdivision] = (data[site.subdivision] || 0) + site.enrolledPatients;
+        siteData[site.subdivision] = (siteData[site.subdivision] || 0) + 1;
       }
-    };
+    });
+    return { type: 'us', data, siteData };
   } else if (!regions.us && regions.eu) {
-    // EU-only data
-    return {
-      type: 'eu',
-      data: {
-        "Germany": 1920,
-        "France": 1650,
-        "Italy": 840,
-        "United Kingdom": 300,
-        "Spain": 425,
-        "Netherlands": 290,
-        "Belgium": 185,
-        "Austria": 156,
-        "Switzerland": 134,
-        "Poland": 298
+    // EU-only: group by country
+    sites.forEach(site => {
+      if (site.region === 'eu') {
+        data[site.country] = (data[site.country] || 0) + site.enrolledPatients;
+        siteData[site.country] = (siteData[site.country] || 0) + 1;
       }
-    };
+    });
+    return { type: 'eu', data, siteData };
   } else {
-    // World data (both regions)
-    return {
-      type: 'world',
-      data: {
-        "United States": 4200,
-        "Germany": 1920,
-        "France": 1650,
-        "Italy": 840,
-        "Canada": 800,
-        "United Kingdom": 300,
-        "Spain": 425,
-        "Australia": 367,
-        "Japan": 234,
-        "Brazil": 189
-      }
-    };
+    // World: group by country
+    sites.forEach(site => {
+      data[site.country] = (data[site.country] || 0) + site.enrolledPatients;
+      siteData[site.country] = (siteData[site.country] || 0) + 1;
+    });
+    return { type: 'world', data, siteData };
   }
 };
 
@@ -78,11 +61,14 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   
   const study = studyData[studyId];
-  const mockData = getMockData(study.regions);
-  const maxPatientCount = Math.max(...Object.values(mockData.data));
+  const { data: sitesResponse } = useSites(studyId);
+  const sites = sitesResponse?.data || [];
+  
+  const geographicData = getGeographicData(sites, study.regions);
+  const maxPatientCount = Math.max(...Object.values(geographicData.data), 1);
 
   const getRegionColor = (regionName: string) => {
-    const patientCount = mockData.data[regionName as keyof typeof mockData.data] || 0;
+    const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
     const intensity = patientCount / maxPatientCount;
     
     if (intensity === 0) return "hsl(var(--muted))";
@@ -98,7 +84,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   };
 
   const getMapConfig = () => {
-    switch (mockData.type) {
+    switch (geographicData.type) {
       case 'us':
         return {
           geoUrl: usGeoUrl,
@@ -127,15 +113,24 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   };
 
   const mapConfig = getMapConfig();
-  const totalPatients = Object.values(mockData.data).reduce((sum, count) => sum + count, 0);
+  const totalPatients = Object.values(geographicData.data).reduce((sum, count) => sum + count, 0);
+  const totalSites = Object.values(geographicData.siteData).reduce((sum, count) => sum + count, 0);
+  
+  const selectedPatients = selectedRegion ? geographicData.data[selectedRegion] || 0 : totalPatients;
+  const selectedSites = selectedRegion ? geographicData.siteData[selectedRegion] || 0 : totalSites;
 
   return (
     <Card className="p-6 bg-card border">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Geographic Distribution</h3>
-        <Badge variant="secondary">
-          {totalPatients.toLocaleString()} total patients
-        </Badge>
+        <div className="flex gap-2">
+          <Badge variant="secondary">
+            {selectedPatients.toLocaleString()} patients
+          </Badge>
+          <Badge variant="outline">
+            {selectedSites} sites
+          </Badge>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -153,7 +148,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
                       // Filter for EU countries if EU-only
-                      if (mockData.type === 'eu') {
+                      if (geographicData.type === 'eu') {
                         const euCountries = ['Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Austria', 'Switzerland', 'Poland', 'United Kingdom'];
                         return euCountries.includes(regionName);
                       }
@@ -162,7 +157,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     .map((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
                       const isSelected = selectedRegion === regionName;
-                      const patientCount = mockData.data[regionName as keyof typeof mockData.data] || 0;
+                      const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
                       
                       return (
                         <Geography
@@ -207,7 +202,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
         </div>
 
-        {/* Region Stats */}
+        {/* Selected Region Stats */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <MapPin className="w-4 h-4 text-muted-foreground" />
@@ -216,38 +211,35 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
             </h4>
           </div>
 
-          <div className="space-y-2 max-h-[340px] overflow-y-auto">
-            {Object.entries(mockData.data)
-              .sort(([, a], [, b]) => b - a)
-              .slice(0, 10)
-              .map(([region, count], index) => (
-                <div
-                  key={region}
-                  className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer ${
-                    selectedRegion === region 
-                      ? 'bg-accent/50' 
-                      : 'bg-muted/30 hover:bg-muted/50'
-                  }`}
-                  onClick={() => handleRegionClick(region)}
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs text-muted-foreground font-mono w-6">
-                        #{index + 1}
-                      </span>
-                      <p className="text-sm font-medium truncate">
-                        {region}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">
-                      {count.toLocaleString()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">patients</p>
-                  </div>
-                </div>
-              ))}
+          {/* Current Selection Summary */}
+          <div className="bg-muted/30 rounded-lg p-4 space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Total Patients</span>
+              <span className="font-semibold">{selectedPatients.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Active Sites</span>
+              <span className="font-semibold">{selectedSites}</span>
+            </div>
+            {selectedRegion && (
+              <button
+                onClick={() => setSelectedRegion(null)}
+                className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                ← Back to all regions
+              </button>
+            )}
+          </div>
+
+          {/* Coming Soon Section */}
+          <div className="bg-muted/30 rounded-lg p-4 text-center space-y-3">
+            <Clock className="w-8 h-8 text-muted-foreground mx-auto" />
+            <div>
+              <p className="text-sm font-medium">Regional Details</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Detailed site listings and analytics coming soon
+              </p>
+            </div>
           </div>
         </div>
       </div>
