@@ -1,84 +1,4 @@
-import { StudyData, PatientData, SiteData, AssessmentData, QualityOfLifeData, StudyType } from './types';
-
-// Mock Studies Data
-export const mockStudies: Record<StudyType, StudyData> = {
-  obesity: {
-    id: 'obesity',
-    name: 'Obesity Registry',
-    studySize: '10,000 patients',
-    totalPatients: 8000,
-    totalDescription: 'of 10,000 target patients enrolled',
-    averageBMI: '36.2',
-    ageRange: '18-89',
-    enrolledSites: 45,
-    targetEnrollment: 10000,
-    description: 'Comprehensive obesity research tracking patient outcomes, treatments, and interventions',
-    status: 'active',
-    startDate: '2023-01-15',
-    estimatedCompletionDate: '2025-12-31',
-    regions: {
-      us: false,
-      eu: true
-    }
-  },
-  diabetes: {
-    id: 'diabetes',
-    name: 'Diabetes Registry',
-    studySize: '15,000 patients',
-    totalPatients: 12500,
-    totalDescription: 'of 15,000 target patients enrolled',
-    averageBMI: '31.8',
-    ageRange: '25-85',
-    enrolledSites: 67,
-    targetEnrollment: 15000,
-    description: 'Type 2 diabetes management and outcomes research across multiple healthcare settings',
-    status: 'active',
-    startDate: '2022-06-01',
-    estimatedCompletionDate: '2026-05-31',
-    regions: {
-      us: true,
-      eu: true
-    }
-  },
-  cardiology: {
-    id: 'cardiology',
-    name: 'Cardiology Registry',
-    studySize: '12,000 patients',
-    totalPatients: 9500,
-    totalDescription: 'of 12,000 target patients enrolled',
-    averageBMI: '29.8',
-    ageRange: '35-85',
-    enrolledSites: 52,
-    targetEnrollment: 12000,
-    description: 'Heart rhythm disorders and arrhythmia treatment effectiveness studies',
-    status: 'recruiting',
-    startDate: '2023-03-01',
-    estimatedCompletionDate: '2026-02-28',
-    regions: {
-      us: true,
-      eu: false
-    }
-  },
-  hypertension: {
-    id: 'hypertension',
-    name: 'MASH Registry',
-    studySize: '8,500 patients',
-    totalPatients: 6800,
-    totalDescription: 'of 8,500 target patients enrolled',
-    averageBMI: '33.4',
-    ageRange: '30-80',
-    enrolledSites: 34,
-    targetEnrollment: 8500,
-    description: 'Hypertension management and cardiovascular risk reduction research',
-    status: 'active',
-    startDate: '2023-09-01',
-    estimatedCompletionDate: '2025-08-31',
-    regions: {
-      us: true,
-      eu: false
-    }
-  }
-};
+import { PatientData, SiteData, AssessmentData, QualityOfLifeData, StudyType } from './types';
 
 // Mock Sites Data
 export const mockSites: SiteData[] = [
@@ -220,10 +140,5 @@ export const generateMockQoLData = (patientIds: string[], studyId: StudyType): Q
   }));
 };
 
-// Study options for dropdowns
-export const getStudyOptions = () => {
-  return Object.values(mockStudies).map(study => ({
-    value: study.id as StudyType,
-    label: study.name
-  }));
-};
+// Study options for dropdowns (now using src/data as source of truth)
+// This function is deprecated - use getStudyOptions from src/data/studyData.ts instead

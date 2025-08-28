@@ -1,29 +1,18 @@
-export interface StudyData {
-  name: string;
-  studySize: string;
-  totalPatients: number;
-  totalDescription: string;
-  averageBMI: string;
-  ageRange: string;
-  regions: {
-    us: boolean;
-    eu: boolean;
-  };
-}
+import { StudyData, StudyType } from '@/api/types';
 
 import { cardiologyStudyData } from './study/cardiology';
 import { obesityStudyData } from './study/obesity';
 import { diabetesStudyData } from './study/diabetes';
 import { hypertensionStudyData } from './study/hypertension';
 
-export const studyData: Record<string, StudyData> = {
+export const studyData: Record<StudyType, StudyData> = {
   cardiology: cardiologyStudyData,
   obesity: obesityStudyData,
   diabetes: diabetesStudyData,
   hypertension: hypertensionStudyData
 };
 
-export type StudyType = keyof typeof studyData;
+export type { StudyType };
 
 // Helper function to get study options for Select components
 export const getStudyOptions = () => {

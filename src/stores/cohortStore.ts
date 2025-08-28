@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { studyData, StudyType } from '@/data/studyData';
+import { studyData } from '@/data/studyData';
+import { StudyType } from '@/api/types';
 
 interface CohortStore {
   selectedStudy: StudyType;

@@ -16,7 +16,8 @@ import GenderDistribution from '@/components/cohort/GenderDistribution';
 import RaceDistribution from '@/components/cohort/RaceDistribution';
 import CountryDistribution from '@/components/cohort/CountryDistribution';
 import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
-import { StudyType, getStudyOptions } from '@/data/studyData';
+import { StudyType } from '@/api/types';
+import { getStudyOptions } from '@/data/studyData';
 
 const PatientCohort = () => {
   const [selectedStudy, setSelectedStudy] = useState<StudyType>('obesity');
@@ -45,7 +46,7 @@ const PatientCohort = () => {
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
               <label className="text-sm font-medium text-muted-foreground">Select Study:</label>
-              <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+              <Select value={selectedStudy} onValueChange={(value) => setSelectedStudy(value as StudyType)}>
                 <SelectTrigger className="w-[200px]">
                   <SelectValue placeholder="Select a study" />
                 </SelectTrigger>

@@ -5,7 +5,7 @@ import {
   StudyFilters,
   StudyType 
 } from '@/api/types';
-import { mockStudies } from '@/api/mockData';
+import { studyData } from '@/data/studyData';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -13,7 +13,7 @@ const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, m
 export const studiesApi = {
   getAll: async (filters?: StudyFilters): Promise<ApiResponse<StudyData[]>> => {
     await delay();
-    let studies = Object.values(mockStudies);
+    let studies = Object.values(studyData);
     
     if (filters?.status?.length) {
       studies = studies.filter(study => filters.status!.includes(study.status));
@@ -36,7 +36,7 @@ export const studiesApi = {
 
   getById: async (id: StudyType): Promise<ApiResponse<StudyData>> => {
     await delay();
-    const study = mockStudies[id];
+    const study = studyData[id];
     
     if (!study) {
       throw new Error(`Study with id ${id} not found`);
@@ -56,7 +56,7 @@ export const studiesApi = {
     dataQuality: number;
   }>> => {
     await delay();
-    const study = mockStudies[id];
+    const study = studyData[id];
     
     if (!study) {
       throw new Error(`Study with id ${id} not found`);
