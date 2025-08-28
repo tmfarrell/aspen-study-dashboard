@@ -34,32 +34,32 @@ const countryMaps: Record<string, { geoUrl: string; projection: any; projectionC
   "Germany": {
     geoUrl: "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/4_low.geo.json",
     projection: "geoMercator" as const,
-    projectionConfig: { scale: 2000, center: [10.5, 51.5] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.NAME_1 || geo.properties.name
+    projectionConfig: { scale: 2500, center: [10.5, 51.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.NAME_1 || geo.properties.name || geo.properties.NAME
   },
   "France": {
     geoUrl: "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson",
     projection: "geoMercator" as const,
-    projectionConfig: { scale: 2400, center: [2.5, 46.5] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.nom
+    projectionConfig: { scale: 2800, center: [2.5, 46.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.nom || geo.properties.name || geo.properties.NAME
   },
   "United Kingdom": {
     geoUrl: "https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/gb/lad.json",
     projection: "geoMercator" as const,
-    projectionConfig: { scale: 2800, center: [-2, 54.5] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.LAD13NM
+    projectionConfig: { scale: 3200, center: [-2, 54.5] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.LAD13NM || geo.properties.name || geo.properties.NAME
   },
   "Italy": {
     geoUrl: "https://raw.githubusercontent.com/stefanocudini/leaflet-geojson-selector/master/examples/italy-regions.json",
     projection: "geoMercator" as const,
-    projectionConfig: { scale: 2200, center: [12.5, 41.9] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.reg_name || geo.properties.name
+    projectionConfig: { scale: 2500, center: [12.5, 41.9] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.reg_name || geo.properties.name || geo.properties.NAME
   },
   "Spain": {
     geoUrl: "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/spain-communities.geojson",
     projection: "geoMercator" as const,
-    projectionConfig: { scale: 2000, center: [-3.7, 40.4] as [number, number] },
-    getRegionName: (geo: any) => geo.properties.name
+    projectionConfig: { scale: 2200, center: [-3.7, 40.4] as [number, number] },
+    getRegionName: (geo: any) => geo.properties.name || geo.properties.NAME
   }
 };
 
@@ -432,9 +432,12 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                         return true;
                       }
                       
-                      // For other country-specific maps, only show regions with data
+                      // For country-specific maps, show all regions and add debug logging
                       if (navigation.level === 'country' || navigation.level === 'subdivision') {
-                        return geographicData.data[regionName] !== undefined;
+                        if (navigation.level === 'country') {
+                          console.log(`Country map - Processing region: "${regionName}"`);
+                        }
+                        return true; // Show all regions for country maps
                       }
                       
                       return true;
