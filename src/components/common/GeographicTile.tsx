@@ -122,7 +122,15 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   return (
     <Card className="p-6 bg-card border">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Geographic Distribution</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-semibold">Geographic Distribution</h3>
+          {selectedRegion && (
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <MapPin className="w-4 h-4" />
+              <span>{selectedRegion}</span>
+            </div>
+          )}
+        </div>
         <div className="flex gap-2">
           <Badge variant="secondary">
             {selectedPatients.toLocaleString()} patients
@@ -201,36 +209,17 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
         </div>
 
-        {/* Selected Region Stats */}
+        {/* Coming Soon Section */}
         <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            <h4 className="font-semibold">
-              {selectedRegion || "All Regions"}
-            </h4>
-          </div>
-
-          {/* Current Selection Summary */}
-          <div className="bg-muted/30 rounded-lg p-4 space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Total Patients</span>
-              <span className="font-semibold">{selectedPatients.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Active Sites</span>
-              <span className="font-semibold">{selectedSites}</span>
-            </div>
-            {selectedRegion && (
-              <button
-                onClick={() => setSelectedRegion(null)}
-                className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                ← Back to all regions
-              </button>
-            )}
-          </div>
-
-          {/* Coming Soon Section */}
+          {selectedRegion && (
+            <button
+              onClick={() => setSelectedRegion(null)}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              ← Back to all regions
+            </button>
+          )}
+          
           <div className="bg-muted/30 rounded-lg p-4 text-center space-y-3">
             <Clock className="w-8 h-8 text-muted-foreground mx-auto" />
             <div>
