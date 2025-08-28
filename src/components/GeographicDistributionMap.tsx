@@ -4,16 +4,67 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, MapPin, Building2 } from "lucide-react";
-import { hospitals, getHospitalsByState, getTotalCasesByState, type Hospital } from "@/data/hospitalData";
+import { useAppState } from '@/contexts/AppStateContext';
+import { cardiologySites } from '@/data/study/cardiology';
+import { diabetesSites } from '@/data/study/diabetes';
+import { obesitySites } from '@/data/study/obesity';
+import { hypertensionSites } from '@/data/study/hypertension';
+import { StudyType } from '@/api/types';
 import { stateStatistics } from "@/data/patientData";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
 const ITEMS_PER_PAGE = 8;
 
+// Get sites for a specific study
+const getStudySites = (studyId: StudyType) => {
+  switch (studyId) {
+    case 'cardiology':
+      return cardiologySites;
+    case 'diabetes':
+      return diabetesSites;
+    case 'obesity':
+      return obesitySites;
+    case 'hypertension':
+      return hypertensionSites;
+    default:
+      return [];
+  }
+};
+
 export function GeographicDistributionMap() {
+  const { selectedStudy } = useAppState();
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  
+  // Get study-specific site data and transform to match expected format
+  const studySites = getStudySites(selectedStudy);
+  const hospitals = studySites
+    .filter(site => site.region === 'us') // Only US sites for the US map
+    .map(site => ({
+      id: site.id,
+      name: site.name,
+      state: site.subdivision, // subdivision is the state for US sites
+      city: site.city,
+      caseCount: site.enrolledPatients
+    }));
+
+  const getHospitalsByState = (state: string | null) => {
+    if (!state || state === "Total") {
+      return hospitals.sort((a, b) => b.caseCount - a.caseCount);
+    }
+    return hospitals
+      .filter(hospital => hospital.state === state)
+      .sort((a, b) => b.caseCount - a.caseCount);
+  };
+
+  const getTotalCasesByState = (state: string | null) => {
+    if (!state || state === "Total") {
+      return hospitals.reduce((sum, hospital) => sum + hospital.caseCount, 0);
+    }
+    return hospitals
+      .filter(hospital => hospital.state === state)
+      .reduce((sum, hospital) => sum + hospital.caseCount, 0);
+  };
   
   const selectedStateHospitals = getHospitalsByState(selectedState);
   const totalCases = getTotalCasesByState(selectedState);

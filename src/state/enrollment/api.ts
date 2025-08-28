@@ -2,7 +2,10 @@ import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend, SiteEnrollment, 
 import { StudyType, ApiResponse } from '@/api/types';
 import { calculateTotalPatients } from '@/data/studyHelpers';
 import { studyData } from '@/data/studyData';
-import { sites } from '@/data/siteData';
+import { cardiologySites } from '@/data/study/cardiology';
+import { diabetesSites } from '@/data/study/diabetes';
+import { obesitySites } from '@/data/study/obesity';
+import { hypertensionSites } from '@/data/study/hypertension';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -18,6 +21,21 @@ const countryNames: Record<string, string> = {
   'IT': 'Italy',
   'ES': 'Spain',
   'CH': 'Switzerland'
+};
+// Get sites for a specific study
+const getStudySites = (studyId: StudyType) => {
+  switch (studyId) {
+    case 'cardiology':
+      return cardiologySites;
+    case 'diabetes':
+      return diabetesSites;
+    case 'obesity':
+      return obesitySites;
+    case 'hypertension':
+      return hypertensionSites;
+    default:
+      return [];
+  }
 };
 
 // Generate realistic enrollment data based on study configuration
@@ -86,16 +104,17 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     .sort((a, b) => b.last12Months - a.last12Months)
     .slice(0, 3);
 
-  // Generate site enrollment data
-  const recentSiteEnrollment: SiteEnrollment[] = sites
+  // Generate site enrollment data using study-specific sites
+  const studySites = getStudySites(studyId);
+  const recentSiteEnrollment: SiteEnrollment[] = studySites
     .filter(site => site.status === 'active')
     .map(site => ({
       siteId: site.id,
       siteName: site.name,
-      state: site.state,
+      state: site.subdivision,
       city: site.city,
-      lastMonthEnrollment: Math.floor(site.patientsEnrolled * 0.05 + Math.random() * 10), // 5% base + variance
-      totalEnrollment: site.patientsEnrolled
+      lastMonthEnrollment: Math.floor(site.enrolledPatients * 0.05 + Math.random() * 10), // 5% base + variance
+      totalEnrollment: site.enrolledPatients
     }))
     .sort((a, b) => b.lastMonthEnrollment - a.lastMonthEnrollment)
     .slice(0, 10);
