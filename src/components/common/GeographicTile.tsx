@@ -235,7 +235,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
       return {
         geoUrl: usGeoUrl,
         projection: "geoAlbersUsa" as const,
-        projectionConfig: { scale: 600 },
+        projectionConfig: { scale: 1000 },
         getRegionName: (geo: any) => geo.properties.name
       };
     }
@@ -253,7 +253,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
         return {
           geoUrl: usGeoUrl,
           projection: "geoAlbersUsa" as const,
-          projectionConfig: { scale: 600 },
+          projectionConfig: { scale: 1000 },
           getRegionName: (geo: any) => geo.properties.name
         };
       case 'eu':
