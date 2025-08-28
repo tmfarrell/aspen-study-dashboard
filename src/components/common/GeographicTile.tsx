@@ -14,8 +14,8 @@ interface GeographicTileProps {
 // US Map GeoURL
 const usGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
-// EU Map GeoURL (using Natural Earth data)
-const euGeoUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
+// EU Map GeoURL (Europe-specific)
+const euGeoUrl = "https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson";
 
 // World Map GeoURL
 const worldGeoUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
@@ -97,10 +97,10 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           geoUrl: euGeoUrl,
           projection: "geoMercator" as const,
           projectionConfig: { 
-            scale: 400,
-            center: [15, 50] as [number, number]
+            scale: 600,
+            center: [10, 54] as [number, number]
           },
-          getRegionName: (geo: any) => geo.properties.NAME
+          getRegionName: (geo: any) => geo.properties.NAME_ENGL || geo.properties.NAME || geo.properties.name
         };
       default:
         return {
@@ -147,10 +147,9 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                   geographies
                     .filter((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
-                      // Filter for EU countries if EU-only
+                      // For EU maps, the Europe GeoJSON should already be filtered to EU countries
                       if (geographicData.type === 'eu') {
-                        const euCountries = ['Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Austria', 'Switzerland', 'Poland', 'United Kingdom'];
-                        return euCountries.includes(regionName);
+                        return true; // Europe GeoJSON should only contain European countries
                       }
                       return true;
                     })
