@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MetricCard } from '@/components/ui/metric-card';
 import { useStudyMetrics } from '@/state/metrics';
 import { StudyType } from '@/api/types';
 import { Clock } from 'lucide-react';
@@ -16,35 +16,17 @@ const AgeRangeTile: React.FC<AgeRangeTileProps> = ({ studyId, showAverage = fals
   const ageMetric = metricsData?.metrics.find(m => m.id === 'age');
 
   if (isLoading) {
-    return (
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Age Range
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[50px] bg-muted animate-pulse rounded" />
-        </CardContent>
-      </Card>
-    );
+    return <div className="h-32 bg-muted animate-pulse rounded-lg" />;
   }
 
   if (!ageMetric || ageMetric.type !== 'numerical') {
     return (
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Age Range
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-[#0066CC]">N/A</div>
-          <p className="text-sm text-muted-foreground mt-1">
-            No age data available
-          </p>
-        </CardContent>
-      </Card>
+      <MetricCard
+        title="Age Range"
+        value="N/A"
+        subtitle="No age data available"
+        icon={<Clock className="w-5 h-5" />}
+      />
     );
   }
 
@@ -54,20 +36,12 @@ const AgeRangeTile: React.FC<AgeRangeTileProps> = ({ studyId, showAverage = fals
     : `Years (median: ${ageMetric.median})`;
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-          <Clock className="w-4 h-4" />
-          Age Range
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="text-3xl font-bold text-[#0066CC]">{ageRange}</div>
-        <p className="text-sm text-muted-foreground mt-1">
-          {description}
-        </p>
-      </CardContent>
-    </Card>
+    <MetricCard
+      title="Age Range"
+      value={ageRange}
+      subtitle={description}
+      icon={<Clock className="w-5 h-5" />}
+    />
   );
 };
 
