@@ -54,6 +54,7 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
             studyId={selectedStudy}
             metricId={metricConfig.metricId}
             displayType={metricConfig.displayType}
+            orientation={metricConfig.orientation}
             icon={metricConfig.icon}
             description={metricConfig.description}
           />

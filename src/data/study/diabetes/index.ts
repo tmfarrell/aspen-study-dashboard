@@ -6,7 +6,8 @@ export const diabetesStudyData: StudyData = {
   name: 'Diabetes Registry',
   enrollmentUnits: 'patients',
   overviewMetrics: [
-    { metricId: 'bmi', displayType: 'average', icon: 'trending-up', description: 'kg/m² (diabetes management focus)' }
+    { metricId: 'bmi', displayType: 'average', icon: 'trending-up', description: 'kg/m² (diabetes management focus)' },
+    { metricId: 'bmi', displayType: 'distribution', orientation: 'horizontal', icon: 'bar-chart', description: 'BMI Distribution' }
   ],
   targetEnrollment: {
     total: 15000,

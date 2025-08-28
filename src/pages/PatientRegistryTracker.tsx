@@ -9,7 +9,7 @@ import { AFibPanel } from "@/components/AFibPanel";
 import { AIInsightsPanel } from "@/components/AIInsightsPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
-import BMIDistributionChart from "@/components/cohort/BMIDistributionChart";
+
 import GeographicDistribution from "@/components/cohort/GeographicDistribution";
 import AgeDistributionChart from "@/components/cohort/AgeDistributionChart";
 import { GeographicTile } from "@/components/common/GeographicTile";
@@ -56,7 +56,6 @@ export default function PatientRegistryTracker() {
               <CohortSummary selectedStudy={selectedStudy} />
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <BMIDistributionChart />
                 <GeographicTile studyId={selectedStudy} />
               </div>
             </TabsContent>
@@ -88,32 +87,27 @@ export default function PatientRegistryTracker() {
               {selectedStudy === 'cardiology' ? (
                 <PatientCohortDashboard />
               ) : selectedStudy === 'obesity' ? (
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                  <div className="xl:col-span-2">
-                    <BMIDistributionChart detailed />
-                  </div>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>BMI Categories</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">Class I Obesity (30-34.9)</span>
-                          <span className="font-semibold">4,200 patients</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">Class II Obesity (35-39.9)</span>
-                          <span className="font-semibold">3,500 patients</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">Class III Obesity (40+)</span>
-                          <span className="font-semibold">2,300 patients</span>
-                        </div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>BMI Categories</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Class I Obesity (30-34.9)</span>
+                        <span className="font-semibold">4,200 patients</span>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Class II Obesity (35-39.9)</span>
+                        <span className="font-semibold">3,500 patients</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Class III Obesity (40+)</span>
+                        <span className="font-semibold">2,300 patients</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ) : selectedStudy === 'diabetes' || selectedStudy === 'hypertension' ? (
                 <ComorbidityDistribution />
               ) : (

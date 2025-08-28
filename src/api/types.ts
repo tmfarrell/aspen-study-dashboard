@@ -5,7 +5,8 @@ export interface StudyData {
   enrollmentUnits: 'cases' | 'patients';
   overviewMetrics: Array<{
     metricId: string;
-    displayType: 'average' | 'total' | 'range' | 'median';
+    displayType: 'average' | 'total' | 'range' | 'median' | 'distribution';
+    orientation?: 'horizontal' | 'vertical';
     icon?: string;
     description?: string;
   }>;

@@ -1,13 +1,16 @@
 import React from 'react';
 import { MetricCard } from '@/components/ui/metric-card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyMetrics } from '@/state/metrics';
 import { StudyType } from '@/api/types';
 import { Activity, TrendingUp, Users, BarChart3 } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface MetricTileProps {
   studyId: StudyType;
   metricId: string;
-  displayType: 'average' | 'total' | 'range' | 'median';
+  displayType: 'average' | 'total' | 'range' | 'median' | 'distribution';
+  orientation?: 'horizontal' | 'vertical';
   icon?: string;
   description?: string;
 }
@@ -16,6 +19,7 @@ const MetricTile: React.FC<MetricTileProps> = ({
   studyId, 
   metricId, 
   displayType, 
+  orientation = 'horizontal',
   icon,
   description 
 }) => {
@@ -117,6 +121,8 @@ const MetricTile: React.FC<MetricTileProps> = ({
           return `${metric.name} Range`;
         case 'median':
           return `Median ${metric.name}`;
+        case 'distribution':
+          return description || `${metric.name} Distribution`;
         default:
           return metric.name;
       }
@@ -125,6 +131,37 @@ const MetricTile: React.FC<MetricTileProps> = ({
     return metric.name;
   };
 
+  // For distribution display type, render a chart
+  if (displayType === 'distribution' && metric.type === 'numerical') {
+    return (
+      <Card className="h-80">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            {getIcon()}
+            {getTitle()}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4">
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={metric.data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="bucket" />
+                <YAxis />
+                <Tooltip 
+                  formatter={(value: number) => [value, 'Patients']}
+                  labelFormatter={(label) => `${metric.name}: ${label}`}
+                />
+                <Bar dataKey="count" fill="#82ca9d" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Standard metric tile for non-distribution types
   return (
     <MetricCard
       title={getTitle()}
