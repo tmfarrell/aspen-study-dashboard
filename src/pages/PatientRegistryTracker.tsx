@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PatientCohortDashboard } from "@/components/PatientCohortDashboard";
 import { DemographicsPanel } from "@/components/DemographicsPanel";
-import { PatientEnrolmentPanel } from "@/components/PatientEnrolmentPanel";
+import { EnrollmentDashboard } from "@/components/enrollment/EnrollmentDashboard";
 import { MedicationsPanel } from "@/components/MedicationsPanel";
 import { AFibPanel } from "@/components/AFibPanel";
 import { AIInsightsPanel } from "@/components/AIInsightsPanel";
@@ -42,80 +42,68 @@ export default function PatientRegistryTracker() {
               Comprehensive view of your registry data and analytics
             </p>
           </div>
-        {selectedStudy === 'cardiology' ? (
-          // Cardiology Study specific content
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="demographics">Demographics</TabsTrigger>
-              <TabsTrigger value="enrollment">Patient Enrollment</TabsTrigger>
-              <TabsTrigger value="medications">Medications</TabsTrigger>
-              <TabsTrigger value="afib">AFib Analysis</TabsTrigger>
-              <TabsTrigger value="insights">AI Insights</TabsTrigger>
-            </TabsList>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="demographics">Demographics</TabsTrigger>
+            <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
+            <TabsTrigger value="medications">Medications</TabsTrigger>
+            <TabsTrigger value="analysis">{selectedStudy === 'cardiology' ? 'AFib Analysis' : 'Analysis'}</TabsTrigger>
+            <TabsTrigger value="insights">AI Insights</TabsTrigger>
+          </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
-              <PatientCohortDashboard />
+              {selectedStudy === 'cardiology' ? (
+                <PatientCohortDashboard />
+              ) : (
+                <>
+                  <CohortSummary selectedStudy={selectedStudy} />
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <BMIDistributionChart />
+                    <AgeDistributionChart />
+                    <div className="lg:col-span-2">
+                      <GeographicTile studyId={selectedStudy} />
+                    </div>
+                  </div>
+                </>
+              )}
             </TabsContent>
 
             <TabsContent value="demographics" className="space-y-6">
-              <DemographicsPanel />
+              {selectedStudy === 'cardiology' ? (
+                <DemographicsPanel />
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <AgeDistributionChart detailed />
+                    <GenderDistribution />
+                    <RaceDistribution />
+                    <CountryDistribution />
+                  </div>
+                  <div className="mt-6">
+                    <PatientTable />
+                  </div>
+                </>
+              )}
             </TabsContent>
 
             <TabsContent value="enrollment" className="space-y-6">
-              <PatientEnrolmentPanel />
+              <EnrollmentDashboard studyId={selectedStudy} />
             </TabsContent>
 
             <TabsContent value="medications" className="space-y-6">
-              <MedicationsPanel />
+              {selectedStudy === 'cardiology' ? (
+                <MedicationsPanel />
+              ) : (
+                <MedicationDistribution detailed />
+              )}
             </TabsContent>
 
-            <TabsContent value="afib" className="space-y-6">
-              <AFibPanel />
-            </TabsContent>
-
-            <TabsContent value="insights" className="space-y-6">
-              <AIInsightsPanel />
-            </TabsContent>
-          </Tabs>
-        ) : (
-          // Other studies content (from PatientCohort)
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-8">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
-              <TabsTrigger value="bmi">BMI Distribution</TabsTrigger>
-              <TabsTrigger value="demographics">Demographics</TabsTrigger>
-              <TabsTrigger value="comorbidity">Comorbidity</TabsTrigger>
-              <TabsTrigger value="medication">Medication</TabsTrigger>
-              <TabsTrigger value="qol">Quality of Life</TabsTrigger>
-              <TabsTrigger value="insights">AI Insights</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overview" className="space-y-6">
-              <CohortSummary selectedStudy={selectedStudy} />
-              
-              {/* Progress tracking section */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <AssessmentProgress selectedStudy={selectedStudy} />
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <BMIDistributionChart />
-                <AgeDistributionChart />
-                <div className="lg:col-span-2">
-                  <GeographicTile studyId={selectedStudy} />
-                </div>
-              </div>
-            </TabsContent>
-
-              <TabsContent value="enrollment" className="mt-6">
-                <div className="text-center p-8 text-muted-foreground">
-                  Enrollment details have been moved to the Overview tab
-                </div>
-              </TabsContent>
-
-              <TabsContent value="bmi" className="mt-6">
+            <TabsContent value="analysis" className="space-y-6">
+              {selectedStudy === 'cardiology' ? (
+                <AFibPanel />
+              ) : selectedStudy === 'obesity' ? (
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                   <div className="xl:col-span-2">
                     <BMIDistributionChart detailed />
@@ -142,41 +130,20 @@ export default function PatientRegistryTracker() {
                     </CardContent>
                   </Card>
                 </div>
-              </TabsContent>
-
-
-              <TabsContent value="demographics" className="mt-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <AgeDistributionChart detailed />
-                  <GenderDistribution />
-                  <RaceDistribution />
-                  <CountryDistribution />
-                </div>
-                <div className="mt-6">
-                  <PatientTable />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="comorbidity" className="mt-6">
+              ) : selectedStudy === 'diabetes' || selectedStudy === 'hypertension' ? (
                 <ComorbidityDistribution />
-              </TabsContent>
-
-              <TabsContent value="medication" className="mt-6">
-                <MedicationDistribution detailed />
-              </TabsContent>
-
-              <TabsContent value="qol" className="mt-6">
+              ) : (
                 <div className="space-y-6">
                   <QualityOfLifeChart />
                   <QualityOfLifeChart detailed />
                 </div>
-              </TabsContent>
+              )}
+            </TabsContent>
 
-              <TabsContent value="insights" className="mt-6">
-                <AIInsightsPanel />
-              </TabsContent>
+            <TabsContent value="insights" className="space-y-6">
+              <AIInsightsPanel />
+            </TabsContent>
           </Tabs>
-        )}
         </div>
       </div>
     </div>

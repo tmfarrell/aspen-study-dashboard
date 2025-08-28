@@ -1,0 +1,232 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MetricCard } from "@/components/ui/metric-card";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { Users, TrendingUp, Calendar, UserPlus, Activity } from "lucide-react";
+import { useEnrollmentStats } from "@/state/enrollment/queries";
+import { StudyType } from "@/api/types";
+import { enrollmentConfigs } from "@/data/enrollmentConfigs";
+
+interface EnrollmentDashboardProps {
+  studyId: StudyType;
+}
+
+export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
+  const { data: enrollmentStats, isLoading, error } = useEnrollmentStats(studyId);
+  const config = enrollmentConfigs[studyId];
+
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !enrollmentStats || !config) {
+    return (
+      <div className="p-6">
+        <Card className="p-6">
+          <p className="text-center text-muted-foreground">
+            Unable to load enrollment data for this study.
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 space-y-6 bg-background">
+      {/* Key Enrollment Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard
+          title="Total Registry Size"
+          value={enrollmentStats.totalPatients.toLocaleString()}
+          subtitle="All enrolled patients"
+          icon={<Users className="w-5 h-5" />}
+        />
+        <MetricCard
+          title="New Patients (Past Month)"
+          value={enrollmentStats.newPatientsLastMonth.toLocaleString()}
+          subtitle="Recently enrolled"
+          icon={<UserPlus className="w-5 h-5" />}
+          trend={{ value: 18.5, isPositive: true }}
+        />
+        <MetricCard
+          title="New Patients (Past 12 Months)"
+          value={enrollmentStats.newPatientsLast12Months.toLocaleString()}
+          subtitle="Annual enrollment"
+          icon={<Calendar className="w-5 h-5" />}
+          trend={{ value: 24.3, isPositive: true }}
+        />
+        <MetricCard
+          title="Average Monthly Enrollment"
+          value={enrollmentStats.averageMonthlyEnrollment.toLocaleString()}
+          subtitle="Patients per month"
+          icon={<TrendingUp className="w-5 h-5" />}
+        />
+      </div>
+
+      {/* Enrollment Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Monthly Enrollment Trend with Cumulative */}
+        <Card className="p-6 bg-card border">
+          <h3 className="text-lg font-semibold mb-4">Enrollment Trends</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={enrollmentStats.monthlyTrends}>
+              <defs>
+                <linearGradient id="colorEnrolled" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorCumulative" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--secondary))" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="hsl(var(--secondary))" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+              <YAxis stroke="hsl(var(--muted-foreground))" />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem"
+                }}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="enrolled" 
+                stackId="1"
+                stroke="hsl(var(--primary))" 
+                fillOpacity={1} 
+                fill="url(#colorEnrolled)" 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="cumulative" 
+                stroke="hsl(var(--secondary))" 
+                strokeWidth={2}
+                dot={{ fill: "hsl(var(--secondary))", strokeWidth: 2, r: 3 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </Card>
+
+        {/* Breakdown by Category */}
+        <Card className="p-6 bg-card border">
+          <h3 className="text-lg font-semibold mb-4">{config.breakdownLabel}</h3>
+          {enrollmentStats.breakdowns.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart 
+                data={enrollmentStats.breakdowns
+                  .sort((a, b) => b.total - a.total)
+                  .slice(0, 6)
+                } 
+                layout="vertical"
+                margin={{ top: 5, right: 30, left: 5, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
+                <YAxis 
+                  type="category" 
+                  dataKey="label" 
+                  stroke="hsl(var(--muted-foreground))" 
+                  width={140}
+                  tick={{ fontSize: 11 }}
+                  interval={0}
+                />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "0.5rem"
+                  }}
+                  formatter={(value, name) => [value, 'Patient Count']}
+                />
+                <Bar 
+                  dataKey="total" 
+                  fill="hsl(var(--primary))" 
+                  radius={[0, 4, 4, 0]} 
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={1}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+              <p>No breakdown data available</p>
+            </div>
+          )}
+        </Card>
+      </div>
+
+      {/* Detailed Enrollment Statistics */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="p-6 bg-card border">
+          <h3 className="text-lg font-semibold mb-4">Average New Patients per Category</h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Past Month</span>
+              <span className="text-2xl font-bold text-foreground">
+                {Math.round(enrollmentStats.newPatientsLastMonth / enrollmentStats.breakdowns.length)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Past 12 Months</span>
+              <span className="text-2xl font-bold text-foreground">
+                {Math.round(enrollmentStats.newPatientsLast12Months / enrollmentStats.breakdowns.length)}
+              </span>
+            </div>
+            <div className="pt-2 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                Average enrollment per {config.breakdownType}
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 bg-card border">
+          <h3 className="text-lg font-semibold mb-4">Top Enrolling Categories</h3>
+          <div className="space-y-3">
+            {enrollmentStats.topEnrollingCategories.map((category, index) => (
+              <div key={category.key} className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm font-medium">{category.label}</p>
+                  <p className="text-xs text-muted-foreground">Past 12 months</p>
+                </div>
+                <span className="text-lg font-bold text-primary">{category.last12Months}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-6 bg-card border">
+          <h3 className="text-lg font-semibold mb-4">Recent Enrollment Activity</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">This Week</span>
+              <span className="text-lg font-bold text-success">{enrollmentStats.enrollmentVelocity.thisWeek}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">This Month</span>
+              <span className="text-lg font-bold text-primary">{enrollmentStats.enrollmentVelocity.thisMonth}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Daily Average</span>
+              <span className="text-lg font-bold text-success">{enrollmentStats.enrollmentVelocity.dailyAverage}</span>
+            </div>
+            <div className="pt-2 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                Enrollment velocity indicators
+              </p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
