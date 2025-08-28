@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { EnrollmentProgressTile } from "@/components/common/EnrollmentProgressTile";
+import { TotalPatientsTile } from "@/components/common/TotalPatientsTile";
 
 interface EnrollmentDashboardProps {
   studyId: StudyType;
@@ -47,12 +48,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
     <div className="p-6 space-y-6 bg-background">
       {/* Key Enrollment Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          title="Total Registry Size"
-          value={enrollmentStats.totalPatients.toLocaleString()}
-          subtitle="All enrolled patients"
-          icon={<Users className="w-5 h-5" />}
-        />
+        <TotalPatientsTile studyId={studyId} showTrend={false} />
         <MetricCard
           title="New Patients (Past Month)"
           value={enrollmentStats.newPatientsLastMonth.toLocaleString()}

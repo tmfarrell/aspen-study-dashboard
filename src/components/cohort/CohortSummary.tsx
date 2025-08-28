@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MetricCard } from '@/components/ui/metric-card';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
+import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import { studyData, StudyType } from '@/data/studyData';
 import { calculateTotalPatients, generateEnrollmentDescription } from '@/data/studyHelpers';
@@ -49,14 +50,8 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Standardized Total Patients/Cases MetricCard */}
-        <MetricCard
-          title={`Total ${getUnitLabel()}`}
-          value={totalPatients.toLocaleString()}
-          subtitle={getEnrollmentSubtitle()}
-          icon={<Users className="w-5 h-5" />}
-          trend={{ value: 12.5, isPositive: true }}
-        />
+        {/* Standardized Total Patients/Cases Tile */}
+        <TotalPatientsTile studyId={selectedStudy} />
         
         {/* Other summary stats using existing Card style */}
         {summaryStats.slice(1).map((stat, index) => (
