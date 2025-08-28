@@ -4,7 +4,6 @@ import { cardiologyPatientConfig } from './patients';
 export const cardiologyStudyData: StudyData = {
   id: 'cardiology',
   name: 'Cardiology Registry',
-  ageRange: '35-85',
   enrollmentUnits: 'cases',
   overviewMetrics: [
     { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Average comorbidities per patient' }

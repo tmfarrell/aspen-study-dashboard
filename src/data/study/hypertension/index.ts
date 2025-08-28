@@ -4,7 +4,6 @@ import { hypertensionPatientConfig } from './patients';
 export const hypertensionStudyData: StudyData = {
   id: 'hypertension',
   name: 'MASH Registry',
-  ageRange: '30-80',
   enrollmentUnits: 'patients',
   overviewMetrics: [
     { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Metabolic comorbidities per patient' }

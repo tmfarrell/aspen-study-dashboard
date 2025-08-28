@@ -2,7 +2,6 @@
 export interface StudyData {
   id: string;
   name: string;
-  ageRange: string;
   enrollmentUnits: 'cases' | 'patients';
   overviewMetrics: Array<{
     metricId: string;

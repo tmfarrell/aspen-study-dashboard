@@ -71,7 +71,6 @@ export const usePatientStats = (filters?: PatientFilters) => {
           withdrawn: patients.filter(p => p.status === 'withdrawn').length,
         },
         averageAge: Math.round(patients.reduce((sum, p) => sum + p.age, 0) / patients.length),
-        averageBMI: Math.round((patients.reduce((sum, p) => sum + p.bmi, 0) / patients.length) * 10) / 10,
       };
     },
     select: (data) => data,
