@@ -11,13 +11,48 @@ export const hypertensionSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 378,
-    targetEnrollment: 500,
     dataQuality: 94,
     lastDataReceived: '2024-08-27T09:00:00Z',
     contactInfo: {
       email: 'hypertension@emory.edu',
       phone: '+1-404-712-2000',
       principalInvestigator: 'Dr. Patricia Johnson'
+    }
+  },
+  {
+    id: 'ht-duke',
+    name: 'Duke University Medical Center',
+    city: 'Durham',
+    subdivision: 'North Carolina',
+    country: 'United States',
+    region: 'us',
+    status: 'active',
+    healthStatus: 'healthy',
+    enrolledPatients: 423,
+    dataQuality: 92,
+    lastDataReceived: '2024-08-27T08:45:00Z',
+    contactInfo: {
+      email: 'cardiology@duke.edu',
+      phone: '+1-919-684-8111',
+      principalInvestigator: 'Dr. Robert Martinez'
+    }
+  },
+  {
+    id: 'ht-stanford',
+    name: 'Stanford Health Care',
+    city: 'Stanford',
+    subdivision: 'California',
+    country: 'United States',
+    region: 'us',
+    status: 'active',
+    healthStatus: 'warning',
+    enrolledPatients: 234,
+    dataQuality: 86,
+    lastDataReceived: '2024-08-26T13:15:00Z',
+    contactInfo: {
+      email: 'hypertension@stanford.edu',
+      phone: '+1-650-723-4000',
+      principalInvestigator: 'Dr. Sarah Kim'
     }
   },
   {
@@ -29,71 +64,31 @@ export const hypertensionSites: SiteData[] = [
     region: 'us',
     status: 'active',
     healthStatus: 'healthy',
-    enrolledPatients: 423,
-    targetEnrollment: 550,
-    dataQuality: 92,
-    lastDataReceived: '2024-08-27T08:45:00Z',
-    contactInfo: {
-      email: 'cardio@nm.org',
-      phone: '+1-312-926-2000',
-      principalInvestigator: 'Dr. Kevin Lee'
-    }
-  },
-  {
-    id: 'ht-houston',
-    name: 'Houston Methodist Hospital',
-    city: 'Houston',
-    subdivision: 'Texas',
-    country: 'United States',
-    region: 'us',
-    status: 'active',
-    healthStatus: 'warning',
-    enrolledPatients: 234,
-    targetEnrollment: 400,
-    dataQuality: 86,
-    lastDataReceived: '2024-08-26T13:15:00Z',
-    contactInfo: {
-      email: 'hypertension@houstonmethodist.org',
-      phone: '+1-713-790-3311',
-      principalInvestigator: 'Dr. Carlos Ramirez'
-    }
-  },
-  {
-    id: 'ht-ucsf',
-    name: 'UCSF Medical Center',
-    city: 'San Francisco',
-    subdivision: 'California',
-    country: 'United States',
-    region: 'us',
-    status: 'active',
-    healthStatus: 'healthy',
     enrolledPatients: 312,
-    targetEnrollment: 450,
     dataQuality: 96,
     lastDataReceived: '2024-08-27T10:20:00Z',
     contactInfo: {
-      email: 'cardiology@ucsf.edu',
-      phone: '+1-415-476-1000',
-      principalInvestigator: 'Dr. Rachel Chang'
+      email: 'hypertension@nm.org',
+      phone: '+1-312-926-2000',
+      principalInvestigator: 'Dr. Michael Brown'
     }
   },
   {
-    id: 'ht-vanderbilt',
-    name: 'Vanderbilt University Medical Center',
-    city: 'Nashville',
-    subdivision: 'Tennessee',
+    id: 'ht-upenn',
+    name: 'Hospital of the University of Pennsylvania',
+    city: 'Philadelphia',
+    subdivision: 'Pennsylvania',
     country: 'United States',
     region: 'us',
     status: 'onboarding',
     healthStatus: 'warning',
     enrolledPatients: 89,
-    targetEnrollment: 350,
     dataQuality: 83,
     lastDataReceived: '2024-08-25T17:00:00Z',
     contactInfo: {
-      email: 'cardio.research@vumc.org',
-      phone: '+1-615-322-5000',
-      principalInvestigator: 'Dr. Thomas Mitchell'
+      email: 'hypertension@pennmedicine.upenn.edu',
+      phone: '+1-215-662-4000',
+      principalInvestigator: 'Dr. Jennifer Davis'
     }
   }
 ];

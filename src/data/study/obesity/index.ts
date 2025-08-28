@@ -5,7 +5,17 @@ export const obesityStudyData: StudyData = {
   name: 'Obesity Registry',
   averageBMI: '36.2',
   ageRange: '18-89',
-  targetEnrollment: 10000,
+  enrollmentUnits: 'patients',
+  targetEnrollment: {
+    total: 10000,
+    byCountry: {
+      'DE': 3000,
+      'FR': 2500,
+      'ES': 2000,
+      'IT': 1500,
+      'CH': 1000
+    }
+  },
   description: 'Comprehensive obesity research tracking patient outcomes, treatments, and interventions',
   status: 'active',
   startDate: '2023-01-15',

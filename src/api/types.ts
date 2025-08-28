@@ -4,7 +4,13 @@ export interface StudyData {
   name: string;
   averageBMI: string;
   ageRange: string;
-  targetEnrollment: number;
+  enrollmentUnits: 'cases' | 'patients';
+  targetEnrollment?: {
+    total: number;
+    byCountry?: {
+      [countryCode: string]: number;
+    };
+  };
   description: string;
   status: 'active' | 'recruiting' | 'completed' | 'suspended';
   startDate: string;
@@ -40,7 +46,6 @@ export interface SiteData {
   status: 'active' | 'onboarding' | 'inactive';
   healthStatus: 'healthy' | 'warning' | 'critical';
   enrolledPatients: number;
-  targetEnrollment: number;
   dataQuality: number;
   lastDataReceived: string | null;
   contactInfo: {

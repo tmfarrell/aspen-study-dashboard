@@ -32,7 +32,10 @@ export const calculateEnrolledSites = (studyId: StudyType): number => {
   return sites.filter(site => site.status === 'active').length;
 };
 
-// Generate enrollment description text
-export const generateEnrollmentDescription = (totalPatients: number, targetEnrollment: number): string => {
-  return `of ${targetEnrollment.toLocaleString()} target patients enrolled`;
+// Generate enrollment description text for studies with target enrollment
+export const generateEnrollmentDescription = (totalPatients: number, targetEnrollment?: { total: number }): string => {
+  if (!targetEnrollment) {
+    return 'registry enrollment ongoing';
+  }
+  return `of ${targetEnrollment.total.toLocaleString()} target patients enrolled`;
 };

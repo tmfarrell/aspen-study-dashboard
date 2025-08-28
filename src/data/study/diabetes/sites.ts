@@ -12,7 +12,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 567,
-    targetEnrollment: 700,
     dataQuality: 93,
     lastDataReceived: '2024-08-27T08:30:00Z',
     contactInfo: {
@@ -31,7 +30,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 445,
-    targetEnrollment: 600,
     dataQuality: 91,
     lastDataReceived: '2024-08-27T07:15:00Z',
     contactInfo: {
@@ -50,7 +48,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'warning',
     enrolledPatients: 298,
-    targetEnrollment: 500,
     dataQuality: 85,
     lastDataReceived: '2024-08-26T12:45:00Z',
     contactInfo: {
@@ -70,7 +67,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 389,
-    targetEnrollment: 500,
     dataQuality: 94,
     lastDataReceived: '2024-08-27T09:20:00Z',
     contactInfo: {
@@ -89,7 +85,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 312,
-    targetEnrollment: 450,
     dataQuality: 89,
     lastDataReceived: '2024-08-27T10:00:00Z',
     contactInfo: {
@@ -108,7 +103,6 @@ export const diabetesSites: SiteData[] = [
     status: 'onboarding',
     healthStatus: 'warning',
     enrolledPatients: 156,
-    targetEnrollment: 400,
     dataQuality: 82,
     lastDataReceived: '2024-08-25T15:30:00Z',
     contactInfo: {
@@ -127,7 +121,6 @@ export const diabetesSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 278,
-    targetEnrollment: 400,
     dataQuality: 92,
     lastDataReceived: '2024-08-27T06:45:00Z',
     contactInfo: {

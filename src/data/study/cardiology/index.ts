@@ -5,7 +5,7 @@ export const cardiologyStudyData: StudyData = {
   name: 'Cardiology Registry',
   averageBMI: '29.8',
   ageRange: '35-85',
-  targetEnrollment: 12000,
+  enrollmentUnits: 'cases',
   description: 'Heart rhythm disorders and arrhythmia treatment effectiveness studies',
   status: 'recruiting',
   startDate: '2023-03-01',

@@ -12,7 +12,6 @@ export const mockSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 247,
-    targetEnrollment: 300,
     dataQuality: 98.5,
     lastDataReceived: '2024-01-20T14:30:00Z',
     contactInfo: {
@@ -31,7 +30,6 @@ export const mockSites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 189,
-    targetEnrollment: 250,
     dataQuality: 97.2,
     lastDataReceived: '2024-01-20T12:15:00Z',
     contactInfo: {
@@ -50,7 +48,6 @@ export const mockSites: SiteData[] = [
     status: 'onboarding',
     healthStatus: 'warning',
     enrolledPatients: 45,
-    targetEnrollment: 200,
     dataQuality: 85.3,
     lastDataReceived: '2024-01-18T09:45:00Z',
     contactInfo: {

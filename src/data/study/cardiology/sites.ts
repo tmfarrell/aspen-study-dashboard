@@ -11,7 +11,6 @@ export const cardiologySites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 342,
-    targetEnrollment: 500,
     dataQuality: 94,
     lastDataReceived: '2024-08-27T10:30:00Z',
     contactInfo: {
@@ -30,7 +29,6 @@ export const cardiologySites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 289,
-    targetEnrollment: 400,
     dataQuality: 92,
     lastDataReceived: '2024-08-27T09:15:00Z',
     contactInfo: {
@@ -49,7 +47,6 @@ export const cardiologySites: SiteData[] = [
     status: 'active',
     healthStatus: 'warning',
     enrolledPatients: 156,
-    targetEnrollment: 300,
     dataQuality: 87,
     lastDataReceived: '2024-08-26T14:20:00Z',
     contactInfo: {
@@ -68,7 +65,6 @@ export const cardiologySites: SiteData[] = [
     status: 'active',
     healthStatus: 'healthy',
     enrolledPatients: 401,
-    targetEnrollment: 450,
     dataQuality: 96,
     lastDataReceived: '2024-08-27T11:45:00Z',
     contactInfo: {
@@ -87,7 +83,6 @@ export const cardiologySites: SiteData[] = [
     status: 'onboarding',
     healthStatus: 'warning',
     enrolledPatients: 78,
-    targetEnrollment: 350,
     dataQuality: 82,
     lastDataReceived: '2024-08-25T16:30:00Z',
     contactInfo: {
