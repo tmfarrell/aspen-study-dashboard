@@ -5,6 +5,7 @@ import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTi
 import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AgeRangeTile from '@/components/common/AgeRangeTile';
 import MetricTile from '@/components/common/MetricTile';
+import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import { useStudy } from "@/state/studies";
 import { StudyType } from "@/api/types";
@@ -61,24 +62,18 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
         ))}
       </div>
       
-      {/* BMI Distribution for relevant studies */}
-      {(selectedStudy === 'obesity' || selectedStudy === 'diabetes' || selectedStudy === 'hypertension') && (
-        <div className="grid grid-cols-1 gap-6">
-          <MetricTile
-            studyId={selectedStudy}
-            metricId="bmi"
-            displayType="distribution"
-            orientation="horizontal"
-            description="BMI Distribution"
-          />
-        </div>
-      )}
-      
       {/* Progress tracking tiles - side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={selectedStudy} />
         <AssessmentProgress selectedStudy={selectedStudy} />
       </div>
+      
+      {/* BMI Distribution for relevant studies */}
+      {(selectedStudy === 'obesity' || selectedStudy === 'diabetes' || selectedStudy === 'hypertension') && (
+        <div className="grid grid-cols-1 gap-6">
+          <BMIDistributionChart />
+        </div>
+      )}
     </div>
   );
 };
