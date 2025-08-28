@@ -16,6 +16,7 @@ import { diabetesPatientConfig } from '@/data/study/diabetes/patients';
 import { hypertensionPatientConfig } from '@/data/study/hypertension/patients';
 
 // Cache for computed metrics to avoid recalculation
+// Clear cache on startup to ensure fresh data with enrollment categories
 const metricsCache = new Map<StudyType, StudyMetrics>();
 
 // Simulate network delay
@@ -53,6 +54,9 @@ const calculateCategoricalMetric = (
     } else if (definition.field === 'enrollmentCategory') {
       // Handle enrollment category field
       value = patient.enrollmentCategory;
+      if (!value) {
+        console.warn(`Patient ${patient.id} missing enrollmentCategory`);
+      }
     } else {
       value = patient[definition.field as keyof PatientData];
     }
@@ -172,7 +176,12 @@ const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
   const config = getPatientConfig(studyId);
   const patients = generateStudyPatients(studyId, sites, config);
   
+  console.log(`Generated ${patients.length} patients for ${studyId}`);
+  console.log(`Sample patient:`, patients[0]);
+  
   const metricDefinitions = getAllMetricsForStudy(studyId);
+  console.log(`Metric definitions for ${studyId}:`, metricDefinitions);
+  
   const metrics: MetricResult[] = [];
 
   metricDefinitions.forEach(definition => {
@@ -195,13 +204,12 @@ export const metricsApi = {
   getStudyMetrics: async (studyId: StudyType): Promise<StudyMetrics> => {
     await delay();
     
-    // Check cache first
-    if (metricsCache.has(studyId)) {
-      return metricsCache.get(studyId)!;
-    }
+    // Always clear cache for now to ensure fresh data with enrollment categories
+    metricsCache.clear();
     
     // Calculate and cache metrics
     const metrics = calculateStudyMetrics(studyId);
+    console.log(`Generated metrics for ${studyId}:`, metrics.metrics.map(m => ({ id: m.id, name: m.name })));
     metricsCache.set(studyId, metrics);
     
     return metrics;

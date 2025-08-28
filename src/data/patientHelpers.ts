@@ -42,6 +42,11 @@ export interface PatientConfig {
     endYear: number;
     endMonth: number;
   };
+  enrollmentCategories?: Array<{
+    key: string;
+    label: string;
+    weight: number;
+  }>;
 }
 
 // Generate patients for a specific site using patient configuration
@@ -70,6 +75,13 @@ export const generatePatientsForSite = (
     );
     const race = weightedRandom(config.raceDistribution);
     
+    // Generate enrollment category if configured
+    const enrollmentCategory = config.enrollmentCategories 
+      ? weightedRandom(
+          config.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {})
+        )
+      : undefined;
+    
     patients.push({
       id: `${studyId}-${patientIndex.toString().padStart(4, '0')}`,
       studyId,
@@ -87,7 +99,8 @@ export const generatePatientsForSite = (
       race,
       ethnicity: Math.random() > 0.80 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
       comorbidities: config.comorbidities.filter(() => Math.random() > 0.5),
-      medications: config.medications.filter(() => Math.random() > 0.6)
+      medications: config.medications.filter(() => Math.random() > 0.6),
+      enrollmentCategory
     });
   }
 

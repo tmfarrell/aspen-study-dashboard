@@ -223,6 +223,9 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
             studyId={studyId}
             orientation="horizontal"
           />
+          <div className="text-xs text-muted-foreground mt-2">
+            Debug: Looking for metric "{getEnrollmentMetricId(studyId)}" for study "{studyId}"
+          </div>
         </div>
       </div>
 
