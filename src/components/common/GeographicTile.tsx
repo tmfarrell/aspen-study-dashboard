@@ -230,6 +230,16 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   };
 
   const getMapConfig = () => {
+    // For US studies at subdivision level, continue showing US map
+    if (navigation.level === 'subdivision' && navigation.selectedCountry === 'United States') {
+      return {
+        geoUrl: usGeoUrl,
+        projection: "geoAlbersUsa" as const,
+        projectionConfig: { scale: 600 },
+        getRegionName: (geo: any) => geo.properties.name
+      };
+    }
+    
     if (navigation.level === 'country' && navigation.selectedCountry && countryMaps[navigation.selectedCountry]) {
       return countryMaps[navigation.selectedCountry];
     }
@@ -358,35 +368,37 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                     })
                     .map((geo) => {
                       const regionName = mapConfig.getRegionName(geo);
-                      const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
-                      
-                      return (
-                        <Geography
-                          key={geo.rsmKey}
-                          geography={geo}
-                          fill={getRegionColor(regionName)}
-                          stroke="hsl(var(--border))"
-                          strokeWidth={0.5}
-                          style={{
-                            default: { outline: "none" },
-                            hover: { 
-                              fill: "hsl(var(--accent))",
-                              outline: "none",
-                              cursor: patientCount > 0 ? "pointer" : "default"
-                            },
-                            pressed: { outline: "none" }
-                          }}
-                          onClick={() => {
-                            if (navigation.level === 'subdivision') {
-                              // At subdivision level, clicking on a region shows sites in that subdivision
-                              return;
-                            }
-                            if (patientCount > 0) {
-                              handleRegionClick(regionName);
-                            }
-                          }}
-                        />
-                      );
+                        const isSelected = navigation.level === 'subdivision' && 
+                          navigation.selectedSubdivision === regionName;
+                        const patientCount = geographicData.data[regionName as keyof typeof geographicData.data] || 0;
+                        
+                        return (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            fill={isSelected ? "hsl(var(--accent))" : getRegionColor(regionName)}
+                            stroke="hsl(var(--border))"
+                            strokeWidth={isSelected ? 2 : 0.5}
+                            style={{
+                              default: { outline: "none" },
+                              hover: { 
+                                fill: "hsl(var(--accent))",
+                                outline: "none",
+                                cursor: patientCount > 0 ? "pointer" : "default"
+                              },
+                              pressed: { outline: "none" }
+                            }}
+                            onClick={() => {
+                              if (navigation.level === 'subdivision') {
+                                // At subdivision level, clicking on a region shows sites in that subdivision
+                                return;
+                              }
+                              if (patientCount > 0) {
+                                handleRegionClick(regionName);
+                              }
+                            }}
+                          />
+                        );
                     })
                 }
               </Geographies>
