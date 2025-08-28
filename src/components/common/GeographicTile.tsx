@@ -32,7 +32,7 @@ const countryMaps: Record<string, { geoUrl: string; projection: any; projectionC
     getRegionName: (geo: any) => geo.properties.name
   },
   "Germany": {
-    geoUrl: "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/1_very-high.geo.json",
+    geoUrl: "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/4_low.geo.json",
     projection: "geoMercator" as const,
     projectionConfig: { scale: 2000, center: [10.5, 51.5] as [number, number] },
     getRegionName: (geo: any) => geo.properties.NAME_1 || geo.properties.name
