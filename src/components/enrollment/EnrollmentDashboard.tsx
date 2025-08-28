@@ -8,6 +8,7 @@ import { studyData } from "@/data/studyData";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { EnrollmentProgressTile } from "@/components/common/EnrollmentProgressTile";
 
 interface EnrollmentDashboardProps {
   studyId: StudyType;
@@ -106,39 +107,6 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
         )}
       </div>
 
-      {/* Target Progress by Country */}
-      {enrollmentStats.targetProgress && (
-        <Card className="p-6 bg-card border">
-          <h3 className="text-lg font-semibold mb-4">Enrollment Progress by Country</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {enrollmentStats.targetProgress.map((progress) => (
-              <div key={progress.country} className="p-4 bg-muted/50 rounded-lg">
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-medium text-sm">{progress.country}</h4>
-                  <Badge variant={progress.progressPercentage >= 80 ? "default" : progress.progressPercentage >= 60 ? "secondary" : "destructive"}>
-                    {progress.progressPercentage}%
-                  </Badge>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Current: {progress.current.toLocaleString()}</span>
-                    <span>Target: {progress.target.toLocaleString()}</span>
-                  </div>
-                  <div className="w-full bg-background rounded-full h-2">
-                    <div 
-                      className="bg-primary h-2 rounded-full transition-all duration-300" 
-                      style={{ width: `${Math.min(progress.progressPercentage, 100)}%` }}
-                    />
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    +{progress.lastMonthProgress} last month
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
 
       {/* Enrollment Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -294,26 +262,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
           </div>
         </Card>
 
-        <Card className="p-6 bg-card border">
-          <h3 className="text-lg font-semibold mb-4">Geographic Distribution</h3>
-          <div className="space-y-4">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Site enrollment map would go here</p>
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-foreground">{enrollmentStats.recentSiteEnrollment.length}</p>
-                  <p className="text-xs text-muted-foreground">Active Sites</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-foreground">
-                    {new Set(enrollmentStats.recentSiteEnrollment.map(s => s.state)).size}
-                  </p>
-                  <p className="text-xs text-muted-foreground">States</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
+        <EnrollmentProgressTile studyId={studyId} />
       </div>
 
       {/* Detailed Enrollment Statistics */}
