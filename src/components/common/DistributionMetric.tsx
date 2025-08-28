@@ -23,13 +23,23 @@ const DistributionMetric = ({ metricId, title, studyId, orientation = 'vertical'
 
   // Transform metric data for charts
   const chartData = React.useMemo(() => {
-    if (!metric || metric.type !== 'numerical') return [];
+    if (!metric) return [];
     
-    return metric.data.map((item) => ({
-      bucket: item.bucket,
-      count: item.count,
-      percentage: Math.round(item.percentage * 10) / 10, // Round to 1 decimal
-    }));
+    if (metric.type === 'numerical') {
+      return metric.data.map((item) => ({
+        bucket: item.bucket,
+        count: item.count,
+        percentage: Math.round(item.percentage * 10) / 10,
+      }));
+    } else if (metric.type === 'categorical') {
+      return metric.data.map((item) => ({
+        bucket: item.category,
+        count: item.count,
+        percentage: Math.round(item.percentage * 10) / 10,
+      }));
+    }
+    
+    return [];
   }, [metric]);
 
   const chartConfig = {
