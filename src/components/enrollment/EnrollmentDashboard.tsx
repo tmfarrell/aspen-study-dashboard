@@ -4,7 +4,7 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, R
 import { Users, TrendingUp, Calendar, UserPlus, Activity, Target, MapPin } from "lucide-react";
 import { useEnrollmentStats } from "@/state/enrollment/queries";
 import { StudyType } from "@/api/types";
-import { studyData } from "@/data/studyData";
+import { useStudy } from "@/state/studies";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -17,7 +17,7 @@ interface EnrollmentDashboardProps {
 
 export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
   const { data: enrollmentStats, isLoading, error } = useEnrollmentStats(studyId);
-  const study = studyData[studyId];
+  const { data: study, isLoading: studyLoading } = useStudy(studyId);
   const [trendsView, setTrendsView] = useState<'monthly' | 'cumulative'>('monthly');
 
   // Get the correct unit label based on enrollmentUnits
@@ -25,7 +25,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
     return study?.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
   };
 
-  if (isLoading) {
+  if (isLoading || studyLoading) {
     return (
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

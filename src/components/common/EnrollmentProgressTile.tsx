@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { StudyType } from '@/api/types';
-import { studyData } from '@/data/studyData';
-import { getStudySites } from '@/data/studyHelpers';
+import { useStudy } from "@/state/studies";
+import { useSites } from "@/state/sites";
 
 // Country name to code mapping
 const countryToCode: Record<string, string> = {
@@ -22,8 +22,12 @@ interface EnrollmentProgressTileProps {
 }
 
 export function EnrollmentProgressTile({ studyId }: EnrollmentProgressTileProps) {
-  const study = studyData[studyId];
-  const sites = getStudySites(studyId);
+  const { data: study, isLoading: studyLoading } = useStudy(studyId);
+  const { data: sites = [], isLoading: sitesLoading } = useSites(studyId);
+
+  if (studyLoading || sitesLoading) {
+    return <div className="h-48 bg-muted animate-pulse rounded-lg" />;
+  }
   
   // Don't render if no target enrollment
   if (!study.targetEnrollment) {

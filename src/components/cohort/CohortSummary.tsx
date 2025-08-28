@@ -4,8 +4,8 @@ import { MetricCard } from '@/components/ui/metric-card';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
 import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AssessmentProgress from '@/components/cohort/AssessmentProgress';
-import { studyData, StudyType } from '@/data/studyData';
-import { calculateTotalPatients, generateEnrollmentDescription } from '@/data/studyHelpers';
+import { useStudy } from "@/state/studies";
+import { StudyType } from "@/api/types";
 import { Users } from 'lucide-react';
 
 interface CohortSummaryProps {
@@ -13,8 +13,15 @@ interface CohortSummaryProps {
 }
 
 const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
-  const currentData = studyData[selectedStudy];
-  const totalPatients = calculateTotalPatients(selectedStudy);
+  const { data: currentData, isLoading } = useStudy(selectedStudy);
+  
+  if (isLoading) {
+    return <div className="h-96 bg-muted animate-pulse rounded-lg" />;
+  }
+  
+  if (!currentData) {
+    return null;
+  }
   
   // Generate target enrollment subtitle if target exists
   const getEnrollmentSubtitle = () => {
@@ -30,11 +37,6 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
   };
 
   const summaryStats = [
-    {
-      title: `Total ${getUnitLabel()}`,
-      value: totalPatients.toLocaleString(),
-      description: getEnrollmentSubtitle()
-    },
     {
       title: "Average BMI",
       value: currentData.averageBMI,
@@ -54,8 +56,8 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
         <TotalPatientsTile studyId={selectedStudy} />
         
         {/* Other summary stats using existing Card style */}
-        {summaryStats.slice(1).map((stat, index) => (
-          <Card key={index + 1}>
+        {summaryStats.map((stat, index) => (
+          <Card key={index}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}

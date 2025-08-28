@@ -1,7 +1,6 @@
 import { MetricCard } from "@/components/ui/metric-card";
 import { Users } from "lucide-react";
-import { studyData } from "@/data/studyData";
-import { calculateTotalPatients } from "@/data/studyHelpers";
+import { useStudy, useStudyStats } from "@/state/studies";
 import { StudyType } from "@/api/types";
 
 interface TotalPatientsTileProps {
@@ -11,10 +10,14 @@ interface TotalPatientsTileProps {
 }
 
 export function TotalPatientsTile({ studyId, showTrend = true, trendValue = 12.5 }: TotalPatientsTileProps) {
-  const study = studyData[studyId];
-  const totalPatients = calculateTotalPatients(studyId);
+  const { data: study, isLoading: studyLoading } = useStudy(studyId);
+  const { data: stats, isLoading: statsLoading } = useStudyStats(studyId);
 
-  if (!study) {
+  if (studyLoading || statsLoading) {
+    return <div className="h-32 bg-muted animate-pulse rounded-lg" />;
+  }
+
+  if (!study || !stats) {
     return null;
   }
 
@@ -34,7 +37,7 @@ export function TotalPatientsTile({ studyId, showTrend = true, trendValue = 12.5
   return (
     <MetricCard
       title={`Total ${getUnitLabel()}`}
-      value={totalPatients.toLocaleString()}
+      value={stats.totalPatients.toLocaleString()}
       subtitle={getEnrollmentSubtitle()}
       icon={<Users className="w-5 h-5" />}
       trend={showTrend ? { value: trendValue, isPositive: true } : undefined}

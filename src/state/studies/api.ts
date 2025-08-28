@@ -74,5 +74,19 @@ export const studiesApi = {
       },
       success: true
     };
+  },
+
+  getStudyOptions: async (): Promise<ApiResponse<{ value: string; label: string }[]>> => {
+    await delay();
+    const options = Object.entries(studyData).map(([key, study]) => ({
+      value: key,
+      label: study.name
+    }));
+    
+    return {
+      data: options,
+      success: true,
+      message: 'Study options retrieved successfully'
+    };
   }
 };

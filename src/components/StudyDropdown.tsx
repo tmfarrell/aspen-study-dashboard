@@ -9,15 +9,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { getStudyOptions } from '@/data/studyData';
+import { useStudyOptions } from '@/state/studies';
 import { useAppState } from '@/contexts/AppStateContext';
 import { StudyType } from '@/api/types';
 
 export function StudyDropdown() {
   const { selectedStudy, setSelectedStudy } = useAppState();
-  const studyOptions = getStudyOptions();
+  const { data: studyOptions = [], isLoading } = useStudyOptions();
   
-  const currentStudyName = studyOptions.find(option => option.value === selectedStudy)?.label || 'Select Study';
+  if (isLoading) {
+    return <div className="w-10 h-10 bg-muted animate-pulse rounded-md" />;
+  }
 
   return (
     <DropdownMenu>

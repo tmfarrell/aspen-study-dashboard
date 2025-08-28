@@ -25,7 +25,7 @@ export function SiteListTable({ onSiteClick }: SiteListTableProps) {
     return <div>Loading sites...</div>;
   }
 
-  const sites = sitesResponse.data;
+  const sites = sitesResponse || [];
 
   // Filter and sort sites
   const filteredSites = sites.filter(site =>

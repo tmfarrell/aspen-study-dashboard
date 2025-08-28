@@ -62,3 +62,13 @@ export const useInvalidateStudies = () => {
     queryClient.invalidateQueries({ queryKey: studyKeys.all });
   };
 };
+
+// Get study options for Select components
+export const useStudyOptions = () => {
+  return useQuery({
+    queryKey: [...studyKeys.all, 'options'],
+    queryFn: () => studiesApi.getStudyOptions(),
+    select: (response) => response.data,
+    staleTime: 1000 * 60 * 10, // 10 minutes - options don't change often
+  });
+};

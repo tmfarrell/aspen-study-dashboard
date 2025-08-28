@@ -3,10 +3,9 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ArrowLeft } from "lucide-react";
-import { studyData } from "@/data/studyData";
+import { useStudy, useStudyStats } from "@/state/studies";
 import { useSites } from "@/state/sites";
 import { SiteData, StudyType } from "@/api/types";
-import { calculateTotalPatients } from "@/data/studyHelpers";
 
 // Navigation state for drill-down
 interface NavigationState {
@@ -211,12 +210,21 @@ const getRegionalBreakdown = (sites: SiteData[], geographicData: any, navigation
 
 export function GeographicTile({ studyId }: GeographicTileProps) {
   const [navigation, setNavigation] = useState<NavigationState>({ level: 'overview' });
+  const { data: study, isLoading: studyLoading } = useStudy(studyId);
+  const { data: stats, isLoading: statsLoading } = useStudyStats(studyId);
+  const { data: sitesResponse, isLoading: sitesLoading } = useSites(studyId);
   
-  const study = studyData[studyId];
-  const { data: sitesResponse } = useSites(studyId);
-  const sites = sitesResponse?.data || [];
+  if (studyLoading || statsLoading || sitesLoading) {
+    return <div className="h-96 bg-muted animate-pulse rounded-lg" />;
+  }
   
-  const geographicData = getGeographicData(sites, study.regions, navigation);
+  if (!study || !stats) {
+    return null;
+  }
+  
+  const allSites = sitesResponse || [];
+  
+  const geographicData = getGeographicData(allSites, study.regions, navigation);
   const maxPatientCount = Math.max(...Object.values(geographicData.data).filter(count => count > 0), 1);
   
   console.log('Geographic Data:', geographicData);
@@ -342,9 +350,9 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const mapConfig = getMapConfig();
   const totalPatients = Object.values(geographicData.data).reduce((sum, count) => sum + count, 0);
   const totalSites = Object.values(geographicData.siteData).reduce((sum, count) => sum + count, 0);
-  const studyTotalPatients = calculateTotalPatients(study.id as StudyType); // Use study total for percentage calculations
+  const studyTotalPatients = stats.totalPatients; // Use stats from API
   
-  const regionalBreakdown = getRegionalBreakdown(sites, geographicData, navigation);
+  const regionalBreakdown = getRegionalBreakdown(allSites, geographicData, navigation);
 
   const getNavigationTitle = () => {
     if (navigation.level === 'country') {

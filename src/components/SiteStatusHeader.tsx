@@ -11,7 +11,7 @@ export function SiteStatusHeader() {
     return <div>Loading...</div>;
   }
   
-  const sites = sitesResponse.data;
+  const sites = sitesResponse || [];
   const totalSites = sites.length;
   const activeSites = sites.filter(site => site.status === 'active').length;
   const onboardingSites = sites.filter(site => site.status === 'onboarding').length;
