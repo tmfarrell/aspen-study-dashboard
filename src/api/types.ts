@@ -52,6 +52,7 @@ export interface PatientData {
   ethnicity?: string;
   comorbidities: string[];
   medications: string[];
+  enrollmentCategory?: string; // New field for enrollment-specific categorization
 }
 
 export interface SiteData {

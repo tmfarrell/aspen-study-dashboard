@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { EnrollmentProgressTile } from "@/components/common/EnrollmentProgressTile";
 import { TotalPatientsTile } from "@/components/common/TotalPatientsTile";
+import DistributionMetric from "@/components/common/DistributionMetric";
 
 interface EnrollmentDashboardProps {
   studyId: StudyType;
@@ -23,6 +24,28 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
   // Get the correct unit label based on enrollmentUnits
   const getUnitLabel = () => {
     return study?.enrollmentUnits === 'cases' ? 'Cases' : 'Patients';
+  };
+
+  // Get enrollment metric ID for each study
+  const getEnrollmentMetricId = (studyId: StudyType) => {
+    switch (studyId) {
+      case 'cardiology': return 'heart_conditions';
+      case 'obesity': return 'bmi_categories';
+      case 'diabetes': return 'diabetes_types';
+      case 'hypertension': return 'treatment_categories';
+      default: return 'bmi_categories';
+    }
+  };
+
+  // Get enrollment metric title for each study
+  const getEnrollmentMetricTitle = (studyId: StudyType) => {
+    switch (studyId) {
+      case 'cardiology': return 'Heart Rhythm Disorders';
+      case 'obesity': return 'BMI Categories';
+      case 'diabetes': return 'Patient Demographics';
+      case 'hypertension': return 'Treatment Categories';
+      default: return 'Enrollment Categories';
+    }
   };
 
   if (isLoading || studyLoading) {
@@ -193,51 +216,14 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
         </Card>
 
         {/* Breakdown by Category */}
-        <Card className="p-6 bg-card border">
-          <h3 className="text-lg font-semibold mb-4">{study.enrollmentConfig.breakdownLabel}</h3>
-          {enrollmentStats.breakdowns.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart 
-                data={enrollmentStats.breakdowns
-                  .sort((a, b) => b.total - a.total)
-                  .slice(0, 6)
-                } 
-                layout="vertical"
-                margin={{ top: 5, right: 30, left: 5, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
-                <YAxis 
-                  type="category" 
-                  dataKey="label" 
-                  stroke="hsl(var(--muted-foreground))" 
-                  width={140}
-                  tick={{ fontSize: 11 }}
-                  interval={0}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "0.5rem"
-                  }}
-                  formatter={(value, name) => [value, `${getUnitLabel()} Count`]}
-                />
-                <Bar 
-                  dataKey="total" 
-                  fill="hsl(var(--primary))" 
-                  radius={[0, 4, 4, 0]} 
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={1}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="flex items-center justify-center h-[300px] text-muted-foreground">
-              <p>No breakdown data available</p>
-            </div>
-          )}
-        </Card>
+        <div className="p-6 bg-card border rounded-lg">
+          <DistributionMetric 
+            metricId={getEnrollmentMetricId(studyId)}
+            title={getEnrollmentMetricTitle(studyId)}
+            studyId={studyId}
+            orientation="horizontal"
+          />
+        </div>
       </div>
 
       {/* Site Enrollment and Geography */}
@@ -285,7 +271,7 @@ export function EnrollmentDashboard({ studyId }: EnrollmentDashboardProps) {
             </div>
             <div className="pt-2 border-t border-border">
               <p className="text-xs text-muted-foreground">
-                Average enrollment per {study.enrollmentConfig.breakdownType}
+                Average enrollment per category
               </p>
             </div>
           </div>

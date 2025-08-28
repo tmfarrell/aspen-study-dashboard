@@ -50,6 +50,9 @@ const calculateCategoricalMetric = (
         counts.set(item, (counts.get(item) || 0) + 1);
       });
       return;
+    } else if (definition.field === 'enrollmentCategory') {
+      // Handle enrollment category field
+      value = patient.enrollmentCategory;
     } else {
       value = patient[definition.field as keyof PatientData];
     }

@@ -37,7 +37,13 @@ export const diabetesPatientConfig = {
     startMonth: 0, // January
     endYear: 2024,
     endMonth: 7 // August (24 months)
-  }
+  },
+  enrollmentCategories: [
+    { key: 'type2_newly_diagnosed', label: 'Type 2 - Newly Diagnosed', weight: 0.30 },
+    { key: 'type2_established', label: 'Type 2 - Established', weight: 0.45 },
+    { key: 'prediabetes', label: 'Prediabetes', weight: 0.20 },
+    { key: 'gestational', label: 'Gestational Diabetes', weight: 0.05 }
+  ]
 };
 
 // Generate diabetes-specific mock patients
@@ -80,6 +86,9 @@ export const generateDiabetesPatients = (count: number = 500): PatientData[] => 
       diabetesPatientConfig.bmiDistribution.mode
     );
     const race = weightedRandom(diabetesPatientConfig.raceDistribution);
+    const enrollmentCategory = weightedRandom(
+      diabetesPatientConfig.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {})
+    );
     
     patients.push({
       id: `diabetes-${i.toString().padStart(4, '0')}`,
@@ -93,7 +102,8 @@ export const generateDiabetesPatients = (count: number = 500): PatientData[] => 
       race,
       ethnicity: Math.random() > 0.80 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
       comorbidities: diabetesPatientConfig.comorbidities.filter(() => Math.random() > 0.55),
-      medications: diabetesPatientConfig.medications.filter(() => Math.random() > 0.4)
+      medications: diabetesPatientConfig.medications.filter(() => Math.random() > 0.4),
+      enrollmentCategory
     });
   }
 

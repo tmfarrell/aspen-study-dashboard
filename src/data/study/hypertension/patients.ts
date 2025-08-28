@@ -37,7 +37,13 @@ export const hypertensionPatientConfig = {
     startMonth: 6, // July
     endYear: 2024,
     endMonth: 7 // August (13 months)
-  }
+  },
+  enrollmentCategories: [
+    { key: 'medication_management', label: 'Medication Management', weight: 0.50 },
+    { key: 'lifestyle_intervention', label: 'Lifestyle Intervention', weight: 0.30 },
+    { key: 'surgical_intervention', label: 'Surgical Intervention', weight: 0.15 },
+    { key: 'combination_therapy', label: 'Combination Therapy', weight: 0.05 }
+  ]
 };
 
 // Generate hypertension-specific mock patients
@@ -80,6 +86,9 @@ export const generateHypertensionPatients = (count: number = 500): PatientData[]
       hypertensionPatientConfig.bmiDistribution.mode
     );
     const race = weightedRandom(hypertensionPatientConfig.raceDistribution);
+    const enrollmentCategory = weightedRandom(
+      hypertensionPatientConfig.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {})
+    );
     
     patients.push({
       id: `hypertension-${i.toString().padStart(4, '0')}`,
@@ -93,7 +102,8 @@ export const generateHypertensionPatients = (count: number = 500): PatientData[]
       race,
       ethnicity: Math.random() > 0.82 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
       comorbidities: hypertensionPatientConfig.comorbidities.filter(() => Math.random() > 0.6),
-      medications: hypertensionPatientConfig.medications.filter(() => Math.random() > 0.45)
+      medications: hypertensionPatientConfig.medications.filter(() => Math.random() > 0.45),
+      enrollmentCategory
     });
   }
 

@@ -122,6 +122,13 @@ export const STUDY_SPECIFIC_METRICS: Record<StudyType, MetricDefinition[]> = {
       description: 'Common cardiac medications',
       type: 'categorical',
       field: 'medications'
+    },
+    {
+      id: 'heart_conditions',
+      name: 'Heart Rhythm Disorders',
+      description: 'Enrollment by heart rhythm disorders',
+      type: 'categorical',
+      field: 'enrollmentCategory'
     }
   ],
   obesity: [
@@ -131,6 +138,13 @@ export const STUDY_SPECIFIC_METRICS: Record<StudyType, MetricDefinition[]> = {
       description: 'Medications for weight management',
       type: 'categorical',
       field: 'medications'
+    },
+    {
+      id: 'bmi_categories',
+      name: 'BMI Categories',
+      description: 'Enrollment by BMI categories',
+      type: 'categorical',
+      field: 'enrollmentCategory'
     }
   ],
   diabetes: [
@@ -140,6 +154,13 @@ export const STUDY_SPECIFIC_METRICS: Record<StudyType, MetricDefinition[]> = {
       description: 'Antidiabetic medications',
       type: 'categorical',
       field: 'medications'
+    },
+    {
+      id: 'diabetes_types',
+      name: 'Patient Demographics',
+      description: 'Enrollment by diabetes demographics',
+      type: 'categorical',
+      field: 'enrollmentCategory'
     }
   ],
   hypertension: [
@@ -149,6 +170,13 @@ export const STUDY_SPECIFIC_METRICS: Record<StudyType, MetricDefinition[]> = {
       description: 'Antihypertensive medications',
       type: 'categorical',
       field: 'medications'
+    },
+    {
+      id: 'treatment_categories',
+      name: 'Treatment Categories',
+      description: 'Enrollment by treatment categories',
+      type: 'categorical',
+      field: 'enrollmentCategory'
     }
   ]
 };

@@ -37,7 +37,12 @@ export const obesityPatientConfig = {
     startMonth: 0, // January
     endYear: 2024,
     endMonth: 7 // August
-  }
+  },
+  enrollmentCategories: [
+    { key: 'class1', label: 'Class I Obesity (30-34.9)', weight: 0.42 },
+    { key: 'class2', label: 'Class II Obesity (35-39.9)', weight: 0.35 },
+    { key: 'class3', label: 'Class III Obesity (40+)', weight: 0.23 }
+  ]
 };
 
 // Generate obesity-specific mock patients
@@ -80,6 +85,9 @@ export const generateObesityPatients = (count: number = 500): PatientData[] => {
       obesityPatientConfig.bmiDistribution.mode
     );
     const race = weightedRandom(obesityPatientConfig.raceDistribution);
+    const enrollmentCategory = weightedRandom(
+      obesityPatientConfig.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {})
+    );
     
     patients.push({
       id: `obesity-${i.toString().padStart(4, '0')}`,
@@ -93,7 +101,8 @@ export const generateObesityPatients = (count: number = 500): PatientData[] => {
       race,
       ethnicity: Math.random() > 0.75 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
       comorbidities: obesityPatientConfig.comorbidities.filter(() => Math.random() > 0.5),
-      medications: obesityPatientConfig.medications.filter(() => Math.random() > 0.6)
+      medications: obesityPatientConfig.medications.filter(() => Math.random() > 0.6),
+      enrollmentCategory
     });
   }
 

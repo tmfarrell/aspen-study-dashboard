@@ -36,7 +36,14 @@ export const cardiologyPatientConfig = {
     startMonth: 0, // January
     endYear: 2024,
     endMonth: 7 // August
-  }
+  },
+  enrollmentCategories: [
+    { key: 'atrial_fibrillation', label: 'Atrial Fibrillation', weight: 0.35 },
+    { key: 'ventricular_tachycardia', label: 'Ventricular Tachycardia', weight: 0.25 },
+    { key: 'supraventricular_tachycardia', label: 'Supraventricular Tachycardia', weight: 0.20 },
+    { key: 'bradycardia', label: 'Bradycardia', weight: 0.15 },
+    { key: 'heart_block', label: 'Heart Block', weight: 0.05 }
+  ]
 };
 
 // Generate cardiology-specific mock patients
@@ -79,6 +86,9 @@ export const generateCardiologyPatients = (count: number = 500): PatientData[] =
       cardiologyPatientConfig.bmiDistribution.mode
     );
     const race = weightedRandom(cardiologyPatientConfig.raceDistribution);
+    const enrollmentCategory = weightedRandom(
+      cardiologyPatientConfig.enrollmentCategories.reduce((acc, cat) => ({ ...acc, [cat.label]: cat.weight }), {})
+    );
     
     patients.push({
       id: `cardio-${i.toString().padStart(4, '0')}`,
@@ -92,7 +102,8 @@ export const generateCardiologyPatients = (count: number = 500): PatientData[] =
       race,
       ethnicity: Math.random() > 0.85 ? 'Hispanic or Latino' : 'Not Hispanic or Latino',
       comorbidities: cardiologyPatientConfig.comorbidities.filter(() => Math.random() > 0.6),
-      medications: cardiologyPatientConfig.medications.filter(() => Math.random() > 0.5)
+      medications: cardiologyPatientConfig.medications.filter(() => Math.random() > 0.5),
+      enrollmentCategory
     });
   }
 
