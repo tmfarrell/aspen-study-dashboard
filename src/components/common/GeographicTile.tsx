@@ -201,6 +201,11 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
   const getRegionColor = (regionName: string) => {
     const patientCount = geographicData.data[regionName] || 0;
     
+    // Debug logging to see what countries are being checked
+    if (navigation.level === 'overview' && geographicData.type === 'world') {
+      console.log(`Checking region: "${regionName}", patient count: ${patientCount}`);
+    }
+    
     if (patientCount === 0) return "hsl(var(--muted))";
     
     const intensity = Math.min(patientCount / maxPatientCount, 1);
