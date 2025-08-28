@@ -14,7 +14,7 @@ import AssessmentProgress from '@/components/cohort/AssessmentProgress';
 import MedicationDistribution from '@/components/cohort/MedicationDistribution';
 import GenderDistribution from '@/components/cohort/GenderDistribution';
 import RaceDistribution from '@/components/cohort/RaceDistribution';
-import CountryDistribution from '@/components/cohort/CountryDistribution';
+
 import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
 import { StudyType } from '@/api/types';
 import { useStudyOptions } from '@/state/studies';

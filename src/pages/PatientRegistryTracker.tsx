@@ -21,7 +21,7 @@ import AssessmentProgress from "@/components/cohort/AssessmentProgress";
 import MedicationDistribution from "@/components/cohort/MedicationDistribution";
 import GenderDistribution from "@/components/cohort/GenderDistribution";
 import RaceDistribution from "@/components/cohort/RaceDistribution";
-import CountryDistribution from "@/components/cohort/CountryDistribution";
+
 import ComorbidityDistribution from "@/components/cohort/ComorbidityDistribution";
 import { useAppState } from "@/contexts/AppStateContext";
 
@@ -71,11 +71,10 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="demographics" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <AgeDistributionChart detailed />
                 <GenderDistribution />
                 <RaceDistribution />
-                <CountryDistribution />
               </div>
               <div className="mt-6">
                 <PatientTable />
