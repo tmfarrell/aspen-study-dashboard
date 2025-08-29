@@ -18,7 +18,7 @@ import QualityOfLifeChart from "@/components/registry/QualityOfLifeChart";
 
 import AssessmentProgressMetrics from "@/components/registry/AssessmentProgressMetrics";
 import MedicationDistribution from "@/components/registry/MedicationDistribution";
-import GenderDistribution from "@/components/registry/GenderDistribution";
+import PieChartMetric from "@/components/common/PieChartMetric";
 import RaceDistribution from "@/components/registry/RaceDistribution";
 
 import ComorbidityDistribution from "@/components/registry/ComorbidityDistribution";
@@ -57,7 +57,7 @@ export default function PatientRegistryTracker() {
             <TabsContent value="demographics" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <DistributionMetric metricId="age" title="Age Distribution" />
-                <GenderDistribution />
+                <PieChartMetric metricId="gender" title="Gender Distribution" />
                 <RaceDistribution />
               </div>
               <div className="mt-6">
