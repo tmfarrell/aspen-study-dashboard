@@ -86,6 +86,7 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                       innerRadius={30}
                       paddingAngle={2}
                       dataKey="patientCount"
+                      nameKey="reason"
                     >
                       {selectedMedicationData.discontinuationReasons.map((entry: any, index: number) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -93,10 +94,9 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                     </Pie>
                     <ChartTooltip 
                       content={<ChartTooltipContent 
-                        formatter={(value, name, props) => {
-                          const entry = selectedMedicationData?.discontinuationReasons.find((item: any) => item.patientCount === value);
-                          return [`${value} patients`, entry?.reason || name];
-                        }}
+                        nameKey="reason"
+                        labelKey="reason"
+                        formatter={(value, name) => [`${value} patients`, name]}
                       />} 
                     />
                   </PieChart>
@@ -273,25 +273,25 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                     <ChartContainer config={chartConfig} className="h-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                          <Pie
-                            data={discontinuationReasons}
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={40}
-                            innerRadius={20}
-                            paddingAngle={2}
-                            dataKey="patientCount"
-                          >
+                        <Pie
+                          data={discontinuationReasons}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={40}
+                          innerRadius={20}
+                          paddingAngle={2}
+                          dataKey="patientCount"
+                          nameKey="reason"
+                        >
                             {discontinuationReasons.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
                         <ChartTooltip 
                           content={<ChartTooltipContent 
-                            formatter={(value, name, props) => {
-                              const entry = discontinuationReasons.find((item: any) => item.patientCount === value);
-                              return [`${value} patients`, entry?.reason || name];
-                            }}
+                            nameKey="reason"
+                            labelKey="reason"
+                            formatter={(value, name) => [`${value} patients`, name]}
                           />} 
                         />
                         </PieChart>

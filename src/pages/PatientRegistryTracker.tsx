@@ -100,10 +100,6 @@ export default function PatientRegistryTracker() {
                             }
                             return null;
                           }}
-                          formatTooltip={(value, name) => {
-                            const data = getPharmaClassDistribution().find(item => item.count === value);
-                            return [`${value} patients`, data?.category || name];
-                          }}
                         />
                       </div>
                     </div>

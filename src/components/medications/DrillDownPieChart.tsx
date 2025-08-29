@@ -25,8 +25,7 @@ const COLORS = [
   'hsl(var(--om1-secondary-light-blue))',
   'hsl(var(--om1-secondary-light-blue-light))',
   'hsl(var(--om1-secondary-light-blue-lighter))',
-  'hsl(var(--om1-secondary-light-blue-lightest))',
-  'hsl(var(--om1-primary-blue))'
+  'hsl(var(--om1-secondary-light-blue-lightest))'
 ];
 
 export function DrillDownPieChart({ 
@@ -119,6 +118,7 @@ export function DrillDownPieChart({
                 innerRadius={30}
                 paddingAngle={2}
                 dataKey="count"
+                nameKey="category"
                 onClick={handlePieClick}
                 className="cursor-pointer"
               >
@@ -132,10 +132,12 @@ export function DrillDownPieChart({
               </Pie>
               <ChartTooltip 
                 content={<ChartTooltipContent 
-                  formatter={formatTooltip || ((value, name, props) => {
-                    const entry = currentData.find(item => item.count === value);
-                    return [`${value} patients`, entry?.category || name];
-                  })}
+                  nameKey="category"
+                  labelKey="category"
+                  formatter={formatTooltip || ((value, name) => [
+                    `${value} patients`,
+                    name
+                  ])}
                 />} 
               />
             </PieChart>
