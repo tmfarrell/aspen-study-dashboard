@@ -76,10 +76,9 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
         ))}
       </div>
 
-      {/* Standard first row: Enrollment Progress + Geographic Distribution */}
+      {/* Standard first row: Enrollment Progress */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={studyId} />
-        <GeographicTile studyId={studyId} />
       </div>
       
       {/* Second row: Assessment Progress next to Geographic Distribution for cardiology */}
