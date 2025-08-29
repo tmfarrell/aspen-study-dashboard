@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PatientCohortDashboard } from "@/components/registry/PatientCohortDashboard";
+
 import { DemographicsPanel } from "@/components/registry/DemographicsPanel";
 import { EnrollmentDashboard } from "@/components/registry/EnrollmentDashboard";
 import { MedicationsPanel } from "@/components/registry/MedicationsPanel";
@@ -79,7 +79,10 @@ export default function PatientRegistryTracker() {
 
             <TabsContent value="analysis" className="space-y-6">
               {selectedStudy === 'cardiology' ? (
-                <PatientCohortDashboard />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <DistributionMetric metricId="age" title="Age Distribution" />
+                  <PieChartMetric metricId="medicalHistory" title="Medical Conditions" />
+                </div>
               ) : selectedStudy === 'obesity' ? (
                 <Card>
                   <CardHeader>
