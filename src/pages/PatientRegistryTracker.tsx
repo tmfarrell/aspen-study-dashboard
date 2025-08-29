@@ -47,7 +47,7 @@ export default function PatientRegistryTracker() {
             <TabsTrigger value="demographics">Demographics</TabsTrigger>
             <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
             <TabsTrigger value="medications">Medications</TabsTrigger>
-            <TabsTrigger value="analysis">{selectedStudy === 'cardiology' ? 'AFib Analysis' : 'Analysis'}</TabsTrigger>
+            <TabsTrigger value="analysis">Analytics</TabsTrigger>
           </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -70,19 +70,14 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="medications" className="space-y-6">
-              {selectedStudy === 'cardiology' ? (
-                <AFibPanel />
-              ) : (
-                <MedicationDistribution detailed />
-              )}
+              <div className="text-center p-8 text-muted-foreground">
+                Medications content will be implemented here
+              </div>
             </TabsContent>
 
             <TabsContent value="analysis" className="space-y-6">
               {selectedStudy === 'cardiology' ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <DistributionMetric metricId="age" title="Age Distribution" />
-                  <PieChartMetric metricId="medicalHistory" title="Medical Conditions" />
-                </div>
+                <AFibPanel />
               ) : selectedStudy === 'obesity' ? (
                 <Card>
                   <CardHeader>
