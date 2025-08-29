@@ -411,9 +411,9 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Map Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <div className="bg-muted/30 rounded-lg p-2">
             <ComposableMap 
               projection={mapConfig.projection}
