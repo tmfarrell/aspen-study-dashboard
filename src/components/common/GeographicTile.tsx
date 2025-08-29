@@ -517,7 +517,7 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <h4 className="font-semibold text-sm">
               {navigation.level === 'overview' 
