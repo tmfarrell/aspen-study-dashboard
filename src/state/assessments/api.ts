@@ -5,14 +5,6 @@ import {
   ApiResponse, 
   StudyType 
 } from '@/api/types';
-import { 
-  mockAssessments, 
-  generateMockQoLData 
-} from '@/api/mockData';
-import { generateCardiologyPatients } from '@/data/study/cardiology/patients';
-import { generateObesityPatients } from '@/data/study/obesity/patients';
-import { generateDiabetesPatients } from '@/data/study/diabetes/patients';
-import { generateHypertensionPatients } from '@/data/study/hypertension/patients';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -21,14 +13,11 @@ export const assessmentsApi = {
   getByStudy: async (studyId: StudyType, region: string = 'global'): Promise<ApiResponse<AssessmentData[]>> => {
     await delay();
     
-    const assessments = mockAssessments.filter(a => 
-      a.studyId === studyId && a.region === region
-    );
-
+    // Return empty array since assessments are now handled through the metrics system
     return {
-      data: assessments,
+      data: [],
       success: true,
-      message: 'Assessments retrieved successfully'
+      message: 'Assessment data is now available through the metrics system'
     };
   }
 };
