@@ -14,14 +14,6 @@ export const cardiologyStudyData: StudyData = {
       {
         type: 'assessment-progress',
         title: 'Assessment Completion Progress'
-      },
-      {
-        type: 'metric',
-        metricId: 'comorbidity_count',
-        displayType: 'average',
-        icon: 'heart',
-        description: 'Average comorbidities per patient',
-        title: 'Comorbidity Burden'
       }
     ]
   },
