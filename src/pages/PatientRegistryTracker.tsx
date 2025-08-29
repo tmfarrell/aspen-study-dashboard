@@ -2,24 +2,25 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
 import { EnrollmentDashboard } from "@/components/registry/EnrollmentDashboard";
 import { AFibPanel } from "@/components/registry/AFibPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
-
 
 import DistributionMetric from "@/components/common/DistributionMetric";
 import { GeographicTile } from "@/components/common/GeographicTile";
 import StandardizedOverview from "@/components/registry/StandardizedOverview";
 import PatientDataTable from "@/components/registry/PatientDataTable";
 
-
 import AssessmentProgressMetrics from "@/components/registry/AssessmentProgressMetrics";
 
 import PieChartMetric from "@/components/common/PieChartMetric";
 
-
+import { DrillDownPieChart } from "@/components/medications/DrillDownPieChart";
+import { DosingTab } from "@/components/medications/DosingTab";
+import { TreatmentDurationTab } from "@/components/medications/TreatmentDurationTab";
+import { DiscontinuationTab } from "@/components/medications/DiscontinuationTab";
+import { getPharmaClassDistribution, generateMedicationData } from "@/data/medications/pharmaClasses";
 
 import { useAppState } from "@/contexts/AppStateContext";
 
@@ -69,32 +70,74 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="medications" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {selectedStudy === 'cardiology' && (
-                  <>
-                    <PieChartMetric metricId="cardiac_medications" title="Cardiac Medications" />
-                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
-                  </>
-                )}
-                {selectedStudy === 'diabetes' && (
-                  <>
-                    <PieChartMetric metricId="diabetes_medications" title="Diabetes Medications" />
-                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
-                  </>
-                )}
-                {selectedStudy === 'hypertension' && (
-                  <>
-                    <PieChartMetric metricId="bp_medications" title="Blood Pressure Medications" />
-                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
-                  </>
-                )}
-                {selectedStudy === 'obesity' && (
-                  <>
-                    <PieChartMetric metricId="weight_loss_medications" title="Weight Loss Medications" />
-                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
-                  </>
-                )}
-              </div>
+              {selectedStudy === 'cardiology' ? (
+                <Tabs defaultValue="overview" className="space-y-6">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="dosing">Dosing</TabsTrigger>
+                    <TabsTrigger value="duration">Treatment Duration</TabsTrigger>
+                    <TabsTrigger value="discontinuation">Discontinuation</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="overview" className="space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <DrillDownPieChart 
+                        title="Pharmaceutical Classes" 
+                        initialData={getPharmaClassDistribution().map(item => ({
+                          ...item,
+                          percentage: (item.count / getPharmaClassDistribution().reduce((sum, i) => sum + i.count, 0)) * 100
+                        }))}
+                        onDrillDown={(item) => {
+                          if (item.pharmaClassId) {
+                            const medications = generateMedicationData(item.pharmaClassId, 500);
+                            return medications.map(med => ({
+                              category: med.medicationName,
+                              count: med.patientCount,
+                              percentage: (med.patientCount / medications.reduce((sum, m) => sum + m.patientCount, 0)) * 100,
+                              medicationId: med.medicationId
+                            }));
+                          }
+                          return null;
+                        }}
+                      />
+                      <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="dosing">
+                    <DosingTab studyId={selectedStudy} />
+                  </TabsContent>
+
+                  <TabsContent value="duration">
+                    <TreatmentDurationTab studyId={selectedStudy} />
+                  </TabsContent>
+
+                  <TabsContent value="discontinuation">
+                    <DiscontinuationTab studyId={selectedStudy} />
+                  </TabsContent>
+                </Tabs>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {selectedStudy === 'diabetes' && (
+                    <>
+                      <PieChartMetric metricId="diabetes_medications" title="Diabetes Medications" />
+                      <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                    </>
+                  )}
+                  {selectedStudy === 'hypertension' && (
+                    <>
+                      <PieChartMetric metricId="bp_medications" title="Blood Pressure Medications" />
+                      <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                    </>
+                  )}
+                  {selectedStudy === 'obesity' && (
+                    <>
+                      <PieChartMetric metricId="weight_loss_medications" title="Weight Loss Medications" />
+                      <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                    </>
+                  )}
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="outcomes" className="space-y-6">
