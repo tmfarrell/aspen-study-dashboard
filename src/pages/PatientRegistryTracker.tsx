@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { DemographicsPanel } from "@/components/registry/DemographicsPanel";
+
 import { EnrollmentDashboard } from "@/components/registry/EnrollmentDashboard";
 import { MedicationsPanel } from "@/components/registry/MedicationsPanel";
 import { AFibPanel } from "@/components/registry/AFibPanel";
