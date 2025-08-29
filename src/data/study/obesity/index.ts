@@ -8,6 +8,23 @@ export const obesityStudyData: StudyData = {
   overviewMetrics: [
     { metricId: 'bmi', displayType: 'average', icon: 'activity', description: 'kg/m² across cohort' }
   ],
+  overviewLayout: {
+    additionalComponents: [
+      {
+        type: 'assessment-progress',
+        title: 'Assessment Completion Progress'
+      },
+      {
+        type: 'metric',
+        metricId: 'bmi',
+        displayType: 'distribution',
+        orientation: 'horizontal',
+        icon: 'activity',
+        description: 'BMI distribution across patient cohort',
+        title: 'BMI Distribution'
+      }
+    ]
+  },
   targetEnrollment: {
     total: 10000,
     byCountry: {

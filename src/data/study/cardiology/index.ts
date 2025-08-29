@@ -8,6 +8,22 @@ export const cardiologyStudyData: StudyData = {
   overviewMetrics: [
     { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Average comorbidities per patient' }
   ],
+  overviewLayout: {
+    additionalComponents: [
+      {
+        type: 'assessment-progress',
+        title: 'Assessment Completion Progress'
+      },
+      {
+        type: 'metric',
+        metricId: 'comorbidity_count',
+        displayType: 'average',
+        icon: 'heart',
+        description: 'Average comorbidities per patient',
+        title: 'Comorbidity Burden'
+      }
+    ]
+  },
   assessmentTargets: {
     perPatient: {
       baseline: 3, // AFEQT, SF-36, EQ-5D

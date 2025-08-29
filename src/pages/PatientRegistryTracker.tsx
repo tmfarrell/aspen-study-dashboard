@@ -12,7 +12,7 @@ import { Header } from "@/components/Header";
 import GeographicDistribution from "@/components/cohort/GeographicDistribution";
 import AgeDistributionChart from "@/components/cohort/AgeDistributionChart";
 import { GeographicTile } from "@/components/common/GeographicTile";
-import CohortSummary from "@/components/cohort/CohortSummary";
+import StandardizedOverview from "@/components/cohort/StandardizedOverview";
 import PatientTable from "@/components/cohort/PatientTable";
 import QualityOfLifeChart from "@/components/cohort/QualityOfLifeChart";
 
@@ -51,11 +51,7 @@ export default function PatientRegistryTracker() {
           </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
-              <CohortSummary selectedStudy={selectedStudy} />
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <GeographicTile studyId={selectedStudy} />
-              </div>
+              <StandardizedOverview studyId={selectedStudy} />
             </TabsContent>
 
             <TabsContent value="demographics" className="space-y-6">

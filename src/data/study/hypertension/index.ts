@@ -8,6 +8,22 @@ export const hypertensionStudyData: StudyData = {
   overviewMetrics: [
     { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Metabolic comorbidities per patient' }
   ],
+  overviewLayout: {
+    additionalComponents: [
+      {
+        type: 'assessment-progress',
+        title: 'Assessment Completion Progress'
+      },
+      {
+        type: 'metric',
+        metricId: 'treatment_categories',
+        displayType: 'distribution',
+        orientation: 'horizontal',
+        icon: 'bar-chart',
+        description: 'Treatment categories distribution'
+      }
+    ]
+  },
   targetEnrollment: {
     total: 8500,
     targetDate: '2025-12',

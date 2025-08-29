@@ -8,6 +8,21 @@ export const diabetesStudyData: StudyData = {
   overviewMetrics: [
     { metricId: 'bmi', displayType: 'average', icon: 'trending-up', description: 'kg/m² (diabetes management focus)' }
   ],
+  overviewLayout: {
+    additionalComponents: [
+      {
+        type: 'assessment-progress',
+        title: 'Assessment Completion Progress'
+      },
+      {
+        type: 'metric',
+        metricId: 'comorbidity_count',
+        displayType: 'average',
+        icon: 'activity',
+        description: 'Average comorbidities per diabetes patient'
+      }
+    ]
+  },
   targetEnrollment: {
     total: 15000,
     byCountry: {

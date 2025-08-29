@@ -10,6 +10,17 @@ export interface StudyData {
     icon?: string;
     description?: string;
   }>;
+  overviewLayout?: {
+    additionalComponents: Array<{
+      type: 'metric' | 'assessment-progress' | 'custom';
+      metricId?: string;
+      displayType?: 'average' | 'total' | 'range' | 'median' | 'distribution';
+      orientation?: 'horizontal' | 'vertical';
+      icon?: string;
+      description?: string;
+      title?: string;
+    }>;
+  };
   targetEnrollment?: {
     total: number;
     targetDate?: string; // "YYYY-MM" format

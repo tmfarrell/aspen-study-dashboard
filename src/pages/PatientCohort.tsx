@@ -6,7 +6,7 @@ import UserDropdown from '@/components/UserDropdown';
 import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import GeographicDistribution from '@/components/cohort/GeographicDistribution';
 import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
-import CohortSummary from '@/components/cohort/CohortSummary';
+import StandardizedOverview from '@/components/cohort/StandardizedOverview';
 import PatientTable from '@/components/cohort/PatientTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
 
@@ -67,7 +67,7 @@ const PatientCohort = () => {
           </CardContent>
         </Card>
 
-        <CohortSummary selectedStudy={selectedStudy} />
+        <StandardizedOverview studyId={selectedStudy} />
 
 
         <Tabs defaultValue="overview" className="mt-8">
