@@ -58,11 +58,13 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
         <GeographicTile studyId={studyId} />
       </div>
       
-      {/* Dynamic additional components - all half width */}
+      {/* Dynamic additional components - all half width with consistent heights */}
       {additionalComponents.length > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {additionalComponents.map((component, index) => 
-            renderComponent(component, index)
+            <div key={index} className="h-80">
+              {renderComponent(component, index)}
+            </div>
           )}
         </div>
       )}
