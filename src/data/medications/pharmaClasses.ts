@@ -30,19 +30,19 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
     description: 'Angiotensin-converting enzyme inhibitors for blood pressure management',
     medications: [
       {
-        id: 'lisinopril',
-        name: 'Lisinopril',
-        genericName: 'lisinopril',
+        id: 'captopril',
+        name: 'Captopril',
+        genericName: 'captopril',
         dosageForm: 'Tablet',
         typicalDose: {
-          maintenance: '10-40',
-          unit: 'mg daily'
+          maintenance: '25-150',
+          unit: 'mg twice daily'
         },
-        averageTreatmentDuration: 24,
+        averageTreatmentDuration: 20,
         commonDiscontinuationReasons: [
-          { reason: 'Dry cough', percentage: 35 },
-          { reason: 'Hyperkalemia', percentage: 20 },
-          { reason: 'Drug ineffectiveness', percentage: 25 },
+          { reason: 'Dry cough', percentage: 38 },
+          { reason: 'Taste disturbance', percentage: 15 },
+          { reason: 'Drug ineffectiveness', percentage: 27 },
           { reason: 'Cost/Insurance', percentage: 20 }
         ]
       },
@@ -62,6 +62,57 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
           { reason: 'Drug ineffectiveness', percentage: 28 },
           { reason: 'Cost/Insurance', percentage: 22 }
         ]
+      },
+      {
+        id: 'lisinopril',
+        name: 'Lisinopril',
+        genericName: 'lisinopril',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '10-40',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 24,
+        commonDiscontinuationReasons: [
+          { reason: 'Dry cough', percentage: 35 },
+          { reason: 'Hyperkalemia', percentage: 20 },
+          { reason: 'Drug ineffectiveness', percentage: 25 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'ramipril',
+        name: 'Ramipril',
+        genericName: 'ramipril',
+        dosageForm: 'Capsule',
+        typicalDose: {
+          maintenance: '2.5-10',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 26,
+        commonDiscontinuationReasons: [
+          { reason: 'Dry cough', percentage: 30 },
+          { reason: 'Hyperkalemia', percentage: 22 },
+          { reason: 'Drug ineffectiveness', percentage: 28 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'benazepril',
+        name: 'Benazepril',
+        genericName: 'benazepril hydrochloride',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '10-40',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 23,
+        commonDiscontinuationReasons: [
+          { reason: 'Dry cough', percentage: 33 },
+          { reason: 'Hyperkalemia', percentage: 19 },
+          { reason: 'Drug ineffectiveness', percentage: 26 },
+          { reason: 'Cost/Insurance', percentage: 22 }
+        ]
       }
     ]
   },
@@ -70,6 +121,23 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
     name: 'Beta Blockers',
     description: 'Beta-adrenergic receptor blockers for heart rate and blood pressure control',
     medications: [
+      {
+        id: 'atenolol',
+        name: 'Atenolol',
+        genericName: 'atenolol',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '25-100',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 26,
+        commonDiscontinuationReasons: [
+          { reason: 'Fatigue', percentage: 28 },
+          { reason: 'Cold extremities', percentage: 22 },
+          { reason: 'Drug ineffectiveness', percentage: 30 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
       {
         id: 'metoprolol',
         name: 'Metoprolol',
@@ -81,10 +149,27 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
         },
         averageTreatmentDuration: 30,
         commonDiscontinuationReasons: [
-          { reason: 'Adverse reaction', percentage: 25 },
-          { reason: 'Cost/Insurance', percentage: 12.5 },
-          { reason: 'Drug ineffectiveness', percentage: 50 },
-          { reason: 'Insurance reasons', percentage: 12.5 }
+          { reason: 'Fatigue', percentage: 25 },
+          { reason: 'Dizziness', percentage: 20 },
+          { reason: 'Drug ineffectiveness', percentage: 35 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'labetolol',
+        name: 'Labetolol',
+        genericName: 'labetolol hydrochloride',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '100-400',
+          unit: 'mg twice daily'
+        },
+        averageTreatmentDuration: 24,
+        commonDiscontinuationReasons: [
+          { reason: 'Dizziness', percentage: 30 },
+          { reason: 'Fatigue', percentage: 25 },
+          { reason: 'Drug ineffectiveness', percentage: 25 },
+          { reason: 'Cost/Insurance', percentage: 20 }
         ]
       },
       {
@@ -104,6 +189,40 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
           { reason: 'Drug ineffectiveness', percentage: 25 },
           { reason: 'Cost/Insurance', percentage: 20 }
         ]
+      },
+      {
+        id: 'propranolol',
+        name: 'Propranolol',
+        genericName: 'propranolol hydrochloride',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '40-320',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 22,
+        commonDiscontinuationReasons: [
+          { reason: 'Fatigue', percentage: 32 },
+          { reason: 'Depression', percentage: 18 },
+          { reason: 'Drug ineffectiveness', percentage: 30 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'bisoprolol',
+        name: 'Bisoprolol',
+        genericName: 'bisoprolol fumarate',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '2.5-10',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 32,
+        commonDiscontinuationReasons: [
+          { reason: 'Fatigue', percentage: 25 },
+          { reason: 'Cold extremities', percentage: 20 },
+          { reason: 'Drug ineffectiveness', percentage: 35 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
       }
     ]
   },
@@ -112,6 +231,23 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
     name: 'Anticoagulants',
     description: 'Blood thinning medications for stroke prevention',
     medications: [
+      {
+        id: 'lmw_heparin',
+        name: 'LMW Heparin',
+        genericName: 'low molecular weight heparin',
+        dosageForm: 'Injection',
+        typicalDose: {
+          maintenance: '40-80',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 18,
+        commonDiscontinuationReasons: [
+          { reason: 'Injection site reactions', percentage: 35 },
+          { reason: 'Bleeding risk', percentage: 30 },
+          { reason: 'Patient compliance', percentage: 20 },
+          { reason: 'Cost/Insurance', percentage: 15 }
+        ]
+      },
       {
         id: 'warfarin',
         name: 'Warfarin',
@@ -128,6 +264,23 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
           { reason: 'INR monitoring burden', percentage: 25 },
           { reason: 'Drug interactions', percentage: 20 },
           { reason: 'Patient preference', percentage: 15 }
+        ]
+      },
+      {
+        id: 'dabigatran',
+        name: 'Dabigatran',
+        genericName: 'dabigatran etexilate',
+        dosageForm: 'Capsule',
+        typicalDose: {
+          maintenance: '150',
+          unit: 'mg twice daily'
+        },
+        averageTreatmentDuration: 28,
+        commonDiscontinuationReasons: [
+          { reason: 'GI upset', percentage: 40 },
+          { reason: 'Bleeding events', percentage: 25 },
+          { reason: 'Cost/Insurance', percentage: 20 },
+          { reason: 'Drug ineffectiveness', percentage: 15 }
         ]
       },
       {
@@ -154,6 +307,57 @@ export const cardiologyPharmaClasses: PharmaClass[] = [
     name: 'Antiarrhythmics',
     description: 'Medications for heart rhythm control',
     medications: [
+      {
+        id: 'diltiazem',
+        name: 'Diltiazem',
+        genericName: 'diltiazem hydrochloride',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '120-480',
+          unit: 'mg daily'
+        },
+        averageTreatmentDuration: 26,
+        commonDiscontinuationReasons: [
+          { reason: 'Peripheral edema', percentage: 30 },
+          { reason: 'Constipation', percentage: 25 },
+          { reason: 'Drug ineffectiveness', percentage: 25 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'captopril_antiarrhythmic',
+        name: 'Captopril',
+        genericName: 'captopril',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '25-150',
+          unit: 'mg twice daily'
+        },
+        averageTreatmentDuration: 20,
+        commonDiscontinuationReasons: [
+          { reason: 'Dry cough', percentage: 38 },
+          { reason: 'Taste disturbance', percentage: 15 },
+          { reason: 'Drug ineffectiveness', percentage: 27 },
+          { reason: 'Cost/Insurance', percentage: 20 }
+        ]
+      },
+      {
+        id: 'enalapril_antiarrhythmic',
+        name: 'Enalapril',
+        genericName: 'enalapril maleate',
+        dosageForm: 'Tablet',
+        typicalDose: {
+          maintenance: '5-20',
+          unit: 'mg twice daily'
+        },
+        averageTreatmentDuration: 22,
+        commonDiscontinuationReasons: [
+          { reason: 'Dry cough', percentage: 32 },
+          { reason: 'Hyperkalemia', percentage: 18 },
+          { reason: 'Drug ineffectiveness', percentage: 28 },
+          { reason: 'Cost/Insurance', percentage: 22 }
+        ]
+      },
       {
         id: 'amiodarone',
         name: 'Amiodarone',
