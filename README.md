@@ -60,6 +60,17 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Architecture Guidelines
+
+This project follows a strict data flow architecture:
+
+- **Data Layer**: All mock data lives in `src/data/*` with study-specific data in study folders
+- **API Layer**: React Query hooks in `src/state/*/` provide the only interface to data
+- **Component Layer**: Components only use React Query hooks, never direct data imports
+- **No Hard-coding**: Components should derive all values from the data layer via React Query
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed guidelines.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/96732a00-14b2-4235-b43b-7182e26ec8ff) and click on Share -> Publish.
