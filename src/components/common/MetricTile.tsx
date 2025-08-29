@@ -132,7 +132,15 @@ const MetricTile: React.FC<MetricTileProps> = ({
   };
 
   // For distribution display type, render a chart
-  if (displayType === 'distribution' && metric.type === 'numerical') {
+  if (displayType === 'distribution') {
+    // Use categorical chart styling for consistency
+    const chartData = metric.type === 'categorical' ? 
+      metric.data : 
+      (metric.data || []).map((item: any, index: number) => ({
+        ...item,
+        color: `hsl(${200 + index * 20}, 70%, 60%)`
+      }));
+
     return (
       <Card className="h-80">
         <CardHeader>
@@ -144,15 +152,31 @@ const MetricTile: React.FC<MetricTileProps> = ({
         <CardContent className="p-4">
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={metric.data}>
+              <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="bucket" />
-                <YAxis />
-                <Tooltip 
-                  formatter={(value: number) => [value, 'Patients']}
-                  labelFormatter={(label) => `${metric.name}: ${label}`}
+                <XAxis 
+                  dataKey={metric.type === 'categorical' ? 'category' : 'bucket'} 
+                  fontSize={12}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
                 />
-                <Bar dataKey="count" fill="#82ca9d" />
+                <YAxis 
+                  fontSize={12}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                />
+                <Tooltip 
+                  formatter={(value: number) => [value, metric.type === 'categorical' ? 'Patients' : 'Count']}
+                  labelFormatter={(label) => `${getTitle()}: ${label}`}
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '6px'
+                  }}
+                />
+                <Bar 
+                  dataKey="count" 
+                  fill="hsl(var(--primary))"
+                  radius={[2, 2, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
