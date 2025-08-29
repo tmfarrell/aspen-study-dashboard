@@ -138,14 +138,15 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
     );
   }
 
-  // Generate average duration bar chart data
-  const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
-    const avgDuration = pharmaClass.medications.reduce((sum, med) => sum + med.averageTreatmentDuration, 0) / pharmaClass.medications.length;
-    return {
-      name: pharmaClass.name.replace(/^(ACE|ARB|Beta|Calcium|Diuretic)/, (match) => match.charAt(0).toUpperCase() + match.slice(1).toLowerCase()),
-      duration: parseFloat(avgDuration.toFixed(1))
-    };
-  });
+// Generate average duration bar chart data
+const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
+  const avgDuration = pharmaClass.medications.reduce((sum, med) => sum + med.averageTreatmentDuration, 0) / pharmaClass.medications.length;
+  return {
+    name: pharmaClass.name,
+    duration: parseFloat(avgDuration.toFixed(1)),
+    pharmaClassId: pharmaClass.id,
+  };
+});
 
   return (
     <div className="space-y-6">
@@ -169,7 +170,7 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart 
                 data={avgDurationData} 
-                layout="horizontal" 
+                layout="vertical" 
                 margin={{ top: 20, right: 30, left: 120, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -191,10 +192,10 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
                 <Bar 
                   dataKey="duration" 
                   fill="hsl(var(--om1-primary-dark-blue))"
-                  onClick={(data, index) => {
-                    const pharmaClass = cardiologyPharmaClasses[index];
-                    if (pharmaClass) {
-                      handlePharmaClassClick(pharmaClass.id);
+                  onClick={(entry) => {
+                    const id = (entry && (entry as any).payload && (entry as any).payload.pharmaClassId) as string | undefined;
+                    if (id) {
+                      handlePharmaClassClick(id);
                     }
                   }}
                   style={{ cursor: 'pointer' }}
