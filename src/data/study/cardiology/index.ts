@@ -24,6 +24,10 @@ export const cardiologyStudyData: StudyData = {
       }
     ]
   },
+  patientDisplayFields: [
+    { key: 'enrollmentCategory', label: 'Heart Condition', type: 'text' },
+    { key: 'enrollmentDate', label: 'Enrollment Date', type: 'date', formatter: 'date' }
+  ],
   assessmentTargets: {
     perPatient: {
       baseline: 3, // AFEQT, SF-36, EQ-5D

@@ -21,6 +21,13 @@ export interface StudyData {
       title?: string;
     }>;
   };
+  patientDisplayFields?: Array<{
+    key: string;
+    label: string;
+    type: 'text' | 'number' | 'date' | 'badge';
+    formatter?: 'bmi-category' | 'date' | 'currency' | 'percentage';
+    required?: boolean;
+  }>;
   targetEnrollment?: {
     total: number;
     targetDate?: string; // "YYYY-MM" format

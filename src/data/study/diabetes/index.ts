@@ -23,6 +23,11 @@ export const diabetesStudyData: StudyData = {
       }
     ]
   },
+  patientDisplayFields: [
+    { key: 'bmi', label: 'BMI', type: 'number' },
+    { key: 'enrollmentCategory', label: 'Diabetes Type', type: 'text' },
+    { key: 'enrollmentDate', label: 'Enrollment Date', type: 'date', formatter: 'date' }
+  ],
   targetEnrollment: {
     total: 15000,
     byCountry: {

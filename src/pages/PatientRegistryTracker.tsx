@@ -13,7 +13,7 @@ import GeographicDistribution from "@/components/cohort/GeographicDistribution";
 import AgeDistributionChart from "@/components/cohort/AgeDistributionChart";
 import { GeographicTile } from "@/components/common/GeographicTile";
 import StandardizedOverview from "@/components/cohort/StandardizedOverview";
-import PatientTable from "@/components/cohort/PatientTable";
+import PatientDataTable from "@/components/cohort/PatientDataTable";
 import QualityOfLifeChart from "@/components/cohort/QualityOfLifeChart";
 
 import AssessmentProgressMetrics from "@/components/cohort/AssessmentProgressMetrics";
@@ -61,7 +61,7 @@ export default function PatientRegistryTracker() {
                 <RaceDistribution />
               </div>
               <div className="mt-6">
-                <PatientTable />
+                <PatientDataTable studyId={selectedStudy} />
               </div>
             </TabsContent>
 

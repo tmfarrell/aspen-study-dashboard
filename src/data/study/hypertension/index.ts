@@ -24,6 +24,11 @@ export const hypertensionStudyData: StudyData = {
       }
     ]
   },
+  patientDisplayFields: [
+    { key: 'bmi', label: 'BMI', type: 'number' },
+    { key: 'enrollmentCategory', label: 'Treatment Category', type: 'text' },
+    { key: 'enrollmentDate', label: 'Enrollment Date', type: 'date', formatter: 'date' }
+  ],
   targetEnrollment: {
     total: 8500,
     targetDate: '2025-12',

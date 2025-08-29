@@ -7,7 +7,7 @@ import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
 import GeographicDistribution from '@/components/cohort/GeographicDistribution';
 import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
 import StandardizedOverview from '@/components/cohort/StandardizedOverview';
-import PatientTable from '@/components/cohort/PatientTable';
+import PatientDataTable from '@/components/cohort/PatientDataTable';
 import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
 
 import AssessmentProgressMetrics from '@/components/cohort/AssessmentProgressMetrics';
@@ -138,7 +138,7 @@ const PatientCohort = () => {
               <RaceDistribution />
             </div>
             <div className="mt-6">
-              <PatientTable />
+              <PatientDataTable studyId={selectedStudy} />
             </div>
           </TabsContent>
 

@@ -25,6 +25,11 @@ export const obesityStudyData: StudyData = {
       }
     ]
   },
+  patientDisplayFields: [
+    { key: 'bmi', label: 'BMI', type: 'number' },
+    { key: 'bmi', label: 'BMI Category', type: 'badge', formatter: 'bmi-category' },
+    { key: 'enrollmentDate', label: 'Enrollment Date', type: 'date', formatter: 'date' }
+  ],
   targetEnrollment: {
     total: 10000,
     byCountry: {
