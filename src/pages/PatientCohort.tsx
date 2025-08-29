@@ -13,7 +13,7 @@ import QualityOfLifeChart from '@/components/registry/QualityOfLifeChart';
 import AssessmentProgressMetrics from '@/components/registry/AssessmentProgressMetrics';
 import MedicationDistribution from '@/components/registry/MedicationDistribution';
 import PieChartMetric from '@/components/common/PieChartMetric';
-import RaceDistribution from '@/components/registry/RaceDistribution';
+
 
 import ComorbidityDistribution from '@/components/registry/ComorbidityDistribution';
 import { StudyType } from '@/api/types';
@@ -135,7 +135,7 @@ const PatientCohort = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <DistributionMetric metricId="age" title="Age Distribution" />
               <PieChartMetric metricId="gender" title="Gender Distribution" />
-              <RaceDistribution />
+              <PieChartMetric metricId="race" title="Race/Ethnicity Distribution" />
             </div>
             <div className="mt-6">
               <PatientDataTable studyId={selectedStudy} />
