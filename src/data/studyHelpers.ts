@@ -288,8 +288,14 @@ export const getAllMetricsForStudy = (studyId: StudyType): MetricDefinition[] =>
   const standardMetrics = STANDARD_METRICS;
   const studySpecificMetrics = getStudySpecificMetrics(studyId);
   
-  // Add QoL metrics for cardiology study
-  const qolMetrics = studyId === 'cardiology' ? QOL_METRICS : [];
+  // Add QoL metrics for studies with assessment targets
+  let qolMetrics: MetricDefinition[] = [];
+  if (studyId === 'cardiology') {
+    qolMetrics = QOL_METRICS;
+  } else if (studyId === 'obesity' || studyId === 'diabetes') {
+    // Add just the assessment completion rate metric for these studies
+    qolMetrics = [QOL_METRICS.find(m => m.id === 'assessment_completion_rate')!];
+  }
   
   return [...standardMetrics, ...studySpecificMetrics, ...qolMetrics];
 };
