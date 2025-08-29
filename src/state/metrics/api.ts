@@ -9,7 +9,6 @@ import {
 import { MetricDefinition } from '@/api/types';
 import { StudyType, PatientData } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
-import { getStudySites } from '@/data/studyHelpers';
 import { studyData } from '@/data/studyData';
 
 // Cache for computed metrics to avoid recalculation
@@ -18,12 +17,6 @@ const metricsCache = new Map<StudyType, StudyMetrics>();
 
 // Simulate network delay
 const delay = (ms: number = 200) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Get patient config for study from the study data
-const getPatientConfig = (studyId: StudyType) => {
-  const study = studyData[studyId];
-  return study?.patientConfig;
-};
 
 // Calculate categorical metric
 const calculateCategoricalMetric = (
@@ -196,8 +189,9 @@ const calculateNumericalMetric = (
 
 // Calculate all metrics for a study
 const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
-  const sites = getStudySites(studyId);
-  const config = getPatientConfig(studyId);
+  const study = studyData[studyId];
+  const sites = study?.sites || [];
+  const config = study?.patientConfig;
   console.log(`Patient config for ${studyId}:`, config?.enrollmentCategories ? config.enrollmentCategories.length + ' categories' : 'No enrollment categories');
   const patients = config ? generateStudyPatients(studyId, sites, config) : [];
   

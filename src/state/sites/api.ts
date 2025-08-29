@@ -5,7 +5,7 @@ import {
   SiteFilters,
   StudyType 
 } from '@/api/types';
-import { getStudySites } from '@/data/studyHelpers';
+import { studyData } from '@/data/studyData';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -13,7 +13,8 @@ const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, m
 export const sitesApi = {
   getAll: async (studyId: StudyType, filters?: SiteFilters): Promise<ApiResponse<SiteData[]>> => {
     await delay();
-    let sites = [...getStudySites(studyId)];
+    const study = studyData[studyId];
+    let sites = [...(study?.sites || [])];
     
     if (filters?.status?.length) {
       sites = sites.filter(site => filters.status!.includes(site.status));
@@ -40,7 +41,8 @@ export const sitesApi = {
 
   getById: async (studyId: StudyType, id: string): Promise<ApiResponse<SiteData>> => {
     await delay();
-    const sites = getStudySites(studyId);
+    const study = studyData[studyId];
+    const sites = study?.sites || [];
     const site = sites.find(s => s.id === id);
     
     if (!site) {

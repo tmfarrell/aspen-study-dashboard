@@ -2,7 +2,6 @@ import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend, SiteEnrollment, 
 import { StudyType, ApiResponse } from '@/api/types';
 import { calculateTotalPatients } from '@/data/studyHelpers';
 import { studyData } from '@/data/studyData';
-import { getStudySites } from '@/data/studyHelpers';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -81,7 +80,7 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     .slice(0, 3);
 
   // Generate site enrollment data using study-specific sites
-  const sites = getStudySites(studyId);
+  const sites = studyData[studyId]?.sites || [];
   const recentSiteEnrollment: SiteEnrollment[] = sites
     .filter(site => site.status === 'active')
     .map(site => ({
@@ -101,7 +100,7 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   
   if (study.targetEnrollment?.byCountry) {
     const countryEntries = Object.entries(study.targetEnrollment.byCountry);
-    const sites = getStudySites(studyId);
+    const sites = study.sites;
     
     targetProgress = countryEntries.map(([countryCode, target]) => {
       // Calculate actual current enrollment from site data for this country

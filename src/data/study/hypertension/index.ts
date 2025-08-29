@@ -1,5 +1,6 @@
 import { StudyData } from '@/api/types';
 import { hypertensionPatientConfig } from './patients';
+import { hypertensionSites } from './sites';
 
 export const hypertensionStudyData: StudyData = {
   id: 'hypertension',
@@ -64,10 +65,9 @@ export const hypertensionStudyData: StudyData = {
       type: 'categorical',
       field: 'enrollmentCategory'
     }
-  ]
+  ],
   // No qualityOfLifeMetrics for hypertension - purely observational data collection
+  sites: hypertensionSites
 };
 
-
-export { hypertensionSites } from './sites';
 export { generateHypertensionPatients, hypertensionPatientConfig } from './patients';

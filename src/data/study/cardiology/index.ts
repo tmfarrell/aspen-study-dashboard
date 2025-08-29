@@ -1,5 +1,6 @@
 import { StudyData } from '@/api/types';
 import { cardiologyPatientConfig } from './patients';
+import { cardiologySites } from './sites';
 
 export const cardiologyStudyData: StudyData = {
   id: 'cardiology',
@@ -114,9 +115,8 @@ export const cardiologyStudyData: StudyData = {
       type: 'numerical',
       field: 'qualityOfLifeAssessments'
     }
-  ]
+  ],
+  sites: cardiologySites
 };
 
-
-export { cardiologySites } from './sites';
 export { generateCardiologyPatients, cardiologyPatientConfig } from './patients';

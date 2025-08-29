@@ -70,6 +70,7 @@ export interface StudyData {
   patientConfig: PatientConfig;
   studySpecificMetrics?: MetricDefinition[];
   qualityOfLifeMetrics?: MetricDefinition[];
+  sites: SiteData[];
 }
 
 export interface QoLAssessment {

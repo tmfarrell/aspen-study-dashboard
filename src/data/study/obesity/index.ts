@@ -1,5 +1,6 @@
 import { StudyData } from '@/api/types';
 import { obesityPatientConfig } from './patients';
+import { obesitySites } from './sites';
 
 export const obesityStudyData: StudyData = {
   id: 'obesity',
@@ -80,9 +81,8 @@ export const obesityStudyData: StudyData = {
       type: 'numerical',
       field: 'qualityOfLifeAssessments'
     }
-  ]
+  ],
+  sites: obesitySites
 };
 
-
-export { obesitySites } from './sites';
 export { generateObesityPatients, obesityPatientConfig } from './patients';

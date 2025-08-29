@@ -7,7 +7,6 @@ import {
   StudyType 
 } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
-import { getStudySites } from '@/data/studyHelpers';
 import { studyData } from '@/data/studyData';
 
 // Cache for generated patients to avoid recalculation
@@ -38,8 +37,9 @@ export const patientsApi = {
       patients = patientsCache.get(studyId)!;
     } else {
       // Generate study-specific patients based on site enrollment
-      const sites = getStudySites(studyId);
-      const config = getPatientConfig(studyId);
+      const study = studyData[studyId];
+      const sites = study?.sites || [];
+      const config = study?.patientConfig;
       patients = config ? generateStudyPatients(studyId, sites, config) : [];
       patientsCache.set(studyId, patients);
     }
@@ -95,9 +95,11 @@ export const patientsApi = {
     
     if (!patient) {
       // Fallback: generate a single patient with the requested ID
-      const sites = getStudySites(studyId);
-      const config = getPatientConfig(studyId);
-      const fallbackPatients = config ? generateStudyPatients(studyId, sites.slice(0, 1), config) : [];
+      const study = studyData[studyId];
+      const sites = study?.sites?.slice(0, 1) || [];
+      const config = study?.patientConfig;
+      const fallbackPatients = config ? generateStudyPatients(studyId, sites, config) : [];
+      
       const fallbackPatient = { ...fallbackPatients[0], id };
       
       return {
