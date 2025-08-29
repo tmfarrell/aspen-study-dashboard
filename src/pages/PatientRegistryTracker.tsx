@@ -47,7 +47,7 @@ export default function PatientRegistryTracker() {
             <TabsTrigger value="demographics">Demographics</TabsTrigger>
             <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
             <TabsTrigger value="medications">Medications</TabsTrigger>
-            <TabsTrigger value="analysis">Analytics</TabsTrigger>
+            <TabsTrigger value="outcomes">Outcomes</TabsTrigger>
           </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -75,7 +75,7 @@ export default function PatientRegistryTracker() {
               </div>
             </TabsContent>
 
-            <TabsContent value="analysis" className="space-y-6">
+            <TabsContent value="outcomes" className="space-y-6">
               {selectedStudy === 'cardiology' ? (
                 <AFibPanel />
               ) : selectedStudy === 'obesity' ? (
