@@ -551,12 +551,12 @@ export function GeographicTile({ studyId }: GeographicTileProps) {
                      }
                    }}
                  >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {item.sites} {item.sites === 1 ? 'site' : 'sites'}
-                    </p>
-                  </div>
+                   <div className="flex-1 min-w-0 pr-2">
+                     <p className="text-sm font-medium leading-tight break-words">{item.name}</p>
+                     <p className="text-xs text-muted-foreground">
+                       {item.sites} {item.sites === 1 ? 'site' : 'sites'}
+                     </p>
+                   </div>
                   <div className="text-right ml-2">
                     <p className="text-sm font-semibold">{item.patients.toLocaleString()} patients</p>
                     <p className="text-xs text-muted-foreground">{percentage}% of total</p>
