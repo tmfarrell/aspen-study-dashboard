@@ -6,9 +6,7 @@ export const cardiologyStudyData: StudyData = {
   id: 'cardiology',
   name: 'Cardiology Registry',
   enrollmentUnits: 'cases',
-  overviewMetrics: [
-    { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Average comorbidities per patient' }
-  ],
+  overviewMetrics: [],
   overviewLayout: {
     additionalComponents: [
       {
