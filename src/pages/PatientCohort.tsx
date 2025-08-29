@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import UserDropdown from '@/components/UserDropdown';
-import BMIDistributionChart from '@/components/registry/BMIDistributionChart';
+
 import GeographicDistribution from '@/components/registry/GeographicDistribution';
 import DistributionMetric from '@/components/common/DistributionMetric';
 import StandardizedOverview from '@/components/registry/StandardizedOverview';
@@ -84,7 +84,7 @@ const PatientCohort = () => {
 
           <TabsContent value="overview" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <BMIDistributionChart />
+              <DistributionMetric metricId="bmi" title="BMI Distribution" />
               <DistributionMetric metricId="age" title="Age Distribution" />
               <div className="lg:col-span-2">
                 <GeographicDistribution />
@@ -101,7 +101,7 @@ const PatientCohort = () => {
           <TabsContent value="bmi" className="mt-6">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               <div className="xl:col-span-2">
-                <BMIDistributionChart detailed />
+                <DistributionMetric metricId="bmi" title="BMI Distribution" />
               </div>
               <Card>
                 <CardHeader>
