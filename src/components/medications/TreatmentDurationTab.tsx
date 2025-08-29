@@ -47,7 +47,11 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
   const chartConfig = {
     count: {
       label: 'Patients',
-      color: 'hsl(var(--chart-1))',
+      color: 'hsl(var(--om1-primary-dark-blue))',
+    },
+    duration: {
+      label: 'Duration',
+      color: 'hsl(var(--om1-primary-dark-blue))',
     },
   };
 
@@ -172,7 +176,7 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
                     formatter={(value, name) => [`${value} months`, 'Avg Duration']}
                   />} 
                 />
-                <Bar dataKey="duration" fill="var(--color-count)" />
+                <Bar dataKey="duration" fill="var(--color-duration)" />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>

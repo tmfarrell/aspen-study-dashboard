@@ -11,11 +11,11 @@ interface DiscontinuationTabProps {
 }
 
 const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5))',
+  'hsl(var(--om1-primary-dark-blue))',
+  'hsl(var(--om1-secondary-light-blue))',
+  'hsl(var(--om1-secondary-light-blue-light))',
+  'hsl(var(--om1-secondary-light-blue-lighter))',
+  'hsl(var(--om1-secondary-light-blue-lightest))',
 ];
 
 export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
@@ -93,7 +93,10 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                     </Pie>
                     <ChartTooltip 
                       content={<ChartTooltipContent 
-                        formatter={(value, name) => [`${value} patients`, name]}
+                        formatter={(value, name, props) => {
+                          const entry = selectedMedicationData?.discontinuationReasons.find((item: any) => item.patientCount === value);
+                          return [`${value} patients`, entry?.reason || name];
+                        }}
                       />} 
                     />
                   </PieChart>
@@ -283,11 +286,14 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <ChartTooltip 
-                            content={<ChartTooltipContent 
-                              formatter={(value, name) => [`${value} patients`, name]}
-                            />} 
-                          />
+                        <ChartTooltip 
+                          content={<ChartTooltipContent 
+                            formatter={(value, name, props) => {
+                              const entry = discontinuationReasons.find((item: any) => item.patientCount === value);
+                              return [`${value} patients`, entry?.reason || name];
+                            }}
+                          />} 
+                        />
                         </PieChart>
                       </ResponsiveContainer>
                     </ChartContainer>

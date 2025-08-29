@@ -80,26 +80,32 @@ export default function PatientRegistryTracker() {
                   </TabsList>
 
                   <TabsContent value="overview" className="space-y-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
-                      <DrillDownPieChart 
-                        title="Pharmaceutical Classes" 
-                        initialData={getPharmaClassDistribution().map(item => ({
-                          ...item,
-                          percentage: (item.count / getPharmaClassDistribution().reduce((sum, i) => sum + i.count, 0)) * 100
-                        }))}
-                        onDrillDown={(item) => {
-                          if (item.pharmaClassId) {
-                            const medications = generateMedicationData(item.pharmaClassId, 500);
-                            return medications.map(med => ({
-                              category: med.medicationName,
-                              count: med.patientCount,
-                              percentage: (med.patientCount / medications.reduce((sum, m) => sum + m.patientCount, 0)) * 100,
-                              medicationId: med.medicationId
-                            }));
-                          }
-                          return null;
-                        }}
-                      />
+                    <div className="flex justify-center">
+                      <div className="w-full max-w-4xl">
+                        <DrillDownPieChart 
+                          title="Pharmaceutical Classes" 
+                          initialData={getPharmaClassDistribution().map(item => ({
+                            ...item,
+                            percentage: (item.count / getPharmaClassDistribution().reduce((sum, i) => sum + i.count, 0)) * 100
+                          }))}
+                          onDrillDown={(item) => {
+                            if (item.pharmaClassId) {
+                              const medications = generateMedicationData(item.pharmaClassId, 500);
+                              return medications.map(med => ({
+                                category: med.medicationName,
+                                count: med.patientCount,
+                                percentage: (med.patientCount / medications.reduce((sum, m) => sum + m.patientCount, 0)) * 100,
+                                medicationId: med.medicationId
+                              }));
+                            }
+                            return null;
+                          }}
+                          formatTooltip={(value, name) => {
+                            const data = getPharmaClassDistribution().find(item => item.count === value);
+                            return [`${value} patients`, data?.category || name];
+                          }}
+                        />
+                      </div>
                     </div>
                   </TabsContent>
 
