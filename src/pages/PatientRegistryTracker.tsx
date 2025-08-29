@@ -22,6 +22,8 @@ import { TreatmentDurationTab } from "@/components/medications/TreatmentDuration
 import { DiscontinuationTab } from "@/components/medications/DiscontinuationTab";
 import { getPharmaClassDistribution, generateMedicationData } from "@/data/medications/pharmaClasses";
 
+import { HospitalizationPanel } from "@/components/outcomes/HospitalizationPanel";
+
 import { useAppState } from "@/contexts/AppStateContext";
 
 export default function PatientRegistryTracker() {
@@ -142,6 +144,10 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="outcomes" className="space-y-6">
+              {/* Hospitalization Outcomes - Available for all studies */}
+              <HospitalizationPanel studyId={selectedStudy} />
+              
+              {/* Study-specific outcomes */}
               {selectedStudy === 'cardiology' ? (
                 <AFibPanel />
               ) : selectedStudy === 'obesity' ? (
