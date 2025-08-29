@@ -32,11 +32,14 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
     'hsl(var(--om1-tertiary-pink))',         // Pink
   ];
 
-  // Transform metric data for charts
+  // Transform metric data for charts - limit to top 6 items to prevent overflow
   const chartData = React.useMemo(() => {
     if (!metric || metric.type !== 'categorical') return [];
     
-    return metric.data.map((item, index) => ({
+    // Sort by count descending and take top 6 items
+    const sortedData = [...metric.data].sort((a, b) => b.count - a.count).slice(0, 6);
+    
+    return sortedData.map((item, index) => ({
       category: item.category.charAt(0).toUpperCase() + item.category.slice(1).toLowerCase(),
       count: item.count,
       percentage: Math.round(item.percentage * 10) / 10, // Round to 1 decimal
@@ -118,7 +121,7 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
             </ResponsiveContainer>
           </ChartContainer>
 
-          <div className="w-full">
+          <div className="w-full max-h-[180px] overflow-y-auto">
             <div className="grid grid-cols-1 gap-1 text-sm">
               {chartData.map((item, index) => (
                 <div key={index} className="flex justify-between items-center py-1 px-2">
@@ -135,6 +138,11 @@ const PieChartMetric = ({ metricId, title, studyId }: PieChartMetricProps) => {
                   </div>
                 </div>
               ))}
+              {metric && metric.type === 'categorical' && metric.data.length > 6 && (
+                <div className="text-center text-xs text-muted-foreground py-2">
+                  Showing top 6 of {metric.data.length} medications
+                </div>
+              )}
             </div>
           </div>
         </div>
