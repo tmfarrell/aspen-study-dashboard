@@ -167,16 +167,38 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={avgDurationData} layout="horizontal" margin={{ top: 20, right: 30, left: 120, bottom: 5 }}>
+              <BarChart 
+                data={avgDurationData} 
+                layout="horizontal" 
+                margin={{ top: 20, right: 30, left: 120, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 'dataMax']} />
-                <YAxis type="category" dataKey="name" width={100} />
+                <XAxis 
+                  type="number" 
+                  domain={[0, 'dataMax']} 
+                  label={{ value: 'Duration (months)', position: 'insideBottom', offset: -10 }}
+                />
+                <YAxis 
+                  type="category" 
+                  dataKey="name" 
+                  width={100}
+                />
                 <ChartTooltip 
                   content={<ChartTooltipContent 
                     formatter={(value, name) => [`${value} months`, 'Avg Duration']}
                   />} 
                 />
-                <Bar dataKey="duration" fill="var(--color-duration)" />
+                <Bar 
+                  dataKey="duration" 
+                  fill="hsl(var(--om1-primary-dark-blue))"
+                  onClick={(data, index) => {
+                    const pharmaClass = cardiologyPharmaClasses[index];
+                    if (pharmaClass) {
+                      handlePharmaClassClick(pharmaClass.id);
+                    }
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
