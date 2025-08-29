@@ -9,7 +9,7 @@ import { AFibPanel } from "@/components/registry/AFibPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
 
-import GeographicDistribution from "@/components/registry/GeographicDistribution";
+
 import DistributionMetric from "@/components/common/DistributionMetric";
 import { GeographicTile } from "@/components/common/GeographicTile";
 import StandardizedOverview from "@/components/registry/StandardizedOverview";

@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import UserDropdown from '@/components/UserDropdown';
 
-import GeographicDistribution from '@/components/registry/GeographicDistribution';
+import { GeographicTile } from '@/components/common/GeographicTile';
 import DistributionMetric from '@/components/common/DistributionMetric';
 import StandardizedOverview from '@/components/registry/StandardizedOverview';
 import PatientDataTable from '@/components/registry/PatientDataTable';
@@ -87,7 +87,7 @@ const PatientCohort = () => {
               <DistributionMetric metricId="bmi" title="BMI Distribution" />
               <DistributionMetric metricId="age" title="Age Distribution" />
               <div className="lg:col-span-2">
-                <GeographicDistribution />
+                <GeographicTile studyId={selectedStudy} />
               </div>
             </div>
           </TabsContent>
@@ -128,7 +128,7 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="geography" className="mt-6">
-            <GeographicDistribution detailed />
+            <GeographicTile studyId={selectedStudy} />
           </TabsContent>
 
           <TabsContent value="demographics" className="mt-6">
