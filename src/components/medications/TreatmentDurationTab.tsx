@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Users } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, ArrowRightLeft } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ResponsiveSankey } from '@nivo/sankey';
 import { cardiologyPharmaClasses, generateMedicationData } from '@/data/medications/pharmaClasses';
 
 interface TreatmentDurationTabProps {
@@ -138,15 +139,62 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
     );
   }
 
-// Generate average duration bar chart data
-const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
-  const avgDuration = pharmaClass.medications.reduce((sum, med) => sum + med.averageTreatmentDuration, 0) / pharmaClass.medications.length;
-  return {
-    name: pharmaClass.name,
-    duration: parseFloat(avgDuration.toFixed(1)),
-    pharmaClassId: pharmaClass.id,
+  // Generate average duration bar chart data
+  const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
+    const avgDuration = pharmaClass.medications.reduce((sum, med) => sum + med.averageTreatmentDuration, 0) / pharmaClass.medications.length;
+    return {
+      name: pharmaClass.name,
+      duration: parseFloat(avgDuration.toFixed(1)),
+      pharmaClassId: pharmaClass.id,
+    };
+  });
+
+  // Generate treatment switching data for Sankey chart
+  const generateTreatmentSwitchingData = () => {
+    const nodes = [
+      // Source nodes (initial treatments)
+      { id: 'ACE Inhibitors (Initial)', label: 'ACE Inhibitors' },
+      { id: 'Beta Blockers (Initial)', label: 'Beta Blockers' },
+      { id: 'Anticoagulants (Initial)', label: 'Anticoagulants' },
+      { id: 'Antiarrhythmics (Initial)', label: 'Antiarrhythmics' },
+      // Target nodes (switched to treatments)
+      { id: 'ACE Inhibitors (Switch)', label: 'ACE Inhibitors' },
+      { id: 'Beta Blockers (Switch)', label: 'Beta Blockers' },
+      { id: 'Anticoagulants (Switch)', label: 'Anticoagulants' },
+      { id: 'Antiarrhythmics (Switch)', label: 'Antiarrhythmics' },
+      { id: 'Discontinued', label: 'Discontinued' },
+    ];
+
+    const links = [
+      // ACE Inhibitors switching patterns
+      { source: 'ACE Inhibitors (Initial)', target: 'ACE Inhibitors (Switch)', value: 650 },
+      { source: 'ACE Inhibitors (Initial)', target: 'Beta Blockers (Switch)', value: 125 },
+      { source: 'ACE Inhibitors (Initial)', target: 'Anticoagulants (Switch)', value: 75 },
+      { source: 'ACE Inhibitors (Initial)', target: 'Discontinued', value: 150 },
+      
+      // Beta Blockers switching patterns
+      { source: 'Beta Blockers (Initial)', target: 'Beta Blockers (Switch)', value: 580 },
+      { source: 'Beta Blockers (Initial)', target: 'ACE Inhibitors (Switch)', value: 90 },
+      { source: 'Beta Blockers (Initial)', target: 'Antiarrhythmics (Switch)', value: 80 },
+      { source: 'Beta Blockers (Initial)', target: 'Discontinued', value: 110 },
+      
+      // Anticoagulants switching patterns
+      { source: 'Anticoagulants (Initial)', target: 'Anticoagulants (Switch)', value: 420 },
+      { source: 'Anticoagulants (Initial)', target: 'Antiarrhythmics (Switch)', value: 60 },
+      { source: 'Anticoagulants (Initial)', target: 'Beta Blockers (Switch)', value: 45 },
+      { source: 'Anticoagulants (Initial)', target: 'Discontinued', value: 95 },
+      
+      // Antiarrhythmics switching patterns
+      { source: 'Antiarrhythmics (Initial)', target: 'Antiarrhythmics (Switch)', value: 280 },
+      { source: 'Antiarrhythmics (Initial)', target: 'Anticoagulants (Switch)', value: 85 },
+      { source: 'Antiarrhythmics (Initial)', target: 'Beta Blockers (Switch)', value: 55 },
+      { source: 'Antiarrhythmics (Initial)', target: 'Discontinued', value: 120 },
+    ];
+
+    return { nodes, links };
   };
-});
+
+  const sankeyData = generateTreatmentSwitchingData();
 
   return (
     <div className="space-y-6">
@@ -203,6 +251,49 @@ const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
+        </CardContent>
+      </Card>
+
+      {/* Treatment Switching Sankey Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ArrowRightLeft className="w-5 h-5" />
+            Treatment Switching Patterns
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Flow diagram showing how patients switch between pharmaceutical classes over time
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[500px]">
+            <ResponsiveSankey
+              data={sankeyData}
+              margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+              align="justify"
+              colors={{ scheme: 'blues' }}
+              nodeOpacity={1}
+              nodeHoverOthersOpacity={0.35}
+              nodeThickness={18}
+              nodeSpacing={24}
+              nodeBorderWidth={0}
+              nodeBorderColor={{
+                from: 'color',
+                modifiers: [['darker', 0.8]]
+              }}
+              linkOpacity={0.5}
+              linkHoverOthersOpacity={0.1}
+              linkContract={3}
+              enableLinkGradient={true}
+              labelPosition="outside"
+              labelOrientation="vertical"
+              labelPadding={16}
+              labelTextColor={{
+                from: 'color',
+                modifiers: [['darker', 1]]
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
 
