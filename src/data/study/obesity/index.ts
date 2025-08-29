@@ -42,12 +42,12 @@ export const obesityStudyData: StudyData = {
   },
   assessmentTargets: {
     perPatient: {
-      baseline: 3, // IWQOL, IWQOL-lite, EQ-5D
-      sixMonths: 3,
-      oneYear: 3,
-      twoYears: 3
+      baseline: 4, // IWQOL-Lite, EQ-5D-5L, SF-36, PHQ-9
+      sixMonths: 4,
+      oneYear: 4,
+      twoYears: 4
     },
-    assessmentTypes: ['IWQOL', 'IWQOL-lite', 'EQ-5D']
+    assessmentTypes: ['IWQOL-Lite', 'EQ-5D-5L', 'SF-36', 'PHQ-9']
   },
   enrollmentMetric: {
     metricId: 'bmi',

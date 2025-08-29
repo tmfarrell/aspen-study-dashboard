@@ -54,21 +54,70 @@ const generateAssessmentsForPatient = (
     // Only include assessments that should have occurred by now (or baseline)
     const now = new Date();
     if (timepoint === 'baseline' || date <= now) {
-      // Randomly complete some assessments for variation (80-95% completion rate)
-      const completionRate = 0.8 + Math.random() * 0.15;
-      const assessmentsToComplete = Math.floor(targetCount * completionRate);
+      // Study-specific completion rates for realism
+      let baseCompletionRate = 0.85; // Default 85%
       
-      for (let i = 0; i < assessmentsToComplete; i++) {
-        if (i < assessmentTypes.length) {
+      if (studyId === 'obesity') {
+        // Obesity studies typically have good compliance for QoL assessments
+        baseCompletionRate = 0.88;
+      } else if (studyId === 'diabetes') {
+        // Diabetes studies often have high engagement
+        baseCompletionRate = 0.92;
+      } else if (studyId === 'cardiology') {
+        // Cardiology patients often very compliant
+        baseCompletionRate = 0.90;
+      }
+      
+      // Add some variation (+/- 15%)
+      const variation = (Math.random() - 0.5) * 0.3;
+      const finalCompletionRate = Math.max(0.4, Math.min(0.98, baseCompletionRate + variation));
+      
+      // Generate assessments for each type with realistic scores
+      assessmentTypes.forEach((assessmentType, typeIndex) => {
+        if (Math.random() < finalCompletionRate) {
+          // Generate realistic scores based on assessment type
+          let score = 50;
+          let maxScore = 100;
+          
+          switch (assessmentType) {
+            case 'IWQOL-Lite':
+              score = 60 + Math.random() * 35; // 60-95 range
+              maxScore = 100;
+              break;
+            case 'EQ-5D-5L':
+              score = 0.6 + Math.random() * 0.35; // 0.6-0.95 utility score
+              maxScore = 1.0;
+              break;
+            case 'SF-36':
+              score = 45 + Math.random() * 40; // 45-85 range
+              maxScore = 100;
+              break;
+            case 'PHQ-9':
+              score = Math.random() * 15; // 0-15 depression scale
+              maxScore = 27;
+              break;
+            case 'DTSQ':
+              score = 20 + Math.random() * 16; // 20-36 satisfaction score
+              maxScore = 36;
+              break;
+            case 'AFEQT':
+              score = 60 + Math.random() * 30; // 60-90 range
+              maxScore = 100;
+              break;
+            default:
+              score = Math.random() * 100;
+              maxScore = 100;
+          }
+          
           assessments.push({
-            type: assessmentTypes[i],
+            type: assessmentType,
             date: date.toISOString().split('T')[0],
-            score: Math.random() * 100, // Random score for now
-            maxScore: 100,
+            score: Math.round(score * 100) / 100, // Round to 2 decimal places
+            maxScore,
             timepoint
           });
         }
-      }
+      });
     }
   });
 

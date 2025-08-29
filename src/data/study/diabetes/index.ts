@@ -40,12 +40,12 @@ export const diabetesStudyData: StudyData = {
   },
   assessmentTargets: {
     perPatient: {
-      baseline: 2, // IWQOL, EQ-5D
-      sixMonths: 2,
-      oneYear: 2,
-      twoYears: 2
+      baseline: 3, // DTSQ, EQ-5D-5L, PHQ-9
+      sixMonths: 3,
+      oneYear: 3,
+      twoYears: 3
     },
-    assessmentTypes: ['IWQOL', 'EQ-5D']
+    assessmentTypes: ['DTSQ', 'EQ-5D-5L', 'PHQ-9']
   },
   enrollmentMetric: {
     metricId: 'diabetes_types',

@@ -11,10 +11,6 @@ export const hypertensionStudyData: StudyData = {
   overviewLayout: {
     additionalComponents: [
       {
-        type: 'assessment-progress',
-        title: 'Assessment Completion Progress'
-      },
-      {
         type: 'metric',
         metricId: 'treatment_categories',
         displayType: 'distribution',
@@ -38,15 +34,7 @@ export const hypertensionStudyData: StudyData = {
       'MX': 680
     }
   },
-  assessmentTargets: {
-    perPatient: {
-      baseline: 2, // IWQOL, EQ-5D
-      sixMonths: 2,
-      oneYear: 2,
-      twoYears: 2
-    },
-    assessmentTypes: ['IWQOL', 'EQ-5D']
-  },
+  // No assessmentTargets for MASH - purely observational data collection
   enrollmentMetric: {
     metricId: 'treatment_categories',
     displayType: 'distribution',
