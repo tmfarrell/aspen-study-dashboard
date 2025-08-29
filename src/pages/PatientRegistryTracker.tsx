@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 
 import { EnrollmentDashboard } from "@/components/registry/EnrollmentDashboard";
-import { MedicationsPanel } from "@/components/registry/MedicationsPanel";
 import { AFibPanel } from "@/components/registry/AFibPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
@@ -17,7 +16,7 @@ import PatientDataTable from "@/components/registry/PatientDataTable";
 
 
 import AssessmentProgressMetrics from "@/components/registry/AssessmentProgressMetrics";
-import MedicationDistribution from "@/components/registry/MedicationDistribution";
+
 import PieChartMetric from "@/components/common/PieChartMetric";
 
 
@@ -70,8 +69,31 @@ export default function PatientRegistryTracker() {
             </TabsContent>
 
             <TabsContent value="medications" className="space-y-6">
-              <div className="text-center p-8 text-muted-foreground">
-                Medications content will be implemented here
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {selectedStudy === 'cardiology' && (
+                  <>
+                    <PieChartMetric metricId="cardiac_medications" title="Cardiac Medications" />
+                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                  </>
+                )}
+                {selectedStudy === 'diabetes' && (
+                  <>
+                    <PieChartMetric metricId="diabetes_medications" title="Diabetes Medications" />
+                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                  </>
+                )}
+                {selectedStudy === 'hypertension' && (
+                  <>
+                    <PieChartMetric metricId="bp_medications" title="Blood Pressure Medications" />
+                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                  </>
+                )}
+                {selectedStudy === 'obesity' && (
+                  <>
+                    <PieChartMetric metricId="weight_loss_medications" title="Weight Loss Medications" />
+                    <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
+                  </>
+                )}
               </div>
             </TabsContent>
 

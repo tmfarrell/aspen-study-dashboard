@@ -11,7 +11,7 @@ import PatientDataTable from '@/components/registry/PatientDataTable';
 
 
 import AssessmentProgressMetrics from '@/components/registry/AssessmentProgressMetrics';
-import MedicationDistribution from '@/components/registry/MedicationDistribution';
+
 import PieChartMetric from '@/components/common/PieChartMetric';
 
 
@@ -149,7 +149,9 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="medication" className="mt-6">
-            <MedicationDistribution detailed />
+            <div className="text-center p-8 text-muted-foreground">
+              Medications content will be implemented here
+            </div>
           </TabsContent>
 
           <TabsContent value="qol" className="mt-6">

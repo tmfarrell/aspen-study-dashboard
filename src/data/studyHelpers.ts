@@ -112,6 +112,46 @@ export const STANDARD_METRICS: MetricDefinition[] = [
     type: 'numerical',
     field: 'medicalHistory',
     
+  },
+  {
+    id: 'medication_adherence',
+    name: 'Medication Adherence',
+    description: 'Patient medication adherence rates',
+    type: 'numerical',
+    field: 'medications',
+    buckets: [
+      { min: 0, max: 50, label: 'Poor (<50%)' },
+      { min: 50, max: 80, label: 'Fair (50-80%)' },
+      { min: 80, max: 95, label: 'Good (80-95%)' },
+      { min: 95, max: 100, label: 'Excellent (>95%)' }
+    ]
+  },
+  {
+    id: 'medicalHistory',
+    name: 'Medical History',
+    description: 'Patient medical conditions',
+    type: 'categorical',
+    field: 'medicalHistory'
+  },
+  {
+    id: 'qualityOfLife',
+    name: 'Quality of Life',
+    description: 'Quality of life assessment scores',
+    type: 'numerical',
+    field: 'age', // Placeholder field - would need QoL data structure
+    buckets: [
+      { min: 0, max: 25, label: 'Poor (0-25)' },
+      { min: 26, max: 50, label: 'Fair (26-50)' },
+      { min: 51, max: 75, label: 'Good (51-75)' },
+      { min: 76, max: 100, label: 'Excellent (76-100)' }
+    ]
+  },
+  {
+    id: 'healthUtility',
+    name: 'Health Utility Index',
+    description: 'Health utility index scores',
+    type: 'categorical',
+    field: 'status' // Placeholder field - would need HUI data structure
   }
 ];
 
