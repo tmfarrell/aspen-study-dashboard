@@ -82,11 +82,11 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
         <GeographicTile studyId={studyId} />
       </div>
       
-      {/* Second row for cardiology: Assessment Progress next to Geographic Distribution */}
+      {/* Second row: Assessment Progress next to Geographic Distribution for cardiology */}
       {studyId === 'cardiology' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AssessmentProgressMetrics selectedStudy={studyId} />
-          <div /> {/* Empty placeholder to maintain grid layout */}
+          <GeographicTile studyId={studyId} />
         </div>
       )}
       
