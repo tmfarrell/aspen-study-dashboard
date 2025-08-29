@@ -8,7 +8,7 @@ import { GeographicTile } from '@/components/common/GeographicTile';
 import DistributionMetric from '@/components/common/DistributionMetric';
 import StandardizedOverview from '@/components/registry/StandardizedOverview';
 import PatientDataTable from '@/components/registry/PatientDataTable';
-import QualityOfLifeChart from '@/components/registry/QualityOfLifeChart';
+
 
 import AssessmentProgressMetrics from '@/components/registry/AssessmentProgressMetrics';
 import MedicationDistribution from '@/components/registry/MedicationDistribution';
@@ -153,9 +153,9 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="qol" className="mt-6">
-            <div className="space-y-6">
-              <QualityOfLifeChart />
-              <QualityOfLifeChart detailed />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DistributionMetric metricId="qualityOfLife" title="Quality of Life Scores" />
+              <PieChartMetric metricId="healthUtility" title="Health Utility Index" />
             </div>
           </TabsContent>
         </Tabs>
