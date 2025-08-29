@@ -93,11 +93,11 @@ const AssessmentProgressMetrics = ({ selectedStudy }: AssessmentProgressMetricsP
   });
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg">Assessment Completion Progress</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto space-y-3 py-3">
+      <CardContent className="space-y-4">
         <div className="text-center border-b pb-4">
           <div className="text-2xl font-bold mb-1 text-primary">
             {overallPercentage.toFixed(1)}%

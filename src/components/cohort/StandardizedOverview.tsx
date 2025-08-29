@@ -62,9 +62,7 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
       {additionalComponents.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {additionalComponents.map((component, index) => 
-            <div key={index} className="h-80">
-              {renderComponent(component, index)}
-            </div>
+            renderComponent(component, index)
           )}
         </div>
       )}

@@ -142,14 +142,14 @@ const MetricTile: React.FC<MetricTileProps> = ({
       }));
 
     return (
-      <Card className="h-80">
+      <Card className="h-full flex flex-col">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
             {getIcon()}
             {getTitle()}
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-4">
+        <CardContent className="flex-1 p-4">
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
