@@ -62,7 +62,25 @@ export const obesityStudyData: StudyData = {
     us: false,
     eu: true
   },
-  patientConfig: obesityPatientConfig
+  patientConfig: obesityPatientConfig,
+  studySpecificMetrics: [
+    {
+      id: 'weight_loss_medications',
+      name: 'Weight Loss Medications',
+      description: 'Medications for weight management',
+      type: 'categorical',
+      field: 'medications'
+    }
+  ],
+  qualityOfLifeMetrics: [
+    {
+      id: 'assessment_completion_rate',
+      name: 'Assessment Completion Rate',
+      description: 'Percentage of completed quality of life assessments',
+      type: 'numerical',
+      field: 'qualityOfLifeAssessments'
+    }
+  ]
 };
 
 

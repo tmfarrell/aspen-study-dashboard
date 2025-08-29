@@ -60,7 +60,32 @@ export const diabetesStudyData: StudyData = {
     us: true,
     eu: true
   },
-  patientConfig: diabetesPatientConfig
+  patientConfig: diabetesPatientConfig,
+  studySpecificMetrics: [
+    {
+      id: 'diabetes_medications',
+      name: 'Diabetes Medications',
+      description: 'Antidiabetic medications',
+      type: 'categorical',
+      field: 'medications'
+    },
+    {
+      id: 'diabetes_types',
+      name: 'Patient Demographics',
+      description: 'Enrollment by diabetes demographics',
+      type: 'categorical',
+      field: 'enrollmentCategory'
+    }
+  ],
+  qualityOfLifeMetrics: [
+    {
+      id: 'assessment_completion_rate',
+      name: 'Assessment Completion Rate',
+      description: 'Percentage of completed quality of life assessments',
+      type: 'numerical',
+      field: 'qualityOfLifeAssessments'
+    }
+  ]
 };
 
 

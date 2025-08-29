@@ -1,4 +1,14 @@
 // Core data types for the application
+
+// Metrics types
+export interface MetricDefinition {
+  id: string;
+  name: string;
+  description: string;
+  type: 'categorical' | 'numerical';
+  field: keyof PatientData | string; // string for nested fields like 'comorbidities.length'
+  buckets?: { min: number; max: number; label: string }[]; // For numerical metrics
+}
 export interface StudyData {
   id: string;
   name: string;
@@ -58,6 +68,8 @@ export interface StudyData {
     eu: boolean;
   };
   patientConfig: PatientConfig;
+  studySpecificMetrics?: MetricDefinition[];
+  qualityOfLifeMetrics?: MetricDefinition[];
 }
 
 export interface QoLAssessment {

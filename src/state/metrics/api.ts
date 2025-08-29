@@ -2,11 +2,11 @@
 import { 
   StudyMetrics, 
   MetricResult, 
-  MetricDefinition,
   CategoricalMetric,
   NumericalMetric,
   getAllMetricsForStudy
 } from '@/data/studyHelpers';
+import { MetricDefinition } from '@/api/types';
 import { StudyType, PatientData } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
 import { getStudySites } from '@/data/studyHelpers';

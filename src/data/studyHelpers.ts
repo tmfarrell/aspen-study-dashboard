@@ -1,18 +1,9 @@
-import { StudyType, PatientData } from '@/api/types';
+import { StudyType, PatientData, MetricDefinition } from '@/api/types';
 import { cardiologySites } from './study/cardiology/sites';
 import { diabetesSites } from './study/diabetes/sites';
 import { obesitySites } from './study/obesity/sites';
 import { hypertensionSites } from './study/hypertension/sites';
-
-// Metrics types
-export interface MetricDefinition {
-  id: string;
-  name: string;
-  description: string;
-  type: 'categorical' | 'numerical';
-  field: keyof PatientData | string; // string for nested fields like 'comorbidities.length'
-  buckets?: { min: number; max: number; label: string }[]; // For numerical metrics
-}
+import { studyData } from './studyData';
 
 export interface CategoricalMetric {
   id: string;
@@ -164,138 +155,12 @@ export const generateEnrollmentDescription = (totalPatients: number, targetEnrol
   return `of ${targetEnrollment.total.toLocaleString()} target patients enrolled`;
 };
 
-// Get study-specific metrics
-export const getStudySpecificMetrics = (studyId: StudyType): MetricDefinition[] => {
-  switch (studyId) {
-    case 'cardiology':
-      return [
-        {
-          id: 'cardiac_medications',
-          name: 'Cardiac Medications',
-          description: 'Common cardiac medications',
-          type: 'categorical',
-          field: 'medications'
-        },
-        {
-          id: 'heart_conditions',
-          name: 'Heart Rhythm Disorders',
-          description: 'Enrollment by heart rhythm disorders',
-          type: 'categorical',
-          field: 'enrollmentCategory'
-        }
-      ];
-    case 'obesity':
-      return [
-        {
-          id: 'weight_loss_medications',
-          name: 'Weight Loss Medications',
-          description: 'Medications for weight management',
-          type: 'categorical',
-          field: 'medications'
-        }
-      ];
-    case 'diabetes':
-      return [
-        {
-          id: 'diabetes_medications',
-          name: 'Diabetes Medications',
-          description: 'Antidiabetic medications',
-          type: 'categorical',
-          field: 'medications'
-        },
-        {
-          id: 'diabetes_types',
-          name: 'Patient Demographics',
-          description: 'Enrollment by diabetes demographics',
-          type: 'categorical',
-          field: 'enrollmentCategory'
-        }
-      ];
-    case 'hypertension':
-      return [
-        {
-          id: 'bp_medications',
-          name: 'Blood Pressure Medications',
-          description: 'Antihypertensive medications',
-          type: 'categorical',
-          field: 'medications'
-        },
-        {
-          id: 'treatment_categories',
-          name: 'Treatment Categories',
-          description: 'Enrollment by treatment categories',
-          type: 'categorical',
-          field: 'enrollmentCategory'
-        }
-      ];
-    default:
-      return [];
-  }
-};
-
-// Quality of Life Assessment metrics
-const QOL_METRICS: MetricDefinition[] = [
-  {
-    id: 'afeqt_scores',
-    name: 'AFEQT Scores',
-    description: 'Atrial Fibrillation Effect on Quality of Life scores',
-    type: 'numerical',
-    field: 'qualityOfLifeAssessments',
-    buckets: [
-      { min: 0, max: 25, label: 'Poor (0-25)' },
-      { min: 26, max: 50, label: 'Fair (26-50)' },
-      { min: 51, max: 75, label: 'Good (51-75)' },
-      { min: 76, max: 100, label: 'Excellent (76-100)' }
-    ]
-  },
-  {
-    id: 'sf36_scores',
-    name: 'SF-36 Physical Function Scores',
-    description: 'SF-36 Physical Function assessment scores',
-    type: 'numerical',
-    field: 'qualityOfLifeAssessments',
-    buckets: [
-      { min: 0, max: 25, label: 'Poor (0-25)' },
-      { min: 26, max: 50, label: 'Fair (26-50)' },
-      { min: 51, max: 75, label: 'Good (51-75)' },
-      { min: 76, max: 100, label: 'Excellent (76-100)' }
-    ]
-  },
-  {
-    id: 'eq5d_scores',
-    name: 'EQ-5D-5L Health Status',
-    description: 'EQ-5D-5L Health Status Index scores',
-    type: 'numerical',
-    field: 'qualityOfLifeAssessments',
-    buckets: [
-      { min: 0, max: 0.25, label: 'Poor (0-0.25)' },
-      { min: 0.26, max: 0.50, label: 'Fair (0.26-0.50)' },
-      { min: 0.51, max: 0.75, label: 'Good (0.51-0.75)' },
-      { min: 0.76, max: 1.0, label: 'Excellent (0.76-1.0)' }
-    ]
-  },
-  {
-    id: 'assessment_completion_rate',
-    name: 'Assessment Completion Rate',
-    description: 'Percentage of completed quality of life assessments',
-    type: 'numerical',
-    field: 'qualityOfLifeAssessments'
-  }
-];
-
-// Get all metrics for a study (standard + study-specific)
+// Get all metrics for a study (standard + study-specific + QoL)
 export const getAllMetricsForStudy = (studyId: StudyType): MetricDefinition[] => {
+  const study = studyData[studyId];
   const standardMetrics = STANDARD_METRICS;
-  const studySpecificMetrics = getStudySpecificMetrics(studyId);
-  
-  // Add QoL metrics for studies with assessment targets
-  let qolMetrics: MetricDefinition[] = [];
-  if (studyId === 'cardiology') {
-    qolMetrics = QOL_METRICS;
-  } else if (studyId === 'obesity' || studyId === 'diabetes') {
-    // Add just the assessment completion rate metric for these studies
-    qolMetrics = [QOL_METRICS.find(m => m.id === 'assessment_completion_rate')!];
-  }
+  const studySpecificMetrics = study?.studySpecificMetrics || [];
+  const qolMetrics = study?.qualityOfLifeMetrics || [];
   
   return [...standardMetrics, ...studySpecificMetrics, ...qolMetrics];
 };

@@ -48,7 +48,24 @@ export const hypertensionStudyData: StudyData = {
     us: true,
     eu: false
   },
-  patientConfig: hypertensionPatientConfig
+  patientConfig: hypertensionPatientConfig,
+  studySpecificMetrics: [
+    {
+      id: 'bp_medications',
+      name: 'Blood Pressure Medications',
+      description: 'Antihypertensive medications',
+      type: 'categorical',
+      field: 'medications'
+    },
+    {
+      id: 'treatment_categories',
+      name: 'Treatment Categories',
+      description: 'Enrollment by treatment categories',
+      type: 'categorical',
+      field: 'enrollmentCategory'
+    }
+  ]
+  // No qualityOfLifeMetrics for hypertension - purely observational data collection
 };
 
 
