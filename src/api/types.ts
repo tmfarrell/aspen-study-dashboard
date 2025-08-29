@@ -17,6 +17,15 @@ export interface StudyData {
       [countryCode: string]: number;
     };
   };
+  assessmentTargets?: {
+    perPatient: {
+      baseline: number;
+      sixMonths: number;
+      oneYear: number;
+      twoYears: number;
+    };
+    assessmentTypes: string[];
+  };
   enrollmentMetric: {
     metricId: string;
     displayType: 'distribution' | 'pie';
@@ -82,6 +91,7 @@ export interface PatientConfig {
   medications: string[];
   enrollmentDateRange: { startYear: number; startMonth: number; endYear: number; endMonth: number };
   enrollmentCategories: Array<{ key: string; label: string; weight: number }>;
+  assessmentTypes?: string[];
 }
 
 export interface SiteData {

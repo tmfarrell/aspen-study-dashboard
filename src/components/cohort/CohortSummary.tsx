@@ -6,7 +6,7 @@ import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AgeRangeTile from '@/components/common/AgeRangeTile';
 import MetricTile from '@/components/common/MetricTile';
 import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
-import AssessmentProgress from '@/components/cohort/AssessmentProgress';
+import AssessmentProgressMetrics from '@/components/cohort/AssessmentProgressMetrics';
 import { useStudy } from "@/state/studies";
 import { StudyType } from "@/api/types";
 
@@ -65,7 +65,7 @@ const CohortSummary = ({ selectedStudy }: CohortSummaryProps) => {
       {/* Progress tracking tiles - side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={selectedStudy} />
-        <AssessmentProgress selectedStudy={selectedStudy} />
+        <AssessmentProgressMetrics selectedStudy={selectedStudy} />
       </div>
       
       {/* BMI Distribution for relevant studies */}

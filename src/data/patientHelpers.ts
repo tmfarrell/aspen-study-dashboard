@@ -1,4 +1,5 @@
-import { PatientData, SiteData, StudyType } from '@/api/types';
+import { PatientData, SiteData, StudyType, QoLAssessment } from '@/api/types';
+import { studyData } from '@/data/studyData';
 
 // Common helper functions for patient generation
 export const weightedRandom = (weights: Record<string, number>): string => {
@@ -25,7 +26,53 @@ export const randomDate = (startYear: number, startMonth: number, endYear: numbe
   const start = new Date(startYear, startMonth, 1);
   const end = new Date(endYear, endMonth, 28);
   const randomTime = start.getTime() + Math.random() * (end.getTime() - start.getTime());
-  return new Date(randomTime).toISOString();
+  return new Date(randomTime).toISOString().split('T')[0];
+};
+
+// Helper function to generate assessments for a patient based on study schedule
+const generateAssessmentsForPatient = (
+  patientId: string,
+  studyId: StudyType,
+  enrollmentDate: string
+): QoLAssessment[] => {
+  const currentStudyData = studyData[studyId];
+  if (!currentStudyData?.assessmentTargets) return [];
+
+  const assessments: QoLAssessment[] = [];
+  const baselineDate = new Date(enrollmentDate);
+  const assessmentTypes = currentStudyData.assessmentTargets.assessmentTypes;
+  
+  // Generate timepoints
+  const timepoints: Array<{ timepoint: QoLAssessment['timepoint'], date: Date, targetCount: number }> = [
+    { timepoint: 'baseline', date: baselineDate, targetCount: currentStudyData.assessmentTargets.perPatient.baseline },
+    { timepoint: '6months', date: new Date(baselineDate.getTime() + 6 * 30 * 24 * 60 * 60 * 1000), targetCount: currentStudyData.assessmentTargets.perPatient.sixMonths },
+    { timepoint: '1year', date: new Date(baselineDate.getTime() + 365 * 24 * 60 * 60 * 1000), targetCount: currentStudyData.assessmentTargets.perPatient.oneYear },
+    { timepoint: '2years', date: new Date(baselineDate.getTime() + 2 * 365 * 24 * 60 * 60 * 1000), targetCount: currentStudyData.assessmentTargets.perPatient.twoYears }
+  ];
+
+  timepoints.forEach(({ timepoint, date, targetCount }) => {
+    // Only include assessments that should have occurred by now (or baseline)
+    const now = new Date();
+    if (timepoint === 'baseline' || date <= now) {
+      // Randomly complete some assessments for variation (80-95% completion rate)
+      const completionRate = 0.8 + Math.random() * 0.15;
+      const assessmentsToComplete = Math.floor(targetCount * completionRate);
+      
+      for (let i = 0; i < assessmentsToComplete; i++) {
+        if (i < assessmentTypes.length) {
+          assessments.push({
+            type: assessmentTypes[i],
+            date: date.toISOString().split('T')[0],
+            score: Math.random() * 100, // Random score for now
+            maxScore: 100,
+            timepoint
+          });
+        }
+      }
+    }
+  });
+
+  return assessments;
 };
 
 // Patient configuration interface
@@ -82,18 +129,21 @@ export const generatePatientsForSite = (
         )
       : undefined;
     
+    const patientId = `${studyId}-${patientIndex.toString().padStart(4, '0')}`;
+    const enrollmentDate = randomDate(
+      config.enrollmentDateRange.startYear,
+      config.enrollmentDateRange.startMonth,
+      config.enrollmentDateRange.endYear,
+      config.enrollmentDateRange.endMonth
+    );
+    
     patients.push({
-      id: `${studyId}-${patientIndex.toString().padStart(4, '0')}`,
+      id: patientId,
       studyId,
       age,
       gender,
       bmi,
-      enrollmentDate: randomDate(
-        config.enrollmentDateRange.startYear,
-        config.enrollmentDateRange.startMonth,
-        config.enrollmentDateRange.endYear,
-        config.enrollmentDateRange.endMonth
-      ),
+      enrollmentDate,
       status: statuses[Math.floor(Math.random() * statuses.length)],
       siteId: site.id,
       race,
@@ -102,7 +152,8 @@ export const generatePatientsForSite = (
       medications: config.medications.filter(() => Math.random() > 0.6),
       enrollmentCategory,
       visitHistory: [],
-      labResults: {}
+      labResults: {},
+      qualityOfLifeAssessments: generateAssessmentsForPatient(patientId, studyId, enrollmentDate)
     });
   }
 

@@ -17,6 +17,15 @@ export const hypertensionStudyData: StudyData = {
       'MX': 680
     }
   },
+  assessmentTargets: {
+    perPatient: {
+      baseline: 2, // IWQOL, EQ-5D
+      sixMonths: 2,
+      oneYear: 2,
+      twoYears: 2
+    },
+    assessmentTypes: ['IWQOL', 'EQ-5D']
+  },
   enrollmentMetric: {
     metricId: 'treatment_categories',
     displayType: 'distribution',

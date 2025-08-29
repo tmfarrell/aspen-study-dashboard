@@ -17,7 +17,7 @@ import CohortSummary from "@/components/cohort/CohortSummary";
 import PatientTable from "@/components/cohort/PatientTable";
 import QualityOfLifeChart from "@/components/cohort/QualityOfLifeChart";
 
-import AssessmentProgress from "@/components/cohort/AssessmentProgress";
+import AssessmentProgressMetrics from "@/components/cohort/AssessmentProgressMetrics";
 import MedicationDistribution from "@/components/cohort/MedicationDistribution";
 import GenderDistribution from "@/components/cohort/GenderDistribution";
 import RaceDistribution from "@/components/cohort/RaceDistribution";

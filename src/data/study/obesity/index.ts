@@ -18,6 +18,15 @@ export const obesityStudyData: StudyData = {
       'CH': 1000
     }
   },
+  assessmentTargets: {
+    perPatient: {
+      baseline: 3, // IWQOL, IWQOL-lite, EQ-5D
+      sixMonths: 3,
+      oneYear: 3,
+      twoYears: 3
+    },
+    assessmentTypes: ['IWQOL', 'IWQOL-lite', 'EQ-5D']
+  },
   enrollmentMetric: {
     metricId: 'bmi',
     displayType: 'distribution',

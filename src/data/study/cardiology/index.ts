@@ -8,6 +8,15 @@ export const cardiologyStudyData: StudyData = {
   overviewMetrics: [
     { metricId: 'comorbidity_count', displayType: 'average', icon: 'bar-chart', description: 'Average comorbidities per patient' }
   ],
+  assessmentTargets: {
+    perPatient: {
+      baseline: 3, // AFEQT, SF-36, EQ-5D
+      sixMonths: 3,
+      oneYear: 3,
+      twoYears: 3
+    },
+    assessmentTypes: ['AFEQT', 'SF-36', 'EQ-5D']
+  },
   enrollmentMetric: {
     metricId: 'heart_conditions',
     displayType: 'distribution',

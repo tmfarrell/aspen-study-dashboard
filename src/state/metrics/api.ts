@@ -14,6 +14,7 @@ import { cardiologyPatientConfig } from '@/data/study/cardiology/patients';
 import { obesityPatientConfig } from '@/data/study/obesity/patients';
 import { diabetesPatientConfig } from '@/data/study/diabetes/patients';
 import { hypertensionPatientConfig } from '@/data/study/hypertension/patients';
+import { studyData } from '@/data/studyData';
 
 // Cache for computed metrics to avoid recalculation
 // Clear cache on startup to ensure fresh data with enrollment categories
@@ -96,6 +97,37 @@ const calculateNumericalMetric = (
     if (definition.field === 'medicalHistory') {
       // For comorbidity count
       value = (patient.medicalHistory as string[]).length;
+    } else if (definition.id === 'assessment_completion_rate') {
+      // Calculate assessment completion rate based on targets
+      const assessments = patient.qualityOfLifeAssessments || [];
+      const currentStudyData = studyData[patient.studyId];
+      
+      if (currentStudyData?.assessmentTargets) {
+        const enrollmentDate = new Date(patient.enrollmentDate);
+        const now = new Date();
+        let totalExpected = 0;
+        let totalCompleted = assessments.length;
+        
+        // Calculate expected assessments based on time since enrollment
+        const monthsSinceEnrollment = (now.getTime() - enrollmentDate.getTime()) / (1000 * 60 * 60 * 24 * 30);
+        
+        // Always expect baseline
+        totalExpected += currentStudyData.assessmentTargets.perPatient.baseline;
+        
+        if (monthsSinceEnrollment >= 6) {
+          totalExpected += currentStudyData.assessmentTargets.perPatient.sixMonths;
+        }
+        if (monthsSinceEnrollment >= 12) {
+          totalExpected += currentStudyData.assessmentTargets.perPatient.oneYear;
+        }
+        if (monthsSinceEnrollment >= 24) {
+          totalExpected += currentStudyData.assessmentTargets.perPatient.twoYears;
+        }
+        
+        value = totalExpected > 0 ? (totalCompleted / totalExpected) * 100 : 0;
+      } else {
+        value = 0;
+      }
     } else {
       value = patient[definition.field as keyof PatientData] as number;
     }
