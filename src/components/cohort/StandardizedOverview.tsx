@@ -1,6 +1,8 @@
 import React from 'react';
 import { EnrollmentProgressTile } from '@/components/common/EnrollmentProgressTile';
 import { GeographicTile } from '@/components/common/GeographicTile';
+import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
+import AgeRangeTile from '@/components/common/AgeRangeTile';
 import MetricTile from '@/components/common/MetricTile';
 import AssessmentProgressMetrics from '@/components/cohort/AssessmentProgressMetrics';
 import { useStudy } from "@/state/studies";
@@ -52,6 +54,28 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
 
   return (
     <div className="space-y-6">
+      {/* Top-level summary metrics row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Standardized Total Patients/Cases Tile */}
+        <TotalPatientsTile studyId={studyId} />
+        
+        {/* Age Range using metrics system */}
+        <AgeRangeTile studyId={studyId} />
+        
+        {/* Study-specific metric tiles */}
+        {study.overviewMetrics.map((metricConfig, index) => (
+          <MetricTile
+            key={index}
+            studyId={studyId}
+            metricId={metricConfig.metricId}
+            displayType={metricConfig.displayType}
+            orientation={metricConfig.orientation}
+            icon={metricConfig.icon}
+            description={metricConfig.description}
+          />
+        ))}
+      </div>
+
       {/* Standard first row: Enrollment Progress + Geographic Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EnrollmentProgressTile studyId={studyId} />
