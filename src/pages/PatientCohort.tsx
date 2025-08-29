@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import UserDropdown from '@/components/UserDropdown';
 import BMIDistributionChart from '@/components/registry/BMIDistributionChart';
 import GeographicDistribution from '@/components/registry/GeographicDistribution';
-import AgeDistributionChart from '@/components/registry/AgeDistributionChart';
+import DistributionMetric from '@/components/common/DistributionMetric';
 import StandardizedOverview from '@/components/registry/StandardizedOverview';
 import PatientDataTable from '@/components/registry/PatientDataTable';
 import QualityOfLifeChart from '@/components/registry/QualityOfLifeChart';
@@ -85,7 +85,7 @@ const PatientCohort = () => {
           <TabsContent value="overview" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <BMIDistributionChart />
-              <AgeDistributionChart />
+              <DistributionMetric metricId="age" title="Age Distribution" />
               <div className="lg:col-span-2">
                 <GeographicDistribution />
               </div>
@@ -133,7 +133,7 @@ const PatientCohort = () => {
 
           <TabsContent value="demographics" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <AgeDistributionChart detailed />
+              <DistributionMetric metricId="age" title="Age Distribution" />
               <GenderDistribution />
               <RaceDistribution />
             </div>

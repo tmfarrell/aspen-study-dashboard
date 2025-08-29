@@ -10,7 +10,7 @@ import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
 
 import GeographicDistribution from "@/components/registry/GeographicDistribution";
-import AgeDistributionChart from "@/components/registry/AgeDistributionChart";
+import DistributionMetric from "@/components/common/DistributionMetric";
 import { GeographicTile } from "@/components/common/GeographicTile";
 import StandardizedOverview from "@/components/registry/StandardizedOverview";
 import PatientDataTable from "@/components/registry/PatientDataTable";
@@ -56,7 +56,7 @@ export default function PatientRegistryTracker() {
 
             <TabsContent value="demographics" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <AgeDistributionChart detailed />
+                <DistributionMetric metricId="age" title="Age Distribution" />
                 <GenderDistribution />
                 <RaceDistribution />
               </div>
