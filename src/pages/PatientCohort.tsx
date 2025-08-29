@@ -3,19 +3,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import UserDropdown from '@/components/UserDropdown';
-import BMIDistributionChart from '@/components/cohort/BMIDistributionChart';
-import GeographicDistribution from '@/components/cohort/GeographicDistribution';
-import AgeDistributionChart from '@/components/cohort/AgeDistributionChart';
-import StandardizedOverview from '@/components/cohort/StandardizedOverview';
-import PatientDataTable from '@/components/cohort/PatientDataTable';
-import QualityOfLifeChart from '@/components/cohort/QualityOfLifeChart';
+import BMIDistributionChart from '@/components/registry/BMIDistributionChart';
+import GeographicDistribution from '@/components/registry/GeographicDistribution';
+import AgeDistributionChart from '@/components/registry/AgeDistributionChart';
+import StandardizedOverview from '@/components/registry/StandardizedOverview';
+import PatientDataTable from '@/components/registry/PatientDataTable';
+import QualityOfLifeChart from '@/components/registry/QualityOfLifeChart';
 
-import AssessmentProgressMetrics from '@/components/cohort/AssessmentProgressMetrics';
-import MedicationDistribution from '@/components/cohort/MedicationDistribution';
-import GenderDistribution from '@/components/cohort/GenderDistribution';
-import RaceDistribution from '@/components/cohort/RaceDistribution';
+import AssessmentProgressMetrics from '@/components/registry/AssessmentProgressMetrics';
+import MedicationDistribution from '@/components/registry/MedicationDistribution';
+import GenderDistribution from '@/components/registry/GenderDistribution';
+import RaceDistribution from '@/components/registry/RaceDistribution';
 
-import ComorbidityDistribution from '@/components/cohort/ComorbidityDistribution';
+import ComorbidityDistribution from '@/components/registry/ComorbidityDistribution';
 import { StudyType } from '@/api/types';
 import { useStudyOptions } from '@/state/studies';
 

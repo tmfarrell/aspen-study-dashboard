@@ -4,7 +4,7 @@ import { GeographicTile } from '@/components/common/GeographicTile';
 import { TotalPatientsTile } from '@/components/common/TotalPatientsTile';
 import AgeRangeTile from '@/components/common/AgeRangeTile';
 import MetricTile from '@/components/common/MetricTile';
-import AssessmentProgressMetrics from '@/components/cohort/AssessmentProgressMetrics';
+import AssessmentProgressMetrics from '@/components/registry/AssessmentProgressMetrics';
 import { useStudy } from "@/state/studies";
 import { StudyType } from "@/api/types";
 
