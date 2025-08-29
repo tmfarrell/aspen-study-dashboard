@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PatientCohortDashboard } from "@/components/PatientCohortDashboard";
-import { DemographicsPanel } from "@/components/DemographicsPanel";
-import { EnrollmentDashboard } from "@/components/enrollment/EnrollmentDashboard";
-import { MedicationsPanel } from "@/components/MedicationsPanel";
-import { AFibPanel } from "@/components/AFibPanel";
+import { PatientCohortDashboard } from "@/components/registry/PatientCohortDashboard";
+import { DemographicsPanel } from "@/components/registry/DemographicsPanel";
+import { EnrollmentDashboard } from "@/components/registry/EnrollmentDashboard";
+import { MedicationsPanel } from "@/components/registry/MedicationsPanel";
+import { AFibPanel } from "@/components/registry/AFibPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from '@/components/Header';
-import { AIInsightsPanel } from '@/components/AIInsightsPanel';
+import { AIInsightsPanel } from '@/components/registry/AIInsightsPanel';
 
 const PhenOMInsights = () => {
   return (

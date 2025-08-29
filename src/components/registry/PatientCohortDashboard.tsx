@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Users, Heart, TrendingUp, Filter, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { usePatients } from "@/state/patients";
-import { GeographicTile } from "./common/GeographicTile";
-import { EnrollmentProgressTile } from "./common/EnrollmentProgressTile";
-import AgeRangeTile from "./common/AgeRangeTile";
+import { GeographicTile } from "../common/GeographicTile";
+import { EnrollmentProgressTile } from "../common/EnrollmentProgressTile";
+import AgeRangeTile from "../common/AgeRangeTile";
 import { useStudy, useStudyStats } from "@/state/studies";
 
 export function PatientCohortDashboard() {

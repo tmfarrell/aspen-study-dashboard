@@ -8,7 +8,7 @@ import { Filter, Search, MapPin, Heart, Users, PieChart } from "lucide-react";
 import { usePatients } from "@/state/patients";
 import { useStudyMetrics } from "@/state/metrics";
 import { PatientData, StudyType } from "@/api/types";
-import { PatientChartModal } from "./PatientChartModal";
+import { PatientChartModal } from "../PatientChartModal";
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
 interface DemographicsPanelProps {
