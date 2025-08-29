@@ -82,7 +82,7 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
         <GeographicTile studyId={studyId} />
       </div>
       
-      {/* Second row for cardiology: Assessment Progress + Geographic Distribution */}
+      {/* Second row for cardiology: Assessment Progress next to Geographic Distribution */}
       {studyId === 'cardiology' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AssessmentProgressMetrics selectedStudy={studyId} />
@@ -93,9 +93,11 @@ const StandardizedOverview = ({ studyId }: StandardizedOverviewProps) => {
       {/* Dynamic additional components - all half width with consistent heights */}
       {additionalComponents.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          {additionalComponents.map((component, index) => 
-            renderComponent(component, index)
-          )}
+          {additionalComponents
+            .filter(component => component.type !== 'assessment-progress') // Filter out assessment-progress to avoid duplication
+            .map((component, index) => 
+              renderComponent(component, index)
+            )}
         </div>
       )}
     </div>
