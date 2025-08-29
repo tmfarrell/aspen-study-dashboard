@@ -17,6 +17,9 @@ import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 import SiteStatus from './pages/SiteStatus';
 import UnstructuredData from './pages/UnstructuredData';
 import Notifications from './pages/Notifications';
+import PhenOMInsights from './pages/PhenOMInsights';
+import DataStudio from './pages/DataStudio';
+import PatientManagement from './pages/PatientManagement';
 
 function App() {
   return (
@@ -46,6 +49,9 @@ function App() {
                             <Route path="/site-status" element={<SiteStatus />} />
                             <Route path="/unstructured" element={<UnstructuredData />} />
                             <Route path="/notifications" element={<Notifications />} />
+                            <Route path="/phenom-insights" element={<PhenOMInsights />} />
+                            <Route path="/data-studio" element={<DataStudio />} />
+                            <Route path="/patient-management" element={<PatientManagement />} />
                             <Route path="/documentation" element={<Documentation />} />
                             <Route path="/faq" element={<FAQ />} />
                           </Routes>

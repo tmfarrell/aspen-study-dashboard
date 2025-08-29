@@ -6,7 +6,6 @@ import { DemographicsPanel } from "@/components/DemographicsPanel";
 import { EnrollmentDashboard } from "@/components/enrollment/EnrollmentDashboard";
 import { MedicationsPanel } from "@/components/MedicationsPanel";
 import { AFibPanel } from "@/components/AFibPanel";
-import { AIInsightsPanel } from "@/components/AIInsightsPanel";
 import { StudySelector } from "@/components/StudySelector";
 import { Header } from "@/components/Header";
 
@@ -43,13 +42,12 @@ export default function PatientRegistryTracker() {
             </p>
           </div>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="demographics">Demographics</TabsTrigger>
             <TabsTrigger value="enrollment">Enrollment</TabsTrigger>
             <TabsTrigger value="medications">Medications</TabsTrigger>
             <TabsTrigger value="analysis">{selectedStudy === 'cardiology' ? 'AFib Analysis' : 'Analysis'}</TabsTrigger>
-            <TabsTrigger value="insights">AI Insights</TabsTrigger>
           </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -115,11 +113,7 @@ export default function PatientRegistryTracker() {
                   <QualityOfLifeChart />
                   <QualityOfLifeChart detailed />
                 </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="insights" className="space-y-6">
-              <AIInsightsPanel />
+               )}
             </TabsContent>
           </Tabs>
         </div>

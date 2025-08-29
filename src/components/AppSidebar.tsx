@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity, Bot, Building2, FileCog, Bell } from 'lucide-react';
+import { Home, BarChart3, Search, FileText, ChevronLeft, HelpCircle, BookOpen, Activity, Bot, Building2, FileCog, Bell, Brain, Database, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const homeItems = [
@@ -27,7 +27,7 @@ const homeItems = [
 
 const appsItems = [
   {
-    title: 'Registry Tracker',
+    title: 'Registry Overview',
     url: '/patient-registry',
     icon: Activity,
   },
@@ -37,17 +37,32 @@ const appsItems = [
     icon: Search,
   },
   {
-    title: 'Insights Library',
+    title: 'Population Analytics',
     url: '/reports',
     icon: FileText,
+  },
+  {
+    title: 'PhenOM Insights',
+    url: '/phenom-insights',
+    icon: Brain,
+  },
+  {
+    title: 'Data Studio',
+    url: '/data-studio',
+    icon: Database,
   },
 ];
 
 const servicesItems = [
   {
-    title: 'Site Status',
+    title: 'Site Management',
     url: '/site-status',
     icon: Building2,
+  },
+  {
+    title: 'Patient Management',
+    url: '/patient-management',
+    icon: Users,
   },
   {
     title: 'Structured Mapping',
