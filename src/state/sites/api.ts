@@ -5,29 +5,10 @@ import {
   SiteFilters,
   StudyType 
 } from '@/api/types';
-import { cardiologySites } from '@/data/study/cardiology';
-import { diabetesSites } from '@/data/study/diabetes';
-import { obesitySites } from '@/data/study/obesity';
-import { hypertensionSites } from '@/data/study/hypertension';
+import { getStudySites } from '@/data/studyHelpers';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Get sites for a specific study
-const getStudySites = (studyId: StudyType): SiteData[] => {
-  switch (studyId) {
-    case 'cardiology':
-      return cardiologySites;
-    case 'diabetes':
-      return diabetesSites;
-    case 'obesity':
-      return obesitySites;
-    case 'hypertension':
-      return hypertensionSites;
-    default:
-      return [];
-  }
-};
 
 export const sitesApi = {
   getAll: async (studyId: StudyType, filters?: SiteFilters): Promise<ApiResponse<SiteData[]>> => {
@@ -59,8 +40,8 @@ export const sitesApi = {
 
   getById: async (studyId: StudyType, id: string): Promise<ApiResponse<SiteData>> => {
     await delay();
-    const studySites = getStudySites(studyId);
-    const site = studySites.find(s => s.id === id);
+    const sites = getStudySites(studyId);
+    const site = sites.find(s => s.id === id);
     
     if (!site) {
       throw new Error(`Site with id ${id} not found in study ${studyId}`);

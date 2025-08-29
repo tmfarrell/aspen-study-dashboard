@@ -10,10 +10,6 @@ import {
 import { StudyType, PatientData } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
 import { getStudySites } from '@/data/studyHelpers';
-import { cardiologyPatientConfig } from '@/data/study/cardiology/patients';
-import { obesityPatientConfig } from '@/data/study/obesity/patients';
-import { diabetesPatientConfig } from '@/data/study/diabetes/patients';
-import { hypertensionPatientConfig } from '@/data/study/hypertension/patients';
 import { studyData } from '@/data/studyData';
 
 // Cache for computed metrics to avoid recalculation
@@ -23,15 +19,10 @@ const metricsCache = new Map<StudyType, StudyMetrics>();
 // Simulate network delay
 const delay = (ms: number = 200) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Get patient config for study
+// Get patient config for study from the study data
 const getPatientConfig = (studyId: StudyType) => {
-  switch (studyId) {
-    case 'cardiology': return cardiologyPatientConfig;
-    case 'obesity': return obesityPatientConfig;
-    case 'diabetes': return diabetesPatientConfig;
-    case 'hypertension': return hypertensionPatientConfig;
-    default: return obesityPatientConfig;
-  }
+  const study = studyData[studyId];
+  return study?.patientConfig;
 };
 
 // Calculate categorical metric
@@ -207,8 +198,8 @@ const calculateNumericalMetric = (
 const calculateStudyMetrics = (studyId: StudyType): StudyMetrics => {
   const sites = getStudySites(studyId);
   const config = getPatientConfig(studyId);
-  console.log(`Patient config for ${studyId}:`, config.enrollmentCategories ? config.enrollmentCategories.length + ' categories' : 'No enrollment categories');
-  const patients = generateStudyPatients(studyId, sites, config);
+  console.log(`Patient config for ${studyId}:`, config?.enrollmentCategories ? config.enrollmentCategories.length + ' categories' : 'No enrollment categories');
+  const patients = config ? generateStudyPatients(studyId, sites, config) : [];
   
   console.log(`Generated ${patients.length} patients for ${studyId}`);
   console.log(`Sample patient:`, patients[0]);

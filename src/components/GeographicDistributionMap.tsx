@@ -5,47 +5,37 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, MapPin, Building2 } from "lucide-react";
 import { useAppState } from '@/contexts/AppStateContext';
-import { cardiologySites } from '@/data/study/cardiology';
-import { diabetesSites } from '@/data/study/diabetes';
-import { obesitySites } from '@/data/study/obesity';
-import { hypertensionSites } from '@/data/study/hypertension';
 import { StudyType } from '@/api/types';
+import { useSites } from '@/state/sites/queries';
 // State statistics are now calculated dynamically from patient data
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 const ITEMS_PER_PAGE = 8;
 
-// Get sites for a specific study
-const getStudySites = (studyId: StudyType) => {
-  switch (studyId) {
-    case 'cardiology':
-      return cardiologySites;
-    case 'diabetes':
-      return diabetesSites;
-    case 'obesity':
-      return obesitySites;
-    case 'hypertension':
-      return hypertensionSites;
-    default:
-      return [];
-  }
-};
-
-export function GeographicDistributionMap() {
+const GeographicDistributionMap = () => {
   const { selectedStudy } = useAppState();
   const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: sites, isLoading, error } = useSites(selectedStudy);
+
+  if (isLoading) {
+    return <div className="h-96 bg-muted animate-pulse rounded-lg" />;
+  }
+
+  if (error || !sites) {
+    return <div className="p-6 text-center text-muted-foreground">Unable to load site data</div>;
+  }
+
   // Get study-specific site data and transform to match expected format
-  const studySites = getStudySites(selectedStudy);
-  const hospitals = studySites
-    .filter(site => site.region === 'us') // Only US sites for the US map
+  const hospitals = sites
+    .filter(site => site.region === 'us')
     .map(site => ({
       id: site.id,
       name: site.name,
-      state: site.subdivision, // subdivision is the state for US sites
+      state: site.subdivision,
       city: site.city,
-      caseCount: site.enrolledPatients
+      caseCount: site.enrolledPatients,
+      status: site.status
     }));
 
   const getHospitalsByState = (state: string | null) => {
@@ -75,17 +65,11 @@ export function GeographicDistributionMap() {
     (currentPage + 1) * ITEMS_PER_PAGE
   );
 
-  // Mock state patient counts for the map visualization
-  const statePatientCounts = {
-    'California': 450,
-    'Texas': 380,
-    'Florida': 320,
-    'New York': 280,
-    'Pennsylvania': 240,
-    'Ohio': 200,
-    'Illinois': 180,
-    'Georgia': 160
-  };
+  // Calculate state patient counts from actual site data
+  const statePatientCounts = hospitals.reduce((acc, hospital) => {
+    acc[hospital.state] = (acc[hospital.state] || 0) + hospital.caseCount;
+    return acc;
+  }, {} as Record<string, number>);
 
   const maxPatientCount = Math.max(...Object.values(statePatientCounts));
 

@@ -1,6 +1,5 @@
 import { atom } from 'jotai';
 import { StudyType } from '@/api/types';
-import { calculateTotalPatients } from '@/data/studyHelpers';
 
 // UI State Atoms
 export const selectedStudyAtom = atom<StudyType>('obesity');
@@ -70,9 +69,4 @@ export const currentPatientFiltersAtom = atom(
 );
 
 // Derived cohort atom that updates when study changes
-export const populationSizeForStudyAtom = atom(
-  (get) => {
-    const study = get(selectedStudyAtom);
-    return calculateTotalPatients(study);
-  }
-);
+export const populationSizeForStudyAtom = atom(0); // Will be populated by React Query

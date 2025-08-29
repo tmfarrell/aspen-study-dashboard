@@ -8,10 +8,7 @@ import {
 } from '@/api/types';
 import { generateStudyPatients } from '@/data/patientHelpers';
 import { getStudySites } from '@/data/studyHelpers';
-import { cardiologyPatientConfig } from '@/data/study/cardiology/patients';
-import { obesityPatientConfig } from '@/data/study/obesity/patients';
-import { diabetesPatientConfig } from '@/data/study/diabetes/patients';
-import { hypertensionPatientConfig } from '@/data/study/hypertension/patients';
+import { studyData } from '@/data/studyData';
 
 // Cache for generated patients to avoid recalculation
 const patientsCache = new Map<StudyType, PatientData[]>();
@@ -19,15 +16,10 @@ const patientsCache = new Map<StudyType, PatientData[]>();
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Get patient config for study
+// Get patient config for study from the study data
 const getPatientConfig = (studyId: StudyType) => {
-  switch (studyId) {
-    case 'cardiology': return cardiologyPatientConfig;
-    case 'obesity': return obesityPatientConfig;
-    case 'diabetes': return diabetesPatientConfig;
-    case 'hypertension': return hypertensionPatientConfig;
-    default: return obesityPatientConfig;
-  }
+  const study = studyData[studyId];
+  return study?.patientConfig;
 };
 
 export const patientsApi = {
@@ -48,7 +40,7 @@ export const patientsApi = {
       // Generate study-specific patients based on site enrollment
       const sites = getStudySites(studyId);
       const config = getPatientConfig(studyId);
-      patients = generateStudyPatients(studyId, sites, config);
+      patients = config ? generateStudyPatients(studyId, sites, config) : [];
       patientsCache.set(studyId, patients);
     }
     
@@ -105,7 +97,7 @@ export const patientsApi = {
       // Fallback: generate a single patient with the requested ID
       const sites = getStudySites(studyId);
       const config = getPatientConfig(studyId);
-      const fallbackPatients = generateStudyPatients(studyId, sites.slice(0, 1), config);
+      const fallbackPatients = config ? generateStudyPatients(studyId, sites.slice(0, 1), config) : [];
       const fallbackPatient = { ...fallbackPatients[0], id };
       
       return {

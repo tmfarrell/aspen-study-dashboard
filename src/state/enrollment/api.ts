@@ -2,10 +2,7 @@ import { EnrollmentStats, EnrollmentBreakdown, EnrollmentTrend, SiteEnrollment, 
 import { StudyType, ApiResponse } from '@/api/types';
 import { calculateTotalPatients } from '@/data/studyHelpers';
 import { studyData } from '@/data/studyData';
-import { cardiologySites } from '@/data/study/cardiology';
-import { diabetesSites } from '@/data/study/diabetes';
-import { obesitySites } from '@/data/study/obesity';
-import { hypertensionSites } from '@/data/study/hypertension';
+import { getStudySites } from '@/data/studyHelpers';
 
 // Simulate network delay
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -22,23 +19,7 @@ const countryNames: Record<string, string> = {
   'ES': 'Spain',
   'CH': 'Switzerland'
 };
-// Get sites for a specific study
-const getStudySites = (studyId: StudyType) => {
-  switch (studyId) {
-    case 'cardiology':
-      return cardiologySites;
-    case 'diabetes':
-      return diabetesSites;
-    case 'obesity':
-      return obesitySites;
-    case 'hypertension':
-      return hypertensionSites;
-    default:
-      return [];
-  }
-};
-
-// Generate realistic enrollment data based on study configuration
+// Simplified enrollment data generation using study helpers
 const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   const study = studyData[studyId];
   if (!study) {
@@ -100,8 +81,8 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
     .slice(0, 3);
 
   // Generate site enrollment data using study-specific sites
-  const studySites = getStudySites(studyId);
-  const recentSiteEnrollment: SiteEnrollment[] = studySites
+  const sites = getStudySites(studyId);
+  const recentSiteEnrollment: SiteEnrollment[] = sites
     .filter(site => site.status === 'active')
     .map(site => ({
       siteId: site.id,
@@ -120,12 +101,12 @@ const generateEnrollmentData = (studyId: StudyType): EnrollmentStats => {
   
   if (study.targetEnrollment?.byCountry) {
     const countryEntries = Object.entries(study.targetEnrollment.byCountry);
-    const studySites = getStudySites(studyId);
+    const sites = getStudySites(studyId);
     
     targetProgress = countryEntries.map(([countryCode, target]) => {
       // Calculate actual current enrollment from site data for this country
       const countryName = countryNames[countryCode] || countryCode;
-      const countrySites = studySites.filter(site => site.country === countryName);
+      const countrySites = sites.filter(site => site.country === countryCode);
       const current = countrySites.reduce((sum, site) => sum + site.enrolledPatients, 0);
       
       // Calculate last month progress (approximately 8% of current enrollment)
