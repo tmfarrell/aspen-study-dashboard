@@ -15,7 +15,6 @@ import MedicationDistribution from '@/components/registry/MedicationDistribution
 import PieChartMetric from '@/components/common/PieChartMetric';
 
 
-import ComorbidityDistribution from '@/components/registry/ComorbidityDistribution';
 import { StudyType } from '@/api/types';
 import { useStudyOptions } from '@/state/studies';
 
@@ -143,7 +142,10 @@ const PatientCohort = () => {
           </TabsContent>
 
           <TabsContent value="comorbidity" className="mt-6">
-            <ComorbidityDistribution />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DistributionMetric metricId="comorbidity_count" title="Comorbidity Count Distribution" />
+              <PieChartMetric metricId="medicalHistory" title="Medical Conditions" />
+            </div>
           </TabsContent>
 
           <TabsContent value="medication" className="mt-6">

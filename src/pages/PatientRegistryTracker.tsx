@@ -21,7 +21,7 @@ import MedicationDistribution from "@/components/registry/MedicationDistribution
 import PieChartMetric from "@/components/common/PieChartMetric";
 
 
-import ComorbidityDistribution from "@/components/registry/ComorbidityDistribution";
+
 import { useAppState } from "@/contexts/AppStateContext";
 
 export default function PatientRegistryTracker() {
@@ -103,7 +103,10 @@ export default function PatientRegistryTracker() {
                   </CardContent>
                 </Card>
               ) : selectedStudy === 'diabetes' || selectedStudy === 'hypertension' ? (
-                <ComorbidityDistribution />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <DistributionMetric metricId="comorbidity_count" title="Comorbidity Count Distribution" />
+                  <PieChartMetric metricId="medicalHistory" title="Medical Conditions" />
+                </div>
               ) : (
                 <div className="space-y-6">
                   <QualityOfLifeChart />
