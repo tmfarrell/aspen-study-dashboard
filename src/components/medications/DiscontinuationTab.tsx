@@ -225,6 +225,15 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
             return sum + (totalDisc * 0.3); // Assume 30% of percentages represent actual discontinuation
           }, 0) / pharmaClass.medications.length;
 
+          // Generate discontinuation reasons data for pie chart
+          const discontinuationReasons = [
+            { reason: 'Adverse Reactions', patientCount: Math.floor(totalPatients * 0.33), percentage: 33 },
+            { reason: 'Drug Ineffectiveness', patientCount: Math.floor(totalPatients * 0.25), percentage: 25 },
+            { reason: 'Cost/Insurance', patientCount: Math.floor(totalPatients * 0.20), percentage: 20 },
+            { reason: 'Patient Preference', patientCount: Math.floor(totalPatients * 0.12), percentage: 12 },
+            { reason: 'Other', patientCount: Math.floor(totalPatients * 0.10), percentage: 10 },
+          ];
+
           return (
             <Card 
               key={pharmaClass.id} 
@@ -239,18 +248,49 @@ export function DiscontinuationTab({ studyId }: DiscontinuationTabProps) {
                 <p className="text-sm text-muted-foreground">{pharmaClass.description}</p>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Total Patients</span>
-                    <span className="font-semibold">{totalPatients.toLocaleString()}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {/* Stats */}
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Total Patients</span>
+                      <span className="font-semibold">{totalPatients.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Avg Discontinuation</span>
+                      <span className="font-semibold text-red-600">{avgDiscontinuationRate.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Medications</span>
+                      <span className="font-semibold">{pharmaClass.medications.length}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Avg Discontinuation</span>
-                    <span className="font-semibold text-red-600">{avgDiscontinuationRate.toFixed(1)}%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Medications</span>
-                    <span className="font-semibold">{pharmaClass.medications.length}</span>
+                  
+                  {/* Pie Chart */}
+                  <div className="h-32">
+                    <ChartContainer config={chartConfig} className="h-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={discontinuationReasons}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={40}
+                            innerRadius={20}
+                            paddingAngle={2}
+                            dataKey="patientCount"
+                          >
+                            {discontinuationReasons.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <ChartTooltip 
+                            content={<ChartTooltipContent 
+                              formatter={(value, name) => [`${value} patients`, name]}
+                            />} 
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
                   </div>
                 </div>
               </CardContent>

@@ -134,6 +134,15 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
     );
   }
 
+  // Generate average duration bar chart data
+  const avgDurationData = cardiologyPharmaClasses.map(pharmaClass => {
+    const avgDuration = pharmaClass.medications.reduce((sum, med) => sum + med.averageTreatmentDuration, 0) / pharmaClass.medications.length;
+    return {
+      name: pharmaClass.name.replace(/^(ACE|ARB|Beta|Calcium|Diuretic)/, (match) => match.charAt(0).toUpperCase() + match.slice(1).toLowerCase()),
+      duration: parseFloat(avgDuration.toFixed(1))
+    };
+  });
+
   return (
     <div className="space-y-6">
       <div>
@@ -142,6 +151,33 @@ export function TreatmentDurationTab({ studyId }: TreatmentDurationTabProps) {
           Click on a pharmaceutical class to see detailed treatment duration data for individual medications
         </p>
       </div>
+
+      {/* Average Duration Bar Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            Average Treatment Duration by Pharma Class
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={avgDurationData} layout="horizontal" margin={{ top: 20, right: 30, left: 120, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 'dataMax']} />
+                <YAxis type="category" dataKey="name" width={100} />
+                <ChartTooltip 
+                  content={<ChartTooltipContent 
+                    formatter={(value, name) => [`${value} months`, 'Avg Duration']}
+                  />} 
+                />
+                <Bar dataKey="duration" fill="var(--color-count)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cardiologyPharmaClasses.map(pharmaClass => {

@@ -80,7 +80,7 @@ export default function PatientRegistryTracker() {
                   </TabsList>
 
                   <TabsContent value="overview" className="space-y-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
                       <DrillDownPieChart 
                         title="Pharmaceutical Classes" 
                         initialData={getPharmaClassDistribution().map(item => ({
@@ -100,7 +100,6 @@ export default function PatientRegistryTracker() {
                           return null;
                         }}
                       />
-                      <DistributionMetric metricId="medication_adherence" title="Medication Adherence" />
                     </div>
                   </TabsContent>
 
